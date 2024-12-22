@@ -44,6 +44,21 @@ export default {
           950: '#2b2640',
         },
       },
+      keyframes: {
+        ripple: {
+          '0%': {
+            transform: 'scale(0)',
+            opacity: '0.5',
+          },
+          '100%': {
+            transform: 'scale(4)',
+            opacity: '0',
+          },
+        },
+      },
+      animation: {
+        ripple: 'ripple 0.6s ease-out',
+      },
     },
   },
   plugins: [],

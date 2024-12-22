@@ -7,15 +7,15 @@
         </button>
       </div>
       <div class="flex space-x-2">
-        <button class="p-2 text-white rounded">
+        <ripple-button>
           <vue-feather class="text-slate-600" type="sun"></vue-feather>
-        </button>
-        <button class="p-2 text-white rounded">
+        </ripple-button>
+        <ripple-button>
           <vue-feather class="text-slate-600" type="bell"></vue-feather>
-        </button>
-        <button class="p-2 text-white rounded">
+        </ripple-button>
+        <ripple-button>
           <vue-feather class="text-slate-600" type="info"></vue-feather>
-        </button>
+        </ripple-button>
       </div>
     </div>
   </nav>
@@ -24,6 +24,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useSidebarStore } from '@/stores/sidenav'
+import RippleButton from '@/components/buttons/RippleButton.vue'
 
 const sidebarStore = useSidebarStore()
 
