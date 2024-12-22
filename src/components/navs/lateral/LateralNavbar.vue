@@ -12,7 +12,7 @@
           isMobile
             ? isMobileOpen
               ? 'translate-x-0'
-              : '-translate-x-[calc(100vw-16rem)]'
+              : '-translate-x-[calc(300px)]'
             : 'translate-x-0',
           isOpen ? 'w-64' : 'w-16',
         ]"
