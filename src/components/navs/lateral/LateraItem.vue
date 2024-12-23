@@ -7,11 +7,11 @@
         : ''
     "
   >
-    <router-link :to="props.item.route" class="flex space-x-2">
+    <router-link :to="props.item.path" class="flex space-x-2">
       <span>
         <vue-feather
           class="text-slate-600"
-          :type="props.item.icon ? props.item.icon : 'circle'"
+          :type="props.item.meta?.icon ? props.item.meta.icon : 'circle'"
         ></vue-feather>
       </span>
       <span>
@@ -22,9 +22,24 @@
 </template>
 
 <script lang="ts" setup>
-const isActive = false
+import { type RouteRecordRaw } from 'vue-router'
+import useSideNavLink from '@/@core/navbar/useSideNavLink'
+import { useRoute } from 'vue-router'
+import { watch } from 'vue'
+
+const router = useRoute()
 
 const props = defineProps<{
-  item: { name: string; route: string; icon?: string }
+  item: RouteRecordRaw
 }>()
+
+const { isActive, updateIsActive } = useSideNavLink(props.item)
+
+watch(
+  () => router.fullPath,
+  () => {
+    updateIsActive()
+  },
+)
+updateIsActive()
 </script>

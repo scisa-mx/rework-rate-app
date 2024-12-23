@@ -32,18 +32,16 @@ import LateralNavbarItem from './LateraItem.vue'
 
 import { useSidebarStore } from '@/stores/sidenav'
 
-import { type ItemNavbar } from '@/types'
+import ROUTES from '@/router/routes'
+
+// import { type ItemNavbar } from '@/types'
 
 const sidenavStore = useSidebarStore()
 const isOpen = computed(() => sidenavStore.isOpen)
 const isMobileOpen = computed(() => sidenavStore.isMobileOpen)
 const isMobile = computed(() => sidenavStore.isMobile)
 
-const items: ItemNavbar[] = [
-  { name: 'Dashboard', route: '/', icon: '' },
-  { name: 'Profile', route: '/profile', icon: '' },
-  { name: 'Settings', route: '/settings', icon: '' },
-]
+const items = ROUTES
 
 const toggleNavbar = () => {
   sidenavStore.toggleSidebar()
