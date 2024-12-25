@@ -9,3 +9,7 @@ export type ToggleItemNavbar = {
   icon: string
   links: ItemNavbar[]
 }
+
+export type TypeItemNavbar = {
+  name: 'toggle' | 'item'
+}

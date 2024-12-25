@@ -16,6 +16,11 @@
         <ripple-button>
           <vue-feather class="text-slate-600" type="info"></vue-feather>
         </ripple-button>
+        <dash-dot-drowpdown>
+          <template v-slot:menu-trigger>
+            <vue-feather type="user"></vue-feather>
+          </template>
+        </dash-dot-drowpdown>
       </div>
     </div>
   </nav>
@@ -25,6 +30,7 @@
 import { computed } from 'vue'
 import { useSidebarStore } from '@/stores/sidenav'
 import RippleButton from '@/components/buttons/RippleButton.vue'
+import DashDotDrowpdown from '@/components/dropdowns/DashDotDrowpdown.vue'
 
 const sidebarStore = useSidebarStore()
 

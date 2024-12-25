@@ -10,6 +10,10 @@
         <div class="p-4 text-2xl font-bold">Mi App</div>
         <section class="flex-1">
           <ul class="mx-2">
+            <li class="text-slate-600 text-md text-semibold">
+              <div>Pages</div>
+              <hr class="mb-2 mt-1 border-t border-slate-300" />
+            </li>
             <LateralNavbarItem v-for="(item, idx) in items" :key="idx" :item="item" />
           </ul>
         </section>
@@ -33,8 +37,6 @@ import LateralNavbarItem from './LateraItem.vue'
 import { useSidebarStore } from '@/stores/sidenav'
 
 import ROUTES from '@/router/routes'
-
-// import { type ItemNavbar } from '@/types'
 
 const sidenavStore = useSidebarStore()
 const isOpen = computed(() => sidenavStore.isOpen)
