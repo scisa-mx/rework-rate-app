@@ -1,0 +1,32 @@
+<template>
+  <fieldset :name="props.name">
+    <label class="text-slate-700" v-if="props.label" :for="`${props.name}-input`">{{
+      props.label
+    }}</label>
+    <input
+      type="text"
+      :id="`${props.name}-input`"
+      class="inline-flex my-1 w-[100%] items-center justify-between rounded px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-[placeholder]:text-slate-700 outline-none"
+      :placeholder="props.placeholder"
+      v-model="internalValue"
+      autocomplete="off"
+    />
+  </fieldset>
+</template>
+
+<script lang="ts" setup>
+import { ref, watch } from 'vue'
+
+import { type DashInputProps } from '@/types'
+
+const props = defineProps<DashInputProps>()
+
+const emit = defineEmits(['update:modelValue'])
+
+const internalValue = ref()
+
+watch(
+  () => internalValue.value,
+  (newValue) => emit('update:modelValue', newValue),
+)
+</script>

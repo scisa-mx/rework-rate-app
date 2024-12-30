@@ -5,10 +5,8 @@
       <h3 class="text-slate-600">Select</h3>
       <div class="my-2 grid md:grid-cols-4 grid-cols-1 gap-4">
         <DashSelect v-model="fruit" :options="options" label="Choose a fruit" />
-        <DashSelect v-model="fruit" :options="options" label="Choose a fruit" />
-        <DashSelect v-model="fruit" :options="options" label="Choose a fruit" />
-        <DashSelect v-model="fruit" :options="options" label="Choose a fruit" />
-        <DashSelect v-model="fruit" :options="options" label="Choose a fruit" />
+        <DashInput placeholder="Placeholder" v-model="input" />
+        <DashCheckbox v-model="checkbox" />
       </div>
     </section>
   </main>
@@ -18,8 +16,12 @@
 import { ref } from 'vue'
 
 import DashSelect from '@/components/selects/DashSelect.vue'
+import DashInput from '@/components/inputs/DashInput.vue'
+import DashCheckbox from '@/components/checkboxes/DashCheckbox.vue'
 
 const fruit = ref<string>('')
+const input = ref<string>('')
+const checkbox = ref<boolean>(false)
 
 const options = [
   { label: 'Apple', value: 'apple' },
