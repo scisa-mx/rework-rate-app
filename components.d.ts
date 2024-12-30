@@ -10,6 +10,7 @@ declare module 'vue' {
     DashDotDrowpdown: typeof import('./src/components/dropdowns/DashDotDrowpdown.vue')['default']
     DashDropwdown: typeof import('./src/components/dropdowns/DashDropwdown.vue')['default']
     DashDropwDown: typeof import('./src/components/dropdowns/DashDropwDown.vue')['default']
+    DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
