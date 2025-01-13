@@ -4,7 +4,8 @@ export type DashOptionSelect = { label: string; value: ValueInputSelect; disable
 
 export type SelectItemProps = {
   options: DashOptionSelect[]
-  label: string
+  label?: string
+  placeholder?: string
   modelValue: ValueInputSelect
   onChange?: (value: ValueInputSelect) => void
 }
