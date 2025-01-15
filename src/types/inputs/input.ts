@@ -30,18 +30,16 @@ export type DashInputProps = {
 
 export type DashDatePickerInput = DashInputBase<string> & {
   type: InputTypes.DatePicker
-  minDate?: string
-  maxDate?: string
+  date: string
 }
 
 export type DashDatePickerProps = {
-  id: string
-  label: string
-  name: string
+  id?: string
+  label?: string
+  name?: string
   required?: boolean
   modelValue: string
-  minDate?: string
-  maxDate?: string
+  date: string
 }
 
 export type DashSelectInput = DashInputBase<string | string[]> & {

@@ -12,7 +12,13 @@
           placeholder="Placeholder"
           :required="true"
         />
-        <DashDatePicker></DashDatePicker>
+        <DashDatePicker
+          name="picker"
+          label=""
+          id="picker"
+          v-model="date"
+          :date="date"
+        ></DashDatePicker>
         <DashCheckbox label="" id="" v-model="checkbox" name="" :required="false" />
       </div>
     </section>
@@ -30,6 +36,7 @@ import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 const fruit = ref<string>('')
 const input = ref<string>('')
 const checkbox = ref<boolean>(false)
+const date = ref<string>('')
 
 const options = [
   { label: 'Apple', value: 'apple' },

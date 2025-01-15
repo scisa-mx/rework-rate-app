@@ -16,6 +16,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@internationalized/date": "^3.7.0",
     "feather-icons": "^4.29.2",
     "pinia": "^2.2.6",
     "radix-vue": "^1.9.11",

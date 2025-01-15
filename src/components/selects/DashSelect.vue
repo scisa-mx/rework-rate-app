@@ -18,7 +18,6 @@ import {
 import { type SelectItemProps } from '@/types'
 
 const props = defineProps<SelectItemProps>()
-console.log(props.placeholder)
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -34,7 +33,6 @@ selectedValue.value = props.modelValue
 
 <template>
   <fieldset>
-    {{ props.placeholder }}
     <label v-if="props.label" class="text-slate-700">{{ props.label }}</label>
     <SelectRoot class="w-max" v-model="selectedValue">
       <SelectTrigger
