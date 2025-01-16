@@ -56,25 +56,20 @@ export const stringToIso = (date: string): string => {
  * ```
  **/
 
-export const DateValueToIso = (date: DateValue): string | undefined => {
-  if (date) {
-    const { year, month, day } = date
-    return new Date(year, month, day).toISOString()
-  }
-
-  return undefined
+export const dateValueToIso = (date: DateValue): string | undefined => {
+  const { year, month, day } = date
+  return new Date(year, month, day).toISOString()
 }
 
 /**
  * Convert date.toIsoString() to DateValue
- * @param isoString String from date.toIsoString()
+ * @param isoDate String from date.toIsoString()
  * @returns DateValue or undefined
  * @example ```ts
  * const date = isoToDateValue(new Date().toISOString())
  * console.log(result) // object DateValue
  * ```
  **/
-
 export const isoToDateValue = (isoDate: string): DateValue | undefined => {
   if (isoDate) {
     const date = new Date(isoDate)
@@ -84,9 +79,23 @@ export const isoToDateValue = (isoDate: string): DateValue | undefined => {
     const calendar = new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
 
     const dateString = `${calendar.year}-${String(calendar.month).padStart(2, '0')}-${String(calendar.day).padStart(2, '0')}`
-    debugger
+
     return parseStringToDateValue(dateString, calendar)
   }
 
   return undefined
+}
+
+/**
+ * Convert date.toIsoString() to CalendarDate
+ * @param isoString String from date.toIsoString()
+ * @returns CalendarDate or undefined
+ * @example ```ts
+ * const date = isoToCalendarDate(new Date().toISOString())
+ * console.log(result) // object CalendarDate
+ * ```
+ **/
+export const isoToCalendarDate = (isoDate: string): CalendarDate => {
+  const date = new Date(isoDate)
+  return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
 }

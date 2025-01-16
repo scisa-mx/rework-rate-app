@@ -36,7 +36,7 @@ import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 const fruit = ref<string>('')
 const input = ref<string>('')
 const checkbox = ref<boolean>(false)
-const date = ref<string>('')
+const date = ref<string>(new Date().toISOString())
 
 const options = [
   { label: 'Apple', value: 'apple' },

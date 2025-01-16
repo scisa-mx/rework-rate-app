@@ -39,7 +39,6 @@ export type DashDatePickerProps = {
   name?: string
   required?: boolean
   modelValue: string
-  date: string
 }
 
 export type DashSelectInput = DashInputBase<string | string[]> & {

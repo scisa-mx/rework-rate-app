@@ -24,35 +24,23 @@ import { ref, watch } from 'vue'
 
 import { type DashDatePickerProps } from '@/types'
 import { type DateValue, CalendarDate } from '@internationalized/date'
-import { parseStringToDateValue } from 'radix-vue/date'
+import { isoToDateValue, dateValueToIso } from '@/@core/date/dateHelpers'
 
 const props = defineProps<DashDatePickerProps>()
 const emit = defineEmits(['update:modelValue'])
 
-const dateProp: number[] = props.date.split('-').map((date) => parseInt(date, 10))
+const date = isoToDateValue(props.modelValue)
 
-const date = new CalendarDate(dateProp[0], dateProp[1], dateProp[2])
-
-const selectedDate = ref<DateValue | undefined>(
-  props.date ? parseStringToDateValue(props.date, date) : undefined,
-)
-
-const formatDate = (date: CalendarDate | undefined): string | undefined => {
-  if (date) {
-    const { year, month, day } = date
-    return `${year}-${month}-${day}`
-  }
-  return undefined
-}
+const selectedDate = ref<DateValue | undefined>(date)
 
 watch(
   () => selectedDate.value,
   (newValue) => {
     if (!newValue) {
-      emit('update:modelValue', undefined)
+      emit('update:modelValue', '')
       return
     }
-    const formattedDate = formatDate(newValue as CalendarDate)
+    const formattedDate = dateValueToIso(newValue as DateValue)
     emit('update:modelValue', formattedDate)
   },
 )
