@@ -48,11 +48,11 @@ watch(
 
 <template>
   <fieldset class="w-100">
-    <label class="text-slate-700"> </label>
+    <label v-if="props.label" class="text-slate-700"> {{ props.label }}</label>
     <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField
         v-slot="{ segments }"
-        class="flex max-h-[35px] focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-black/10 items-center justify-between rounded text-center text-green10 border border-transparent data-[invalid]:border-red-500"
+        class="flex max-h-[35px] focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center text-green10 border border-transparent data-[invalid]:border-red-500"
       >
         <div class="flex items-center px-3">
           <template v-for="item in segments" :key="item.part">
@@ -81,7 +81,7 @@ watch(
           </template>
         </div>
 
-        <DatePickerTrigger class="rounded text-xl p-1 focus:ring-2 focus:ring-royal-purple-500">
+        <DatePickerTrigger class="rounded p-1 focus:ring-2 focus:ring-royal-purple-500">
           <vue-feather
             size="20"
             class="focus:ring-2 focus:ring-royal-purple-500"
@@ -93,7 +93,7 @@ watch(
 
       <DatePickerContent
         :side-offset="4"
-        class="rounded-xl bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.royal-purple)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+        class="rounded-xl bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
       >
         <DatePickerArrow class="fill-white" />
         <DatePickerCalendar v-slot="{ weekDays, grid }" class="p-4">
@@ -106,7 +106,7 @@ watch(
 
             <DatePickerHeading class="text-slate-700 font-medium" />
             <DatePickerNext
-              class="inline-flex items-center cursor-pointer text-slate-700 justify-center rounded-[9px] bg-transparent w-8 h-8 hover:bg-royal-purple-800 hover:text-white active:scale-98 active:transition-all focus:shadow-[0_0_0_2px] focus:bg-royal-purple-800"
+              class="inline-flex items-center cursor-pointer text-slate-700 justify-center rounded-[9px] bg-transparent w-8 h-8 hover:bg-royal-purple-800 hover:text-white active:scale-98 active:transition-all focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-700 focus:bg-royal-purple-800"
             >
               <vue-feather type="chevron-right" class="w-6 h-6" />
             </DatePickerNext>

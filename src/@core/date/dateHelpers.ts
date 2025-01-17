@@ -1,5 +1,8 @@
 import { CalendarDate, type DateValue } from '@internationalized/date'
+import type { DateRange } from 'radix-vue'
 import { parseStringToDateValue } from 'radix-vue/date'
+
+import { type DateRangeSchema } from '@/types'
 
 /**
  * Convert Date to date.toIsoString()
@@ -56,7 +59,7 @@ export const stringToIso = (date: string): string => {
  * ```
  **/
 
-export const dateValueToIso = (date: DateValue): string | undefined => {
+export const dateValueToIso = (date: DateValue): string => {
   const { year, month, day } = date
   return new Date(year, month, day).toISOString()
 }
@@ -70,20 +73,14 @@ export const dateValueToIso = (date: DateValue): string | undefined => {
  * console.log(result) // object DateValue
  * ```
  **/
-export const isoToDateValue = (isoDate: string): DateValue | undefined => {
-  if (isoDate) {
-    const date = new Date(isoDate)
-    if (isNaN(date.getTime())) {
-      return undefined
-    }
-    const calendar = new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+export const isoToDateValue = (isoDate: string): DateValue => {
+  const date = new Date(isoDate)
 
-    const dateString = `${calendar.year}-${String(calendar.month).padStart(2, '0')}-${String(calendar.day).padStart(2, '0')}`
+  const calendar = new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
 
-    return parseStringToDateValue(dateString, calendar)
-  }
+  const dateString = `${calendar.year}-${String(calendar.month).padStart(2, '0')}-${String(calendar.day).padStart(2, '0')}`
 
-  return undefined
+  return parseStringToDateValue(dateString, calendar)
 }
 
 /**
@@ -98,4 +95,38 @@ export const isoToDateValue = (isoDate: string): DateValue | undefined => {
 export const isoToCalendarDate = (isoDate: string): CalendarDate => {
   const date = new Date(isoDate)
   return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+}
+
+/**
+ * Convert DateValue to CalendarDate
+ * @param start DateValue
+ * @param end DateValue
+ * @returns CalendarDate object
+ * @example ```ts
+ * const startDate = new Date().toISOString()
+ * const endDate = new Date().toISOString()
+ * const result = dateValueToCalendarDate({ start: startDate, end: endDate })
+ * console.log(result) // object DateRange
+ * ```
+ **/
+
+export const rangeToDateRange = ({ start, end }: { start: string; end: string }): DateRange => {
+  return {
+    start: isoToDateValue(start),
+    end: isoToDateValue(end),
+  }
+}
+
+/**
+ * Convert DateRange to DateValue
+ * @param start DateValue
+ * @param end DateValue
+ * @returns DateRangeSchema object
+ **/
+
+export const dateRangeToRange = ({ start, end }: DateRange): DateRangeSchema => {
+  return {
+    start: start ? dateValueToIso(start) : '',
+    end: end ? dateValueToIso(end) : '',
+  }
 }

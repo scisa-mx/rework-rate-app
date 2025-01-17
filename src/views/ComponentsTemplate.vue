@@ -12,13 +12,8 @@
           placeholder="Placeholder"
           :required="true"
         />
-        <DashDatePicker
-          name="picker"
-          label=""
-          id="picker"
-          v-model="date"
-          :date="date"
-        ></DashDatePicker>
+        <DashDatePicker name="picker" label="" id="picker" v-model="date"></DashDatePicker>
+        <DashDateRangePicker id="" label="" v-model="dateRange" name="" :required="false" />
         <DashCheckbox label="" id="" v-model="checkbox" name="" :required="false" />
       </div>
     </section>
@@ -28,15 +23,26 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
+import { type DateRangeSchema } from '@/types'
+
 import DashSelect from '@/components/selects/DashSelect.vue'
 import DashInput from '@/components/inputs/DashInput.vue'
 import DashCheckbox from '@/components/checkboxes/DashCheckbox.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
+import DashDateRangePicker from '@/components/selects/DashDateRangePicker.vue'
 
 const fruit = ref<string>('')
 const input = ref<string>('')
 const checkbox = ref<boolean>(false)
 const date = ref<string>(new Date().toISOString())
+
+const startDate = new Date().toISOString()
+const endDate = new Date().toISOString()
+
+const dateRange = ref<DateRangeSchema>({
+  start: startDate,
+  end: endDate,
+})
 
 const options = [
   { label: 'Apple', value: 'apple' },

@@ -5,6 +5,13 @@ export enum InputTypes {
   Checkbox = 'checkbox',
 }
 
+export type InputBaseProps = {
+  id: string
+  label?: string
+  name?: string
+  required?: boolean
+}
+
 export type DashInputBase<TValue> = {
   id: string
   label?: string
@@ -39,6 +46,15 @@ export type DashDatePickerProps = {
   name?: string
   required?: boolean
   modelValue: string
+}
+
+export type DateRangeSchema = {
+  start: string
+  end: string
+}
+
+export type DashDateRangePickerProps = InputBaseProps & {
+  modelValue: DateRangeSchema
 }
 
 export type DashSelectInput = DashInputBase<string | string[]> & {
