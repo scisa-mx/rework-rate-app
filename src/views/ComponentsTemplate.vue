@@ -16,6 +16,7 @@
         <DashDateRangePicker id="" label="" v-model="dateRange" name="" :required="false" />
         <DashCheckbox label="" id="" v-model="checkbox" name="" :required="false" />
         <DashSwitch id="" label="" v-model="switchState" name="" />
+        <DashTagsInput id="" v-model="tags" />
       </div>
     </section>
   </main>
@@ -32,12 +33,14 @@ import DashCheckbox from '@/components/checkboxes/DashCheckbox.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashDateRangePicker from '@/components/selects/DashDateRangePicker.vue'
 import DashSwitch from '@/components/checkboxes/DashSwitch.vue'
+import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
 
 const fruit = ref<string>('')
 const input = ref<string>('')
 const checkbox = ref<boolean>(false)
 const switchState = ref<boolean>(false)
 const date = ref<string>(new Date().toISOString())
+const tags = ref<string[]>([])
 
 const startDate = new Date().toISOString()
 const endDate = new Date().toISOString()

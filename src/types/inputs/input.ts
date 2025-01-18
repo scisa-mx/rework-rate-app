@@ -10,6 +10,8 @@ export type InputBaseProps = {
   label?: string
   name?: string
   required?: boolean
+  isValid?: boolean
+  placeholder?: string
 }
 
 export type DashInputBase<TValue> = {
@@ -33,6 +35,10 @@ export type DashInputProps = {
   required?: boolean
   modelValue: string
   placeholder?: string
+}
+
+export type DashTagsInputProps = InputBaseProps & {
+  modelValue: string[]
 }
 
 export type DashDatePickerInput = DashInputBase<string> & {
