@@ -14,6 +14,7 @@ const props = defineProps<DashTagsInputProps>()
 const emit = defineEmits(['update:modelValue'])
 
 const modelValue = ref(props.modelValue)
+const isInputFocused = ref(false) // Estado para rastrear el enfoque del input
 
 watch(
   () => modelValue.value,
@@ -29,7 +30,13 @@ watch(
     <TagsInputRoot
       :id="props.id"
       v-model="modelValue"
-      class="flex gap-2 items-center border p-2 rounded-lg w-full max-w-[480px] flex-wrap border-blackA7 bg-white focus:ring-2 hover:bg-royal-purple-50"
+      class="flex gap-2 items-center border p-2 rounded-lg w-full max-w-[480px] flex-wrap bg-white hover:bg-royal-purple-50"
+      :class="{
+        'ring-2 ring-royal-purple-500': isInputFocused,
+        'data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red':
+          !props.isValid,
+      }"
+      :data-valid="props.isValid"
     >
       <TagsInputItem
         v-for="item in modelValue"
@@ -38,14 +45,16 @@ watch(
         class="text-white max-h-[35px] flex shadow-md items-center justify-center gap-2 bg-green8 bg-royal-purple-800 rounded p-1"
       >
         <TagsInputItemText class="text-sm pl-1" />
-        <TagsInputItemDelete class="p-0.5 rounded bg-transparent hover:bg-blackA4">
+        <TagsInputItemDelete class="p-0.5 rounded bg-transparent">
           <vue-feather type="x" />
         </TagsInputItemDelete>
       </TagsInputItem>
 
       <TagsInputInput
         :placeholder="props.placeholder"
-        class="text-sm focus:outline-none flex-1 rounded text-green9 bg-transparent placeholder:text-slate-400 px-1 focus:ring-2 focus:ring-royal-purple-500"
+        class="text-sm focus:outline-none flex-1 rounded text-green9 bg-transparent placeholder:text-slate-400 px-1"
+        @focus="isInputFocused = true"
+        @blur="isInputFocused = false"
       />
     </TagsInputRoot>
   </fieldset>

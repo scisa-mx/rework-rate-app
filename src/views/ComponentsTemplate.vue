@@ -3,20 +3,49 @@
     <h1>Components</h1>
     <section>
       <div class="my-2 grid md:grid-cols-4 grid-cols-1 gap-4">
-        <DashSelect label="" placeholder="Placeholder" v-model="fruit" :options="options" />
+        <DashSelect
+          id=""
+          :is-valid="state"
+          label=""
+          placeholder="Placeholder"
+          v-model="fruit"
+          :options="options"
+        />
         <DashInput
           v-model="input"
           id="input-id"
           value="input-value"
           name="hola"
           placeholder="Placeholder"
-          :required="true"
+          :required="false"
+          :is-valid="state"
         />
-        <DashDatePicker name="picker" label="" id="picker" v-model="date"></DashDatePicker>
-        <DashDateRangePicker id="" label="" v-model="dateRange" name="" :required="false" />
-        <DashCheckbox label="" id="" v-model="checkbox" name="" :required="false" />
-        <DashSwitch id="" label="" v-model="switchState" name="" />
-        <DashTagsInput id="" v-model="tags" />
+        <DashDatePicker
+          id="picker"
+          name="picker"
+          label=""
+          v-model="date"
+          :required="false"
+          :is-valid="state"
+        ></DashDatePicker>
+        <DashDateRangePicker
+          id=""
+          label=""
+          v-model="dateRange"
+          name=""
+          :required="false"
+          :is-valid="state"
+        />
+        <DashCheckbox
+          label=""
+          id=""
+          v-model="checkbox"
+          name=""
+          :required="false"
+          :is-valid="state"
+        />
+        <DashSwitch id="" label="" v-model="switchState" name="" :is-valid="state" />
+        <DashTagsInput id="" v-model="tags" :is-valid="state" />
       </div>
     </section>
   </main>
@@ -41,6 +70,8 @@ const checkbox = ref<boolean>(false)
 const switchState = ref<boolean>(false)
 const date = ref<string>(new Date().toISOString())
 const tags = ref<string[]>([])
+
+const state = true
 
 const startDate = new Date().toISOString()
 const endDate = new Date().toISOString()

@@ -5,6 +5,9 @@ export enum InputTypes {
   Checkbox = 'checkbox',
 }
 
+export type ValueInputSelect = string | number | boolean
+export type DashOptionSelect = { label: string; value: ValueInputSelect; disabled?: boolean }
+
 export type InputBaseProps = {
   id: string
   label?: string
@@ -28,13 +31,8 @@ export type DashTextInput = DashInputBase<string> & {
   placeholder?: string
 }
 
-export type DashInputProps = {
-  id: string
-  label?: string
-  name: string
-  required?: boolean
+export type DashInputProps = InputBaseProps & {
   modelValue: string
-  placeholder?: string
 }
 
 export type DashTagsInputProps = InputBaseProps & {
@@ -46,11 +44,7 @@ export type DashDatePickerInput = DashInputBase<string> & {
   date: string
 }
 
-export type DashDatePickerProps = {
-  id?: string
-  label?: string
-  name?: string
-  required?: boolean
+export type DashDatePickerProps = InputBaseProps & {
   modelValue: string
 }
 
@@ -69,14 +63,10 @@ export type DashSelectInput = DashInputBase<string | string[]> & {
   multiple?: boolean
 }
 
-export type DashSelectProps = {
-  id: string
-  label: string
-  name: string
-  required?: boolean
-  modelValue: string | string[]
-  options: { value: string | number; label: string }[]
+export type DashSelectProps = InputBaseProps & {
+  options: DashOptionSelect[]
   multiple?: boolean
+  modelValue: ValueInputSelect
 }
 
 export type DashCheckboxInput = DashInputBase<boolean> & {
@@ -84,11 +74,7 @@ export type DashCheckboxInput = DashInputBase<boolean> & {
   checked?: boolean
 }
 
-export type DashCheckboxProps = {
-  id: string
-  label?: string
-  name: string
-  required?: boolean
+export type DashCheckboxProps = InputBaseProps & {
   modelValue: boolean
 }
 

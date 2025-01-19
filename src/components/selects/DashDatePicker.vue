@@ -52,7 +52,8 @@ watch(
     <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField
         v-slot="{ segments }"
-        class="flex max-h-[35px] focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center text-green10 border border-transparent data-[invalid]:border-red-500"
+        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center text-green10 border border-transparent"
+        :data-valid="props.isValid"
       >
         <div class="flex items-center px-3">
           <template v-for="item in segments" :key="item.part">

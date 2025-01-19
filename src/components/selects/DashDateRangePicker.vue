@@ -43,7 +43,8 @@ watch(
     <DateRangePickerRoot v-model="internalValue as DateRange">
       <DateRangePickerField
         v-slot="{ segments }"
-        class="flex justify-between select-none max-h-[35px] bg-white items-center rounded border border-transparent data-[invalid]:border-red-500"
+        class="flex justify-between data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red select-none max-h-[35px] bg-white items-center rounded border border-transparent data-[invalid]:border-red-500"
+        :data-valid="props.isValid"
       >
         <div class="flex items-center px-3">
           <template v-for="item in segments.start" :key="item.part">
@@ -103,7 +104,7 @@ watch(
 
       <DateRangePickerContent
         :side-offset="4"
-        class="rounded-xl bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.green7)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+        class="rounded-xl bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
       >
         <DateRangePickerArrow class="fill-white" />
         <DateRangePickerCalendar v-slot="{ weekDays, grid }" class="p-4">

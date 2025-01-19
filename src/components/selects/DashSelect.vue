@@ -15,9 +15,9 @@ import {
   SelectViewport,
 } from 'radix-vue'
 
-import { type SelectItemProps } from '@/types'
+import { type DashSelectProps } from '@/types'
 
-const props = defineProps<SelectItemProps>()
+const props = defineProps<DashSelectProps>()
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -36,8 +36,9 @@ selectedValue.value = props.modelValue
     <label v-if="props.label" class="text-slate-700">{{ props.label }}</label>
     <SelectRoot class="w-max" v-model="selectedValue">
       <SelectTrigger
-        class="inline-flex w-[100%] items-center justify-between rounded px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-[placeholder]:text-slate-700 outline-none"
+        class="inline-flex w-[100%] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red items-center justify-between rounded px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-[placeholder]:text-slate-700 outline-none"
         aria-label="Customise options"
+        :data-valid="props.isValid"
       >
         <SelectValue
           :class="[selectedValue ? '' : 'text-slate-400']"
