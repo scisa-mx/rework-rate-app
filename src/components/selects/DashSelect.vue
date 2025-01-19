@@ -32,7 +32,7 @@ selectedValue.value = props.modelValue
 </script>
 
 <template>
-  <fieldset>
+  <fieldset :name="props.name">
     <label v-if="props.label" class="text-slate-700">{{ props.label }}</label>
     <SelectRoot class="w-max" v-model="selectedValue">
       <SelectTrigger

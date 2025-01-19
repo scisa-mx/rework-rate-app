@@ -20,9 +20,10 @@ export type InputBaseProps = {
 export type DashInputBase<TValue> = {
   id: string
   label?: string
-  value: TValue
+  value?: TValue
   name?: string
-  required: boolean
+  isValid?: boolean
+  required?: boolean
   modelValue: TValue
 }
 

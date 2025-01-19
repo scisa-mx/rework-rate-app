@@ -9,7 +9,7 @@ const checkboxOne = ref(props.modelValue)
 </script>
 
 <template>
-  <fieldset>
+  <fieldset :name="props.name">
     <div class="flex flex-col">
       <label class="flex flex-col gap-4 [&>.checkbox]:hover:bg-neutral-100 cursor-pointer">
         <span v-if="props.label" class="select-none text-slate-700">{{ props.label }}</span>

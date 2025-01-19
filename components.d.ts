@@ -13,6 +13,7 @@ declare module 'vue' {
     DashDotDrowpdown: typeof import('./src/components/dropdowns/DashDotDrowpdown.vue')['default']
     DashDropwdown: typeof import('./src/components/dropdowns/DashDropwdown.vue')['default']
     DashDropwDown: typeof import('./src/components/dropdowns/DashDropwDown.vue')['default']
+    DashFormGenerator: typeof import('./src/components/forms/DashFormGenerator.vue')['default']
     DashInput: typeof import('./src/components/inputs/DashInput.vue')['default']
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']

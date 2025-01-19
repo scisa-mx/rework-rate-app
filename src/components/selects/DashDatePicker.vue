@@ -47,7 +47,7 @@ watch(
 </script>
 
 <template>
-  <fieldset class="w-100">
+  <fieldset :name="props.name" class="w-100">
     <label v-if="props.label" class="text-slate-700"> {{ props.label }}</label>
     <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField

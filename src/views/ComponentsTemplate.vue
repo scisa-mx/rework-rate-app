@@ -6,16 +6,18 @@
         <DashSelect
           id=""
           :is-valid="state"
-          label=""
+          label="Input select"
           placeholder="Placeholder"
           v-model="fruit"
           :options="options"
+          name="select"
         />
         <DashInput
           v-model="input"
           id="input-id"
           value="input-value"
           name="hola"
+          label="Input text"
           placeholder="Placeholder"
           :required="false"
           :is-valid="state"
@@ -23,29 +25,35 @@
         <DashDatePicker
           id="picker"
           name="picker"
-          label=""
+          label="Data picker"
           v-model="date"
           :required="false"
           :is-valid="state"
         ></DashDatePicker>
         <DashDateRangePicker
           id=""
-          label=""
+          label="Data range picker"
           v-model="dateRange"
-          name=""
+          name="picker-range"
           :required="false"
           :is-valid="state"
         />
         <DashCheckbox
-          label=""
+          label="Checkbox"
           id=""
           v-model="checkbox"
-          name=""
+          name="checkbox"
           :required="false"
           :is-valid="state"
         />
-        <DashSwitch id="" label="" v-model="switchState" name="" :is-valid="state" />
-        <DashTagsInput id="" v-model="tags" :is-valid="state" />
+        <DashSwitch id="" label="Swtich" v-model="switchState" name="switch" :is-valid="state" />
+        <DashTagsInput
+          id=""
+          label="Tags input"
+          name="tags-input"
+          v-model="tags"
+          :is-valid="state"
+        />
       </div>
     </section>
   </main>
