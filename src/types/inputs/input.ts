@@ -3,6 +3,9 @@ export enum InputTypes {
   DatePicker = 'date-picker',
   Select = 'select',
   Checkbox = 'checkbox',
+  DateRangePicker = 'date-range-picker',
+  Switch = 'switch',
+  Tags = 'tags',
 }
 
 export type ValueInputSelect = string | number | boolean
@@ -17,18 +20,15 @@ export type InputBaseProps = {
   placeholder?: string
 }
 
-export type DashInputBase<TValue> = {
+export type DashInputBase = {
   id: string
   label?: string
-  value?: TValue
   name?: string
-  isValid?: boolean
   required?: boolean
-  modelValue: TValue
 }
 
-export type DashTextInput = DashInputBase<string> & {
-  type?: InputTypes.Text
+export type DashTextInput = DashInputBase & {
+  type: InputTypes.Text
   placeholder?: string
 }
 
@@ -36,13 +36,23 @@ export type DashInputProps = InputBaseProps & {
   modelValue: string
 }
 
+export type DashTagsInput = DashInputBase & {
+  type: InputTypes.Tags
+  tags: string[]
+}
+
 export type DashTagsInputProps = InputBaseProps & {
   modelValue: string[]
 }
 
-export type DashDatePickerInput = DashInputBase<string> & {
+export type DashDatePickerInput = DashInputBase & {
   type: InputTypes.DatePicker
   date: string
+}
+
+export type DashDateRangePickerInput = DashInputBase & {
+  type: InputTypes.DateRangePicker
+  dateRange: DateRangeSchema
 }
 
 export type DashDatePickerProps = InputBaseProps & {
@@ -58,7 +68,7 @@ export type DashDateRangePickerProps = InputBaseProps & {
   modelValue: DateRangeSchema
 }
 
-export type DashSelectInput = DashInputBase<string | string[]> & {
+export type DashSelectInput = DashInputBase & {
   type: InputTypes.Select
   options: { value: string | number; label: string }[]
   multiple?: boolean
@@ -70,8 +80,13 @@ export type DashSelectProps = InputBaseProps & {
   modelValue: ValueInputSelect
 }
 
-export type DashCheckboxInput = DashInputBase<boolean> & {
+export type DashCheckboxInput = DashInputBase & {
   type: InputTypes.Checkbox
+  checked?: boolean
+}
+
+export type DashSwitchInput = DashInputBase & {
+  type: InputTypes.Switch
   checked?: boolean
 }
 
@@ -79,4 +94,24 @@ export type DashCheckboxProps = InputBaseProps & {
   modelValue: boolean
 }
 
-export type FormInput = DashTextInput | DashDatePickerInput | DashSelectInput | DashCheckboxInput
+export type FormInput =
+  | DashTextInput
+  | DashDatePickerInput
+  | DashSelectInput
+  | DashCheckboxInput
+  | DashDateRangePickerInput
+  | DashTagsInput
+  | DashSwitchInput
+
+export type FieldInputConfig = {
+  input: FormInput
+  config: {
+    [key: string]: () => boolean
+  }
+}
+
+export interface FormGeneratorProps {
+  fields: FieldInputConfig[]
+  onSubmit: (values: Record<string, unknown>) => void
+  onCancel?: () => void
+}

@@ -5,5 +5,9 @@
   "about": "Acerca de",
   "contact": "Contacto",
   "components": "Componentes",
-  "archive": "Archivo"
+  "archive": "Archivo",
+  "validationMessages": {
+    "maximunLength": "El campo debe tener un máximo de {maximun} caracteres",
+    "minimunLength": "El campo debe tener un mínimo de {minimun} caracteres"
+  }
 }

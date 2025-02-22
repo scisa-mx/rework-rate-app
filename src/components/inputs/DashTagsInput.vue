@@ -30,7 +30,7 @@ watch(
     <TagsInputRoot
       :id="props.id"
       v-model="modelValue"
-      class="flex gap-2 items-center border p-2 rounded-lg w-full max-w-[480px] flex-wrap bg-white hover:bg-royal-purple-50"
+      class="flex gap-2 items-center border shadow-sm p-2 rounded-lg w-full max-w-[480px] flex-wrap bg-white hover:bg-royal-purple-50"
       :class="{
         'ring-2 ring-royal-purple-500': isInputFocused,
         'data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red':

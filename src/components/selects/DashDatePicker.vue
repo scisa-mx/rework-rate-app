@@ -52,7 +52,7 @@ watch(
     <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField
         v-slot="{ segments }"
-        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center text-green10 border border-transparent"
+        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center border"
         :data-valid="props.isValid"
       >
         <div class="flex items-center px-3">
@@ -143,7 +143,7 @@ watch(
                     <DatePickerCellTrigger
                       :day="weekDate"
                       :month="month.value"
-                      class="relative hover:bg-royal-purple-200 flex items-center justify-center whitespace-nowrap rounded-[9px] border border-transparent bg-transparent text-sm font-normal text-slate-700 w-8 h-8 outline-none focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 hover:border-royal-purple-800 data-[selected]:bg-royal-purple-700 data-[selected]:font-medium data-[disabled]:text-slate-700/30 data-[selected]:text-royal-purple-100 data-[unavailable]:pointer-events-none data-[unavailable]:text-slate-700/30 data-[unavailable]:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-[today]:before:block data-[today]:before:bg-green9 data-[selected]:before:bg-white"
+                      class="relative hover:bg-royal-purple-200 flex items-center justify-center whitespace-nowrap rounded-[9px] border border-transparent bg-transparent text-sm font-normal text-slate-700 w-8 h-8 outline-none focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 hover:border-royal-purple-800 data-[selected]:bg-royal-purple-700 data-[selected]:font-medium data-[disabled]:text-slate-700/30 data-[selected]:text-royal-purple-100 data-[unavailable]:pointer-events-none data-[unavailable]:text-slate-700/30 data-[unavailable]:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-[today]:before:block data-[selected]:before:bg-white"
                     />
                   </DatePickerCell>
                 </DatePickerGridRow>

@@ -45,7 +45,7 @@ watch(
       <DateRangePickerRoot v-model="internalValue as DateRange">
         <DateRangePickerField
           v-slot="{ segments }"
-          class="flex justify-between data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red select-none max-h-[35px] bg-white items-center rounded border border-transparent data-[invalid]:border-red-500"
+          class="flex justify-between data-[valid=false]:border-red-500 data-[valid=false]:border data-[valid=false]:ring-red select-none max-h-[35px] bg-white items-center rounded border shadow-sm data-[invalid]:border-red-500"
           :data-valid="props.isValid"
         >
           <div class="flex items-center px-3">
@@ -106,7 +106,7 @@ watch(
 
         <DateRangePickerContent
           :side-offset="4"
-          class="rounded-xl bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+          class="rounded-xl border bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
         >
           <DateRangePickerArrow class="fill-white" />
           <DateRangePickerCalendar v-slot="{ weekDays, grid }" class="p-4">
@@ -156,7 +156,7 @@ watch(
                       <DateRangePickerCellTrigger
                         :day="weekDate"
                         :month="month.value"
-                        class="relative flex items-center justify-center rounded-full whitespace-nowrap text-sm font-normal text-slate-700 w-8 h-8 outline-none focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 data-[disabled]:text-slate-700/30 data-[selected]:bg-royal-purple-800 data-[selected]:text-white hover:bg-royal-purple-400 data-[highlighted]:bg-royal-purple-400 data-[unavailable]:pointer-events-none data-[unavailable]:text-slate-700/30 data-[unavailable]:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-[today]:before:block data-[today]:before:bg-green9"
+                        class="relative flex items-center justify-center rounded-full whitespace-nowrap text-sm font-normal text-slate-700 w-8 h-8 outline-none focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 data-[disabled]:text-slate-700/30 data-[selected]:bg-royal-purple-800 data-[selected]:text-white hover:bg-royal-purple-400 data-[highlighted]:bg-royal-purple-400 data-[unavailable]:pointer-events-none data-[unavailable]:text-slate-700/30 data-[unavailable]:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-[today]:before:block"
                       />
                     </DateRangePickerCell>
                   </DateRangePickerGridRow>

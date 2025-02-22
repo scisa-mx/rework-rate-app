@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DashCheckbox: typeof import('./src/components/checkboxes/DashCheckbox.vue')['default']
+    DashContainer: typeof import('./src/components/containers/DashContainer.vue')['default']
     DashDatePicker: typeof import('./src/components/selects/DashDatePicker.vue')['default']
     DashDateRangePicker: typeof import('./src/components/selects/DashDateRangePicker.vue')['default']
     DashDotDrowpdown: typeof import('./src/components/dropdowns/DashDotDrowpdown.vue')['default']

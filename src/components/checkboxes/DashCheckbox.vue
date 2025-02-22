@@ -16,7 +16,7 @@ const checkboxOne = ref(props.modelValue)
       </label>
       <CheckboxRoot
         v-model:checked="checkboxOne"
-        class="focus:ring-2 focus:ring-royal-purple-500 data-[valid=false]:border-red-500 data-[valid=false]:ring-red-500 data-[valid=false]:ring-2 data-[valid=false]:border-2 hover:bg-royal-purple-50 flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-[4px] bg-white shadow-lg outline-none focus-within:shadow-[0_0_0_2px_black]"
+        class="focus:ring-2 border focus:ring-royal-purple-500 data-[valid=false]:border-red-500 data-[valid=false]:ring-red-500 data-[valid=false]:ring-2 data-[valid=false]:border-2 hover:bg-royal-purple-50 flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-[4px] bg-white shadow-lg outline-none focus-within:shadow-[0_0_0_2px_black]"
         :data-valid="props.isValid"
       >
         <CheckboxIndicator
