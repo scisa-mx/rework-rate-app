@@ -2,6 +2,7 @@ import { type RouteRecordRaw } from 'vue-router'
 import BaseHome from '@/views/BaseHome.vue'
 import ComponentsTemplate from '@/views/ComponentsTemplate.vue'
 import ArchiveComponent from '@/views/ArchiveComponent.vue'
+import FormsView from '@/views/FormsView.vue'
 
 const ROUTES: RouteRecordRaw[] = [
   {
@@ -19,6 +20,15 @@ const ROUTES: RouteRecordRaw[] = [
     component: ComponentsTemplate,
     meta: {
       title: 'components',
+      icon: 'layout',
+    },
+  },
+  {
+    path: '/forms',
+    name: 'forms',
+    component: FormsView,
+    meta: {
+      title: 'forms',
       icon: 'layout',
     },
   },
