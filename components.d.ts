@@ -19,6 +19,7 @@ declare module 'vue' {
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTagsInput: typeof import('./src/components/inputs/DashTagsInput.vue')['default']
+    FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
@@ -27,9 +28,12 @@ declare module 'vue' {
     LateraItem: typeof import('./src/components/navs/lateral/LateraItem.vue')['default']
     LateralItemToggle: typeof import('./src/components/navs/lateral/LateralItemToggle.vue')['default']
     LateralNavbar: typeof import('./src/components/navs/lateral/LateralNavbar.vue')['default']
+    LoadingOverlay: typeof import('./src/components/overlay/LoadingOverlay.vue')['default']
+    Overlay: typeof import('./src/components/overlay/Overlay.vue')['default']
     RippleButton: typeof import('./src/components/buttons/RippleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SimpleCard: typeof import('./src/components/cards/SimpleCard.vue')['default']
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
   }
 }
