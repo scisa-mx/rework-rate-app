@@ -6,6 +6,11 @@
   "contact": "Contacto",
   "components": "Componentes",
   "archive": "Archivo",
+  "forms": "Formularios",
+  "backHome": "Volver a la página de inicio",
+  "errorMessages": {
+    "pageNotFound": "Página no encontrada"
+  },
   "validationMessages": {
     "maximunLength": "El campo debe tener un máximo de {maximun} caracteres",
     "minimunLength": "El campo debe tener un mínimo de {minimun} caracteres"

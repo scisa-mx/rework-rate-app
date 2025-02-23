@@ -4,7 +4,7 @@
     <section>
       <DashContainer>
         <template #header>
-          <h3 class="text-slate-700">INPUTS</h3>
+          <h3 class="text-slate-700 text-xl font-semibold sm:text-2xl">{{ $t('forms') }}</h3>
         </template>
         <template #main>
           <DashFormGenerator
