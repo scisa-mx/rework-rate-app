@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    DashButton: typeof import('./src/components/buttons/DashButton.vue')['default']
     DashCheckbox: typeof import('./src/components/checkboxes/DashCheckbox.vue')['default']
     DashContainer: typeof import('./src/components/containers/DashContainer.vue')['default']
     DashDatePicker: typeof import('./src/components/selects/DashDatePicker.vue')['default']
@@ -21,6 +22,7 @@ declare module 'vue' {
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTagsInput: typeof import('./src/components/inputs/DashTagsInput.vue')['default']
+    DashToast: typeof import('./src/components/toast/DashToast.vue')['default']
     FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
