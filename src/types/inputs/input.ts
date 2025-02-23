@@ -25,11 +25,13 @@ export type DashInputBase = {
   label?: string
   name?: string
   required?: boolean
+  value?: string | boolean | DateRangeSchema | ValueInputSelect | string[]
 }
 
 export type DashTextInput = DashInputBase & {
   type: InputTypes.Text
   placeholder?: string
+  value: string
 }
 
 export type DashInputProps = InputBaseProps & {
@@ -38,7 +40,7 @@ export type DashInputProps = InputBaseProps & {
 
 export type DashTagsInput = DashInputBase & {
   type: InputTypes.Tags
-  tags: string[]
+  value: string[]
 }
 
 export type DashTagsInputProps = InputBaseProps & {
@@ -47,12 +49,12 @@ export type DashTagsInputProps = InputBaseProps & {
 
 export type DashDatePickerInput = DashInputBase & {
   type: InputTypes.DatePicker
-  date: string
+  value: string
 }
 
 export type DashDateRangePickerInput = DashInputBase & {
   type: InputTypes.DateRangePicker
-  dateRange: DateRangeSchema
+  value: DateRangeSchema
 }
 
 export type DashDatePickerProps = InputBaseProps & {
@@ -72,6 +74,7 @@ export type DashSelectInput = DashInputBase & {
   type: InputTypes.Select
   options: { value: string | number; label: string }[]
   multiple?: boolean
+  value: string
 }
 
 export type DashSelectProps = InputBaseProps & {
@@ -82,12 +85,12 @@ export type DashSelectProps = InputBaseProps & {
 
 export type DashCheckboxInput = DashInputBase & {
   type: InputTypes.Checkbox
-  checked?: boolean
+  value: boolean
 }
 
 export type DashSwitchInput = DashInputBase & {
   type: InputTypes.Switch
-  checked?: boolean
+  value: boolean
 }
 
 export type DashCheckboxProps = InputBaseProps & {

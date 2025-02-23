@@ -62,69 +62,9 @@
           <h2>INPUTS</h2>
         </template>
         <template #main>
-          <div class="my-2 grid md:grid-cols-4 grid-cols-1 gap-4">
-            <DashSelect
-              id=""
-              :is-valid="state"
-              label="Input select"
-              placeholder="Placeholder"
-              v-model="fruit"
-              :options="options"
-              name="select"
-            />
-            <DashInput
-              v-model="input"
-              id="input-id"
-              value="input-value"
-              name="hola"
-              label="Input text"
-              placeholder="Placeholder"
-              :required="false"
-              :is-valid="state"
-            />
-            <DashDatePicker
-              id="picker"
-              name="picker"
-              label="Data picker"
-              v-model="date"
-              :required="false"
-              :is-valid="state"
-            ></DashDatePicker>
-            <DashDateRangePicker
-              id=""
-              label="Data range picker"
-              v-model="dateRange"
-              name="picker-range"
-              :required="false"
-              :is-valid="state"
-            />
-            <DashCheckbox
-              label="Checkbox"
-              id=""
-              v-model="checkbox"
-              name="checkbox"
-              :required="false"
-              :is-valid="state"
-            />
-            <DashSwitch
-              id=""
-              label="Swtich"
-              v-model="switchState"
-              name="switch"
-              :is-valid="state"
-            />
-            <DashTagsInput
-              id=""
-              label="Tags input"
-              name="tags-input"
-              v-model="tags"
-              :is-valid="state"
-            />
-          </div>
+          <DashFormGenerator :callback="handlerSubmit" v-model="fields" />
         </template>
       </DashContainer>
-
-      <!-- <DashFormGenerator :fields="fields" /> -->
     </section>
     <section name="grid-system"></section>
   </main>
@@ -164,6 +104,11 @@ const dateRange = ref<DateRangeSchema>({
   end: endDate,
 })
 
+const handlerSubmit = (event: Event, fields: FormInput[]) => {
+  event.preventDefault()
+  console.log('fields', fields)
+}
+
 const options = [
   { label: 'Apple', value: 'apple' },
   { label: 'Banana', value: 'banana' },
@@ -175,7 +120,6 @@ const options = [
   { label: 'Watermelon', value: 'watermelon' },
 ]
 
-// un field de cada tipo
 const fields = ref<FormInput[]>([
   {
     type: InputTypes.Text,
@@ -183,6 +127,7 @@ const fields = ref<FormInput[]>([
     name: 'name',
     label: 'Name',
     required: false,
+    value: '',
   },
   {
     type: InputTypes.Select,
@@ -191,6 +136,7 @@ const fields = ref<FormInput[]>([
     label: 'Fruit',
     options: options,
     required: false,
+    value: '',
   },
   {
     type: InputTypes.DatePicker,
@@ -198,7 +144,7 @@ const fields = ref<FormInput[]>([
     name: 'date',
     label: 'Date',
     required: false,
-    date: new Date().toISOString(),
+    value: new Date().toISOString(),
   },
   {
     type: InputTypes.DateRangePicker,
@@ -206,7 +152,7 @@ const fields = ref<FormInput[]>([
     name: 'dateRange',
     label: 'Date Range',
     required: false,
-    dateRange: {
+    value: {
       start: startDate,
       end: endDate,
     },
@@ -217,6 +163,7 @@ const fields = ref<FormInput[]>([
     name: 'checkbox',
     label: 'Checkbox',
     required: false,
+    value: true,
   },
   {
     type: InputTypes.Switch,
@@ -224,6 +171,7 @@ const fields = ref<FormInput[]>([
     name: 'switch',
     label: 'Switch',
     required: false,
+    value: false,
   },
   {
     type: InputTypes.Tags,
@@ -231,9 +179,7 @@ const fields = ref<FormInput[]>([
     name: 'tags',
     label: 'Tags',
     required: false,
-    tags: [],
+    value: [],
   },
 ])
-
-console.log(fields.value)
 </script>

@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { SwitchRoot, SwitchThumb } from 'radix-vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { type DashCheckboxProps } from '@/types'
 
 const props = defineProps<DashCheckboxProps>()
+const emit = defineEmits(['update:modelValue'])
 
 const switchState = ref(props.modelValue)
+watch(
+  () => switchState.value,
+  (newValue) => emit('update:modelValue', newValue),
+)
 </script>
 
 <template>

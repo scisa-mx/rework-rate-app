@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { CheckboxIndicator, CheckboxRoot } from 'radix-vue'
 import { type DashCheckboxProps } from '@/types'
 
 const props = withDefaults(defineProps<DashCheckboxProps>(), {})
+const emit = defineEmits(['update:modelValue'])
 
 const checkboxOne = ref(props.modelValue)
+
+watch(
+  () => checkboxOne.value,
+  (newValue) => emit('update:modelValue', newValue),
+)
 </script>
 
 <template>
