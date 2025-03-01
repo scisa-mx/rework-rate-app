@@ -11,7 +11,9 @@
       <DashGrid name="toast" :rows="1" :cols="1" :gap="4">
         <DashPanel :padding="4" :row-span="1" :col-span="1">
           <h3>Toast</h3>
-          <button @click="notify">Mostrar Notificación</button>
+          <DashButton :size="'md'" :variant="'primary'" @click="notify"
+            >Mostrar Notificación</DashButton
+          >
         </DashPanel>
       </DashGrid>
     </section>
@@ -21,6 +23,7 @@
 <script setup lang="ts">
 import DashPanel from '@/components/grids/DashPanel.vue'
 import DashGrid from '@/components/grids/DashGrid.vue'
+import DashButton from '@/components/buttons/DashButton.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 
@@ -32,7 +35,7 @@ function notify() {
     description: 'Tu acción se ha completado correctamente.',
     type: 'foreground',
     duration: 3000,
-    variant: 'INFO',
+    variant: 'SUCCESS',
   })
 }
 </script>
