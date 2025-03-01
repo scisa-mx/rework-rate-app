@@ -1,9 +1,21 @@
+<template>
+  <ToastProvider swipe-direction="right">
+    <component :is="currentLayout">
+      <RouterView />
+    </component>
+    <ToastContainer />
+    <ToastViewport class="fixed top-0 right-0 p-4 flex flex-col gap-2" />
+  </ToastProvider>
+</template>
+
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DashboardLayout from './views/Layouts/DashboardLayout.vue'
 import FlatLayout from './views/Layouts/FlatLayout.vue'
 import { useSidebarStore } from './stores/sidenav'
+import { ToastProvider, ToastViewport } from 'radix-vue'
+import ToastContainer from './components/toast/ToastContainer.vue'
 
 const route = useRoute()
 const sidebarStore = useSidebarStore()
@@ -40,9 +52,3 @@ onUnmounted(() => {
   window.removeEventListener('resize', () => {})
 })
 </script>
-
-<template>
-  <component :is="currentLayout">
-    <RouterView />
-  </component>
-</template>

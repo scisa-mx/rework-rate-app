@@ -39,5 +39,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SimpleCard: typeof import('./src/components/cards/SimpleCard.vue')['default']
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
+    ToastContainer: typeof import('./src/components/toast/ToastContainer.vue')['default']
   }
 }

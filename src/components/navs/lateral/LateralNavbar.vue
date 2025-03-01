@@ -20,7 +20,7 @@
         <section v-if="!isMobile" class="mt-2" name="sidenav-footer">
           <button @click="toggleNavbar" class="absolute bottom-4 w-full p-2">
             <span class="w-max flex justify-end items-end">
-              <vue-feather class="text-slate-600" type="arrow-left"></vue-feather>
+              <vue-feather class="text-slate-600" type="sidebar"></vue-feather>
             </span>
           </button>
         </section>
