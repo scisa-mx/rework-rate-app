@@ -95,6 +95,47 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="alerts" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <section class="flex flex-col gap-3">
+          <DashAlert type="success">
+            <DashTypography variant="h5">Alertas</DashTypography>
+            <DashTypography class="text-gray-500" variant="body">
+              Las alertas son mensajes que se muestran en la interfaz para informar al usuario sobre
+              el estado de una acción.
+            </DashTypography>
+          </DashAlert>
+          <DashAlert type="error">
+            <DashTypography variant="h5">Alertas</DashTypography>
+            <DashTypography variant="body">
+              Las alertas son mensajes que se muestran en la interfaz para informar al usuario sobre
+              el estado de una acción.
+            </DashTypography>
+          </DashAlert>
+          <DashAlert type="primary">
+            <DashTypography variant="h5">Alertas</DashTypography>
+            <DashTypography variant="body">
+              Las alertas son mensajes que se muestran en la interfaz para informar al usuario sobre
+              el estado de una acción.
+            </DashTypography>
+          </DashAlert>
+          <DashAlert type="secondary">
+            <DashTypography variant="h5">Alertas</DashTypography>
+            <DashTypography variant="body">
+              Las alertas son mensajes que se muestran en la interfaz para informar al usuario sobre
+              el estado de una acción.
+            </DashTypography>
+          </DashAlert>
+          <DashAlert type="info">
+            <DashTypography variant="h5">Alertas</DashTypography>
+            <DashTypography variant="body">
+              Las alertas son mensajes que se muestran en la interfaz para informar al usuario sobre
+              el estado de una acción.
+            </DashTypography>
+          </DashAlert>
+        </section>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -104,6 +145,7 @@ import DashGrid from '@/components/grids/DashGrid.vue'
 import DashButton from '@/components/buttons/DashButton.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTypeWritter from '@/components/typography/DashTypeWritter.vue'
+import DashAlert from '@/components/alerts/DashAlert.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 

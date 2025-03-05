@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    DashAlert: typeof import('./src/components/alerts/DashAlert.vue')['default']
     DashButton: typeof import('./src/components/buttons/DashButton.vue')['default']
     DashCheckbox: typeof import('./src/components/checkboxes/DashCheckbox.vue')['default']
     DashContainer: typeof import('./src/components/containers/DashContainer.vue')['default']
