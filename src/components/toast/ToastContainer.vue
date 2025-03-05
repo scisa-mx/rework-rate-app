@@ -3,7 +3,7 @@
     <div v-for="toast in toasts" :key="toast.id" class="relative">
       <ToastRoot
         :type="toast.type || 'foreground'"
-        class="bg-white rounded-md shadow-lg p-4 ToastRoot"
+        class="rounded-md shadow-lg p-4 ToastRoot"
         :class="[{ dismiss: toast.isDismissing }, getVariantClass(toast.variant)]"
       >
         <ToastTitle class="font-medium">{{ toast.title }}</ToastTitle>
