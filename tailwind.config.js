@@ -67,12 +67,22 @@ export default {
           from: { transform: 'translateX(var(--radix-toast-swipe-end-x))' },
           to: { transform: 'translateX(calc(100% + var(--viewport-padding)))' },
         },
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        fadeOut: {
+          from: { opacity: 1 },
+          to: { opacity: 0 },
+        },
       },
       animation: {
         ripple: 'ripple 0.6s ease-out',
         hide: 'hide 100ms ease-in',
         slideIn: 'slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1)',
         swipeOut: 'swipeOut 100ms ease-out',
+        fadeIn: 'fadeIn 150ms ease-out',
+        fadeOut: 'fadeOut 150ms ease-in',
       },
     },
   },

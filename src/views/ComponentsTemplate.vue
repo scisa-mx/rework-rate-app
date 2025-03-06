@@ -17,7 +17,7 @@
     <DashGrid name="buttons-variants" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <DashTypography variant="h3">Variantes</DashTypography>
-        <div class="flex flex-row gap-3">
+        <div class="flex flex-row gap-3 flex-wrap">
           <DashButton size="sm" variant="primary">
             <span>Primario</span>
           </DashButton>
@@ -98,6 +98,7 @@
     <DashGrid name="alerts" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <section class="flex flex-col gap-3">
+          <DashTypography variant="h3">Alertas</DashTypography>
           <DashAlert type="success">
             <DashTypography variant="h5">Alertas</DashTypography>
             <DashTypography class="text-gray-500" variant="body">
@@ -136,6 +137,62 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="tooltips" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Tooltips top</DashTypography>
+        <section class="flex flex-row gap-3">
+          <DashTooltip variant="dark" side="top" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+          <DashTooltip variant="dark" side="bottom" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip bottom</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+          <DashTooltip variant="dark" side="left" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip left</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+          <DashTooltip variant="dark" side="right" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip rigth</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+          <DashTooltip variant="default" side="top" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip default</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+        </section>
+      </DashPanel>
+    </DashGrid>
+    <DashGrid name="tooltips" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Tooltips</DashTypography>
+        <section class="flex flex-row gap-3">
+          <DashTooltip variant="dark" side="top" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+          <DashTooltip variant="dark" side="bottom" :offset="10" content="Tooltip">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Tooltip</DashButton>
+            </template>
+            <template #content>Hola soy un tooltip!</template>
+          </DashTooltip>
+        </section>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -146,6 +203,7 @@ import DashButton from '@/components/buttons/DashButton.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTypeWritter from '@/components/typography/DashTypeWritter.vue'
 import DashAlert from '@/components/alerts/DashAlert.vue'
+import DashTooltip from '@/components/tooltip/DashTooltip.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 

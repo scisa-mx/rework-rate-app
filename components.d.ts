@@ -24,6 +24,7 @@ declare module 'vue' {
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTagsInput: typeof import('./src/components/inputs/DashTagsInput.vue')['default']
     DashToast: typeof import('./src/components/toast/DashToast.vue')['default']
+    DashTooltip: typeof import('./src/components/tooltip/DashTooltip.vue')['default']
     DashTypeWritter: typeof import('./src/components/typography/DashTypeWritter.vue')['default']
     DashTypography: typeof import('./src/components/typography/DashTypography.vue')['default']
     FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
