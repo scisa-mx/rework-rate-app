@@ -3,7 +3,6 @@
     :default-value="props.triggers[0].title"
     class="w-full bg-white border border-gray-200 rounded-md shadow-sm relative"
   >
-    <!-- TabsList con flex-wrap para permitir múltiples filas -->
     <TabsList class="flex flex-wrap items-center px-4 gap-2 border-b border-gray-200 relative">
       <TabsIndicator
         class="absolute left-0 h-0.5 bottom-0 w-[--radix-tabs-indicator-size] translate-x-[--radix-tabs-indicator-position] bg-royal-purple-500 transition-all duration-300"

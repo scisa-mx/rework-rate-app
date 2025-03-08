@@ -20,6 +20,7 @@ declare module 'vue' {
     DashGrid: typeof import('./src/components/grids/DashGrid.vue')['default']
     DashInput: typeof import('./src/components/inputs/DashInput.vue')['default']
     DashPanel: typeof import('./src/components/grids/DashPanel.vue')['default']
+    DashRibbon: typeof import('./src/components/ribbon/DashRibbon.vue')['default']
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTab: typeof import('./src/components/tabs/DashTab.vue')['default']

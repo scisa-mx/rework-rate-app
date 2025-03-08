@@ -174,7 +174,7 @@
         </section>
       </DashPanel>
     </DashGrid>
-    <DashGrid name="tooltips" :rows="1" :cols="1" :gap="4">
+    <DashGrid name="tabs" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <DashTypography variant="h3">Tabs</DashTypography>
         <DashTabs :triggers="triggers">
@@ -193,6 +193,19 @@
         </DashTabs>
       </DashPanel>
     </DashGrid>
+
+    <DashGrid name="ribbon" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Ribbon</DashTypography>
+        <DashRibbon variant="primary" position="top-right">
+          <template #ribbon> New </template>
+          <div class="p-4 border rounded shadow-sm w-100">
+            <h2 class="text-lg font-semibold">Mi Producto</h2>
+            <p class="text-gray-700">Descripción del producto...</p>
+          </div>
+        </DashRibbon>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -206,6 +219,7 @@ import DashAlert from '@/components/alerts/DashAlert.vue'
 import DashTooltip from '@/components/tooltip/DashTooltip.vue'
 import DashTabs from '@/components/tabs/DashTabs.vue'
 import DashTab from '@/components/tabs/DashTab.vue'
+import DashRibbon from '@/components/ribbon/DashRibbon.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 
