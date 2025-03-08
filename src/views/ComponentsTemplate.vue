@@ -139,11 +139,11 @@
     </DashGrid>
     <DashGrid name="tooltips" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
-        <DashTypography variant="h3">Tooltips top</DashTypography>
+        <DashTypography variant="h3">Tooltips</DashTypography>
         <section class="flex flex-row gap-3">
           <DashTooltip variant="dark" side="top" :offset="10" content="Tooltip">
             <template #trigger>
-              <DashButton size="md" variant="primary">Tooltip</DashButton>
+              <DashButton size="md" variant="primary">Tooltip top</DashButton>
             </template>
             <template #content>Hola soy un tooltip!</template>
           </DashTooltip>
@@ -176,21 +176,21 @@
     </DashGrid>
     <DashGrid name="tooltips" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
-        <DashTypography variant="h3">Tooltips</DashTypography>
-        <section class="flex flex-row gap-3">
-          <DashTooltip variant="dark" side="top" :offset="10" content="Tooltip">
-            <template #trigger>
-              <DashButton size="md" variant="primary">Tooltip</DashButton>
-            </template>
-            <template #content>Hola soy un tooltip!</template>
-          </DashTooltip>
-          <DashTooltip variant="dark" side="bottom" :offset="10" content="Tooltip">
-            <template #trigger>
-              <DashButton size="md" variant="primary">Tooltip</DashButton>
-            </template>
-            <template #content>Hola soy un tooltip!</template>
-          </DashTooltip>
-        </section>
+        <DashTypography variant="h3">Tabs</DashTypography>
+        <DashTabs :triggers="triggers">
+          <DashTab value="overview">
+            <h3 class="font-semibold text-gray-800 mb-2">Overview</h3>
+            <p>Contenido de la pestaña "Overview".</p>
+          </DashTab>
+          <DashTab value="notification">
+            <h3 class="font-semibold text-gray-800 mb-2">Notification</h3>
+            <p>Contenido de la pestaña "Notification".</p>
+          </DashTab>
+          <DashTab value="other">
+            <h3 class="font-semibold text-gray-800 mb-2">Other</h3>
+            <p>Contenido de la pestaña "Other".</p>
+          </DashTab>
+        </DashTabs>
       </DashPanel>
     </DashGrid>
   </main>
@@ -204,6 +204,8 @@ import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTypeWritter from '@/components/typography/DashTypeWritter.vue'
 import DashAlert from '@/components/alerts/DashAlert.vue'
 import DashTooltip from '@/components/tooltip/DashTooltip.vue'
+import DashTabs from '@/components/tabs/DashTabs.vue'
+import DashTab from '@/components/tabs/DashTab.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 
@@ -218,4 +220,10 @@ function notify() {
     variant: 'SUCCESS',
   })
 }
+
+const triggers = [
+  { title: 'overview', disabled: false, notifications: '1' },
+  { title: 'notification', disabled: false },
+  { title: 'other', disabled: false },
+]
 </script>

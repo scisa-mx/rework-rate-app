@@ -22,6 +22,8 @@ declare module 'vue' {
     DashPanel: typeof import('./src/components/grids/DashPanel.vue')['default']
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
+    DashTab: typeof import('./src/components/tabs/DashTab.vue')['default']
+    DashTabs: typeof import('./src/components/tabs/DashTabs.vue')['default']
     DashTagsInput: typeof import('./src/components/inputs/DashTagsInput.vue')['default']
     DashToast: typeof import('./src/components/toast/DashToast.vue')['default']
     DashTooltip: typeof import('./src/components/tooltip/DashTooltip.vue')['default']
@@ -43,6 +45,8 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SimpleCard: typeof import('./src/components/cards/SimpleCard.vue')['default']
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
+    TabsContent: typeof import('radix-vue')['TabsContent']
+    TabsTrigger: typeof import('radix-vue')['TabsTrigger']
     ToastContainer: typeof import('./src/components/toast/ToastContainer.vue')['default']
   }
 }
