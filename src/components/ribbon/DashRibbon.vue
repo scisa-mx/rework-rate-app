@@ -54,10 +54,10 @@ const positionMapping: Record<string, string> = {
 }
 
 const radiusMapper: Record<string, string> = {
-  'top-left': 'rounded-r-lg',
-  'top-right': 'rounded-l-lg',
-  'bottom-left': 'rounded-r-lg',
-  'bottom-right': 'rounded-l-lg',
+  'top-left': 'rounded-r-full',
+  'top-right': 'rounded-l-full',
+  'bottom-left': 'rounded-r-full',
+  'bottom-right': 'rounded-l-full',
 }
 
 const wrapperClasses = computed(() => {

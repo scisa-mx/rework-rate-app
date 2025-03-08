@@ -229,6 +229,18 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="progress-bar" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Progress Bar</DashTypography>
+        <section class="flex flex-col w-100 gap-3">
+          <DashProgressBar :value="50" variant="primary" />
+          <DashProgressBar :value="50" variant="info" />
+          <DashProgressBar :value="50" variant="success" />
+          <DashProgressBar :value="50" variant="warning" />
+          <DashProgressBar :value="50" :inside-label="true" variant="error" />
+        </section>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -243,6 +255,7 @@ import DashTooltip from '@/components/tooltip/DashTooltip.vue'
 import DashTabs from '@/components/tabs/DashTabs.vue'
 import DashTab from '@/components/tabs/DashTab.vue'
 import DashRibbon from '@/components/ribbon/DashRibbon.vue'
+import DashProgressBar from '@/components/progressBar/DashProgressBar.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 
