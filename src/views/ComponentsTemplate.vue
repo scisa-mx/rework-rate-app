@@ -195,15 +195,38 @@
     </DashGrid>
 
     <DashGrid name="ribbon" :rows="1" :cols="1" :gap="4">
-      <DashPanel :padding="4" :row-span="1" :col-span="1">
+      <DashPanel :padding="4" :row-span="2" :col-span="2">
         <DashTypography variant="h3">Ribbon</DashTypography>
-        <DashRibbon variant="primary" position="top-right">
-          <template #ribbon> New </template>
-          <div class="p-4 border rounded shadow-sm w-100">
-            <h2 class="text-lg font-semibold">Mi Producto</h2>
-            <p class="text-gray-700">Descripción del producto...</p>
-          </div>
-        </DashRibbon>
+        <section class="grid grid-cols-2 gap-4">
+          <DashRibbon variant="primary" position="top-right">
+            <template #ribbon> New </template>
+            <div class="p-4 border rounded shadow-sm w-100">
+              <h2 class="text-lg font-semibold">Mi Producto</h2>
+              <p class="text-gray-700">Descripción del producto...</p>
+            </div>
+          </DashRibbon>
+          <DashRibbon variant="primary" position="top-left">
+            <template #ribbon> New </template>
+            <div class="p-4 border rounded shadow-sm w-100 text-end">
+              <h2 class="text-lg font-semibold">Mi Producto</h2>
+              <p class="text-gray-700">Descripción del producto...</p>
+            </div>
+          </DashRibbon>
+          <DashRibbon variant="primary" position="bottom-right">
+            <template #ribbon> New </template>
+            <div class="p-4 border rounded shadow-sm w-100">
+              <h2 class="text-lg font-semibold">Mi Producto</h2>
+              <p class="text-gray-700">Descripción del producto...</p>
+            </div>
+          </DashRibbon>
+          <DashRibbon :reveal-on-hover="true" icon="star" variant="primary" position="top-right">
+            <template #ribbon> New </template>
+            <div class="p-4 border rounded shadow-sm w-100">
+              <h2 class="text-lg font-semibold">Ribbon in Hover</h2>
+              <p class="text-gray-700">Descripción del producto...</p>
+            </div>
+          </DashRibbon>
+        </section>
       </DashPanel>
     </DashGrid>
   </main>

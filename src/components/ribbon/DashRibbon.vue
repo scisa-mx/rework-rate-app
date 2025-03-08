@@ -1,16 +1,24 @@
 <template>
-  <!-- Contenedor principal que envuelve el contenido y el ribbon -->
-  <!-- w-full y overflow-hidden para recortar la banda diagonal dentro de la caja -->
-  <div class="relative w-full overflow-hidden">
-    <!-- El contenido principal va en el default slot -->
+  <div class="relative w-full overflow-hidden group">
     <slot />
 
-    <!-- Contenedor que posiciona la banda diagonal -->
-    <div :class="wrapperClasses">
-      <!-- Banda diagonal con los estilos de la variante elegida -->
-      <div :class="ribbonClasses">
-        <!-- Texto o contenido que desees mostrar en el ribbon -->
-        <slot name="ribbon" />
+    <div :class="[wrapperClasses, revealOnHover ? partialClasses : '']">
+      <div :class="[ribbonClasses]">
+        <div class="flex items-center justify-center gap-1" v-if="revealOnHover">
+          <span v-if="props.icon" class="flex items-center">
+            <vue-feather size="16" :type="props.icon" />
+          </span>
+          <span
+            class="transition-opacity duration-300"
+            :class="{ 'opacity-0 group-hover:opacity-100': revealOnHover }"
+          >
+            <slot name="ribbon" />
+          </span>
+        </div>
+
+        <div v-else>
+          <slot name="ribbon" />
+        </div>
       </div>
     </div>
   </div>
@@ -18,35 +26,31 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { type FeatherIconName } from '@/types'
 
 type RibbonProps = {
   variant: 'primary' | 'info'
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  revealOnHover?: boolean
+  icon?: FeatherIconName
 }
 
-/**
- * Props para variantes de color y posición
- */
-const props = defineProps<RibbonProps>()
+const props = withDefaults(defineProps<RibbonProps>(), {
+  variant: 'primary',
+  position: 'top-left',
+  revealOnHover: false,
+})
 
-/**
- * Clases de estilo para las variantes (ajusta a tu paleta si lo deseas)
- */
 const variantClasses: Record<string, string> = {
   primary: 'bg-royal-purple-500 text-white',
   info: 'bg-blue-200 text-blue-800',
 }
 
-/**
- * Mapeo de posiciones para ubicar la banda diagonal dentro del contenedor.
- * Se le da un ancho mayor (140-150%) para cubrir de esquina a esquina,
- * y luego se recorta con overflow-hidden.
- */
 const positionMapping: Record<string, string> = {
   'top-left': 'top-3 left-0',
   'top-right': 'top-3 right-0',
   'bottom-left': 'bottom-3 left-0',
-  'bottom-right': 'bottom-3 right-0 ',
+  'bottom-right': 'bottom-3 right-0',
 }
 
 const radiusMapper: Record<string, string> = {
@@ -57,7 +61,23 @@ const radiusMapper: Record<string, string> = {
 }
 
 const wrapperClasses = computed(() => {
-  return ['absolute', positionMapping[props.position] || positionMapping['top-left']].join(' ')
+  return [
+    'absolute transition-transform duration-300',
+    positionMapping[props.position] || positionMapping['top-left'],
+    props.revealOnHover ? 'group-hover:translate-x-0 group-hover:translate-y-0' : '',
+  ].join(' ')
+})
+
+// Estilos para mostrar parcialmente el ribbon
+const partialMapping: Record<string, string> = {
+  'top-left': '-translate-x-1/2',
+  'top-right': 'translate-x-1/2 ',
+  'bottom-left': '-translate-x-1/2',
+  'bottom-right': 'translate-x-1/2',
+}
+
+const partialClasses = computed(() => {
+  return partialMapping[props.position] || partialMapping['top-left']
 })
 
 const ribbonClasses = computed(() => {

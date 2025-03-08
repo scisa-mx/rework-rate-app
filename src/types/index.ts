@@ -2,3 +2,4 @@
 
 export * from './Navbar'
 export * from './inputs/input'
+export * from './icons'
