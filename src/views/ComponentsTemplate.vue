@@ -232,12 +232,31 @@
     <DashGrid name="progress-bar" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <DashTypography variant="h3">Progress Bar</DashTypography>
-        <section class="flex flex-col w-100 gap-3">
-          <DashProgressBar :value="50" variant="primary" />
-          <DashProgressBar :value="50" variant="info" />
-          <DashProgressBar :value="50" variant="success" />
-          <DashProgressBar :value="50" variant="warning" />
-          <DashProgressBar :value="50" :inside-label="true" variant="error" />
+        <section class="flex flex-col gap-3">
+          <section class="flex flex-col w-100 gap-3">
+            <DashTypography variant="h4">Tamaños md</DashTypography>
+            <DashProgressBar :value="75" variant="primary" />
+            <DashProgressBar :value="20" variant="info" />
+            <DashProgressBar :value="30" variant="success" />
+            <DashProgressBar :value="40" variant="warning" />
+            <DashProgressBar :value="60" variant="error" />
+          </section>
+          <section class="flex flex-col w-100 gap-3">
+            <DashTypography variant="h4">Tamaños lg</DashTypography>
+            <DashProgressBar size="lg" :value="75" variant="primary" />
+            <DashProgressBar size="lg" :value="20" variant="info" />
+            <DashProgressBar size="lg" :value="30" variant="success" />
+            <DashProgressBar size="lg" :value="40" variant="warning" />
+            <DashProgressBar size="lg" :value="60" variant="error" />
+          </section>
+          <section class="flex flex-col w-100 gap-3">
+            <DashTypography variant="h4">Tamaños sm</DashTypography>
+            <DashProgressBar size="sm" :value="75" variant="primary" />
+            <DashProgressBar size="sm" :value="20" variant="info" />
+            <DashProgressBar size="sm" :value="30" variant="success" />
+            <DashProgressBar size="sm" :value="40" variant="warning" />
+            <DashProgressBar size="sm" :value="60" variant="error" />
+          </section>
         </section>
       </DashPanel>
     </DashGrid>

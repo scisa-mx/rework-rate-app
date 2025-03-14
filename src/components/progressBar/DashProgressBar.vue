@@ -1,7 +1,7 @@
 <template>
   <ProgressRoot
-    v-model="progressValue"
-    class="relative overflow-hidden bg-blackA9 rounded-full w-full h-4 sm:h-5"
+    v-model="progressStyles"
+    :class="['relative overflow-hidden bg-gray-100 rounded-full w-full', sizeClasses[props.size]]"
     style="transform: translateZ(0)"
   >
     <ProgressIndicator
@@ -9,15 +9,8 @@
         'rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]',
         variantClasses[props.variant],
       ]"
-      :style="progressStyles"
+      :style="`transform: translateX(-${progressStyles}%)`"
     >
-      <!-- Etiqueta interna opcional -->
-      <div
-        v-if="insideLabel"
-        class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white"
-      >
-        {{ progressValue }}%
-      </div>
     </ProgressIndicator>
   </ProgressRoot>
 </template>
@@ -26,17 +19,16 @@
 import { ref, computed } from 'vue'
 import { ProgressIndicator, ProgressRoot } from 'radix-vue'
 
-// Props para personalizar el componente
 type ProgressProps = {
   value?: number
   variant?: 'primary' | 'info' | 'success' | 'warning' | 'error'
-  insideLabel?: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const props = withDefaults(defineProps<ProgressProps>(), {
   value: 0,
   variant: 'primary',
-  insideLabel: false,
+  size: 'md',
 })
 
 const progressValue = ref(props.value)
@@ -49,6 +41,11 @@ const variantClasses: Record<string, string> = {
   error: 'bg-red-500',
 }
 
-// Estilos dinámicos del indicador
-const progressStyles = computed(() => `transform: translateX(-${100 - progressValue.value}%)`)
+const sizeClasses: Record<string, string> = {
+  sm: 'h-2',
+  md: 'h-4',
+  lg: 'h-6',
+}
+
+const progressStyles = computed(() => 100 - progressValue.value)
 </script>
