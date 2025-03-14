@@ -260,6 +260,69 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="popover" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Popover</DashTypography>
+        <section class="flex flex-row gap-5">
+          <DashPopover side="top">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Popover</DashButton>
+            </template>
+            <template #content>
+              <div class="flex flex-col gap-5">
+                <DashTypography variant="h4">Contenido del Popover</DashTypography>
+                <DashTypography variant="body">
+                  Los popovers son ventanas emergentes que se muestran al hacer clic en un botón o
+                  elemento de la interfaz.
+                </DashTypography>
+              </div>
+            </template>
+          </DashPopover>
+          <DashPopover side="left">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Popover</DashButton>
+            </template>
+            <template #content>
+              <div class="flex flex-col gap-3">
+                <DashTypography variant="h4">Contenido del Popover</DashTypography>
+                <DashTypography variant="body">
+                  Los popovers son ventanas emergentes que se muestran al hacer clic en un botón o
+                  elemento de la interfaz.
+                </DashTypography>
+              </div>
+            </template>
+          </DashPopover>
+          <DashPopover side="right">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Popover</DashButton>
+            </template>
+            <template #content>
+              <div class="flex flex-col gap-3">
+                <DashTypography variant="h4">Contenido del Popover</DashTypography>
+                <DashTypography variant="body">
+                  Los popovers son ventanas emergentes que se muestran al hacer clic en un botón o
+                  elemento de la interfaz.
+                </DashTypography>
+              </div>
+            </template>
+          </DashPopover>
+          <DashPopover side="bottom">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Popover</DashButton>
+            </template>
+            <template #content>
+              <div class="flex flex-col gap-3">
+                <DashTypography variant="h4">Contenido del Popover</DashTypography>
+                <DashTypography variant="body">
+                  Los popovers son ventanas emergentes que se muestran al hacer clic en un botón o
+                  elemento de la interfaz.
+                </DashTypography>
+              </div>
+            </template>
+          </DashPopover>
+        </section>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -275,6 +338,7 @@ import DashTabs from '@/components/tabs/DashTabs.vue'
 import DashTab from '@/components/tabs/DashTab.vue'
 import DashRibbon from '@/components/ribbon/DashRibbon.vue'
 import DashProgressBar from '@/components/progressBar/DashProgressBar.vue'
+import DashPopover from '@/components/popover/DashPopover.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 
