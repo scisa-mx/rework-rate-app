@@ -323,6 +323,26 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="modal" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Popover</DashTypography>
+        <section class="flex align-center justify-center gap-5">
+          <DashModal description="Modal de ejemplo" title="Modal de ejemplo">
+            <template #trigger>
+              <DashButton size="md" variant="primary">Abrir Modal</DashButton>
+            </template>
+            <template #content>
+              <section>
+                <DashTypography variant="body">
+                  Los modales son ventanas emergentes que se muestran al hacer clic en un botón o
+                  elemento de la interfaz.
+                </DashTypography>
+              </section>
+            </template>
+          </DashModal>
+        </section>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -339,6 +359,7 @@ import DashTab from '@/components/tabs/DashTab.vue'
 import DashRibbon from '@/components/ribbon/DashRibbon.vue'
 import DashProgressBar from '@/components/progressBar/DashProgressBar.vue'
 import DashPopover from '@/components/popover/DashPopover.vue'
+import DashModal from '@/components/modal/DashModal.vue'
 
 import { useToast } from '@/@core/toast/useToast'
 

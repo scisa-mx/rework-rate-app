@@ -19,6 +19,7 @@ declare module 'vue' {
     DashFormGenerator: typeof import('./src/components/forms/DashFormGenerator.vue')['default']
     DashGrid: typeof import('./src/components/grids/DashGrid.vue')['default']
     DashInput: typeof import('./src/components/inputs/DashInput.vue')['default']
+    DashModal: typeof import('./src/components/modal/DashModal.vue')['default']
     DashPanel: typeof import('./src/components/grids/DashPanel.vue')['default']
     DashPopover: typeof import('./src/components/popover/DashPopover.vue')['default']
     DashProgressBar: typeof import('./src/components/progressBar/DashProgressBar.vue')['default']

@@ -78,7 +78,7 @@ const isOpen = ref(false)
 const $body = document.querySelector('body')
 import { useTheme } from '@/composables/useTheme'
 
-const { toggleTheme, isDark } = useTheme()
+const { toggleTheme } = useTheme()
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value

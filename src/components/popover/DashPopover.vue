@@ -15,7 +15,7 @@
       >
         <slot name="content" />
         <PopoverClose
-          class="rounded-full cursor-pointer h-[25px] w-[25px] inline-flex items-center justify-center text-primary absolute top-[5px] right-[5px] hover:bg-slate-100 outline-none"
+          class="rounded-full text-gray-700 cursor-pointer h-[25px] w-[25px] inline-flex items-center justify-center text-primary absolute top-[5px] right-[5px] hover:bg-slate-100 outline-none"
           aria-label="Close"
         >
           <vue-feather size="18" type="x" />
