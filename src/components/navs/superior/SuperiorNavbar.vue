@@ -7,7 +7,7 @@
         </button>
       </div>
       <div class="flex space-x-2">
-        <ripple-button>
+        <ripple-button @click="toggleTheme">
           <vue-feather class="text-slate-600" type="sun"></vue-feather>
         </ripple-button>
         <ripple-button>
@@ -76,6 +76,9 @@ import RippleButton from '@/components/buttons/RippleButton.vue'
 // import DashDotDrowpdown from '@/components/dropdowns/DashDotDrowpdown.vue'
 const isOpen = ref(false)
 const $body = document.querySelector('body')
+import { useTheme } from '@/composables/useTheme'
+
+const { toggleTheme, isDark } = useTheme()
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
@@ -90,7 +93,7 @@ const toggleSidebar = () => {
 }
 if ($body) {
   $body.addEventListener('click', (e) => {
-    if (!e.target.closest('.relative')) {
+    if (!(e.target as Element).closest('.relative')) {
       isOpen.value = false
     }
   })
