@@ -362,6 +362,24 @@
         </DashLayoutImage>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="slider" :rows="2" :cols="2" :gap="4">
+      <DashPanel :padding="2" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Slider Image</DashTypography>
+        <DashSlider :auto-slide="true" slider-style="with-controls-and-indicators">
+          <DashImage alt="Prop Image" :src="imgUrl" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+        </DashSlider>
+      </DashPanel>
+      <DashPanel :padding="2" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Slider Image</DashTypography>
+        <DashSlider :auto-slide="true" slider-style="with-controls-and-indicators">
+          <DashImage alt="Prop Image" :src="imgUrl" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+        </DashSlider>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -380,6 +398,7 @@ import DashProgressBar from '@/components/progressBar/DashProgressBar.vue'
 import DashPopover from '@/components/popover/DashPopover.vue'
 import DashModal from '@/components/modal/DashModal.vue'
 import DashImage from '@/components/image/DashImage.vue'
+import DashSlider from '@/components/image/DashSlider.vue'
 
 import imgUrl from '@/assets/img/img-1.jpg'
 import imgUrl2 from '@/assets/img/img-2.jpg'

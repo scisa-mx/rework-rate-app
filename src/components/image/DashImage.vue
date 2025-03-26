@@ -1,5 +1,14 @@
 <template>
-  <div :class="['aspect-video', 'bg-gray-200', 'rounded-lg', 'overflow-hidden', customStyles]">
+  <div
+    :class="[
+      'aspect-video',
+      'bg-gray-200',
+      'rounded-lg',
+      'overflow-hidden',
+      'slider-item',
+      customStyles,
+    ]"
+  >
     <img v-if="isLoaded" :src="src" :alt="alt" class="w-full h-full object-cover" />
   </div>
 </template>
@@ -26,3 +35,9 @@ onMounted(() => {
   }
 })
 </script>
+<style scoped>
+.slider-item {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+</style>
