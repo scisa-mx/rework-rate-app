@@ -343,6 +343,25 @@
         </section>
       </DashPanel>
     </DashGrid>
+    <DashGrid name="images" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Responsive Image</DashTypography>
+        <DashImage alt="Prop Image" :src="imgUrl3" />
+      </DashPanel>
+    </DashGrid>
+    <DashGrid name="grid-images" :rows="1" :cols="1" :gap="4">
+      <DashPanel :padding="4" :row-span="1" :col-span="1">
+        <DashTypography variant="h3">Grid Image</DashTypography>
+        <DashLayoutImage>
+          <DashImage alt="Prop Image" :src="imgUrl" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl" />
+        </DashLayoutImage>
+      </DashPanel>
+    </DashGrid>
   </main>
 </template>
 
@@ -360,8 +379,14 @@ import DashRibbon from '@/components/ribbon/DashRibbon.vue'
 import DashProgressBar from '@/components/progressBar/DashProgressBar.vue'
 import DashPopover from '@/components/popover/DashPopover.vue'
 import DashModal from '@/components/modal/DashModal.vue'
+import DashImage from '@/components/image/DashImage.vue'
+
+import imgUrl from '@/assets/img/img-1.jpg'
+import imgUrl2 from '@/assets/img/img-2.jpg'
+import imgUrl3 from '@/assets/img/img-3.jpg'
 
 import { useToast } from '@/@core/toast/useToast'
+import DashLayoutImage from '@/components/image/DashLayoutImage.vue'
 
 const { showToast } = useToast()
 
