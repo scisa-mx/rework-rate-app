@@ -20,7 +20,7 @@ const { colSpan, rowSpan, padding } = defineProps<PanelProps>()
 
 const panelStyles = computed(() => ({
   gridColumn: `col-span-${colSpan}`,
-  gridRow: `row-span-${rowSpan}`,
+  gridRow: rowSpan ? `row-span-${rowSpan}` : '',
   padding: `p-${padding}`,
 }))
 </script>

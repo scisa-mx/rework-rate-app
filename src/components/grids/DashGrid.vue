@@ -1,28 +1,29 @@
 <template>
-  <section
-    :name="name"
-    class="grid"
-    :class="[gridStyles.gridFlow, gridStyles.gridCols, gridStyles.gridRows, `gap-${gap}`]"
-  >
-    <slot></slot>
-  </section>
+  <div :class="gridClass">
+    <slot />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type GridProps = {
-  name: string
-  cols: number
-  rows: number
-  gap: number
+type DashGridProps = {
+  cols?: number
+  rows?: number
+  gap?: number
 }
 
-const { name, cols, rows, gap } = defineProps<GridProps>()
+const props = withDefaults(defineProps<DashGridProps>(), {
+  cols: 1,
+  rows: 1,
+  gap: 4,
+})
 
-const gridStyles = computed(() => ({
-  gridFlow: 'grid-flow-row md:grid-flow-col',
-  gridCols: `grid-cols-1 md:grid-cols-${cols}`,
-  gridRows: `grid-rows-${rows} md:grid-rows-${rows}`,
-}))
+const { cols = 1, rows = 1, gap = 4 } = props
+
+const gridClass = computed(() => {
+  return ['grid', `md:grid-cols-${cols}`, `gap-${gap}`, `grid-rows-${rows}`, `grid-cols-1`].join(
+    ' ',
+  )
+})
 </script>

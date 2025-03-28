@@ -362,9 +362,9 @@
         </DashLayoutImage>
       </DashPanel>
     </DashGrid>
-    <DashGrid name="slider" :rows="2" :cols="2" :gap="4">
+    <DashGrid name="slider" :rows="2" :cols="4" :gap="4">
       <DashPanel :padding="2" :row-span="1" :col-span="1">
-        <DashTypography variant="h3">Slider Image</DashTypography>
+        <DashTypography variant="h4">With controls and indicators</DashTypography>
         <DashSlider :auto-slide="true" slider-style="with-controls-and-indicators">
           <DashImage alt="Prop Image" :src="imgUrl" />
           <DashImage alt="Prop Image" :src="imgUrl3" />
@@ -372,8 +372,24 @@
         </DashSlider>
       </DashPanel>
       <DashPanel :padding="2" :row-span="1" :col-span="1">
-        <DashTypography variant="h3">Slider Image</DashTypography>
-        <DashSlider :auto-slide="true" slider-style="with-controls-and-indicators">
+        <DashTypography variant="h4">With controls</DashTypography>
+        <DashSlider :auto-slide="true" slider-style="with-controls">
+          <DashImage alt="Prop Image" :src="imgUrl" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+        </DashSlider>
+      </DashPanel>
+      <DashPanel :padding="2" :row-span="1" :col-span="1">
+        <DashTypography variant="h4">With indicator</DashTypography>
+        <DashSlider :auto-slide="true" slider-style="with-indicator">
+          <DashImage alt="Prop Image" :src="imgUrl" />
+          <DashImage alt="Prop Image" :src="imgUrl3" />
+          <DashImage alt="Prop Image" :src="imgUrl2" />
+        </DashSlider>
+      </DashPanel>
+      <DashPanel :padding="2" :row-span="2" :col-span="1">
+        <DashTypography variant="h4">Slides only</DashTypography>
+        <DashSlider :auto-slide="true" slider-style="slides-only">
           <DashImage alt="Prop Image" :src="imgUrl" />
           <DashImage alt="Prop Image" :src="imgUrl3" />
           <DashImage alt="Prop Image" :src="imgUrl2" />
