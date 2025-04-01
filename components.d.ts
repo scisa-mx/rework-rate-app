@@ -8,7 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DashAlert: typeof import('./src/components/alerts/DashAlert.vue')['default']
+    DashBaseCard: typeof import('./src/components/cards/DashBaseCard.vue')['default']
     DashButton: typeof import('./src/components/buttons/DashButton.vue')['default']
+    DashCard: typeof import('./src/components/cards/DashCard.vue')['default']
     DashCheckbox: typeof import('./src/components/checkboxes/DashCheckbox.vue')['default']
     DashContainer: typeof import('./src/components/containers/DashContainer.vue')['default']
     DashDatePicker: typeof import('./src/components/selects/DashDatePicker.vue')['default']
@@ -18,9 +20,13 @@ declare module 'vue' {
     DashDropwDown: typeof import('./src/components/dropdowns/DashDropwDown.vue')['default']
     DashFormGenerator: typeof import('./src/components/forms/DashFormGenerator.vue')['default']
     DashGrid: typeof import('./src/components/grids/DashGrid.vue')['default']
+    DashIconCard: typeof import('./src/components/cards/DashIconCard.vue')['default']
     DashImage: typeof import('./src/components/image/DashImage.vue')['default']
+    DashImageCard: typeof import('./src/components/cards/DashImageCard.vue')['default']
     DashInput: typeof import('./src/components/inputs/DashInput.vue')['default']
     DashLayoutImage: typeof import('./src/components/image/DashLayoutImage.vue')['default']
+    DashLink: typeof import('./src/components/link/DashLink.vue')['default']
+    DashLinkCard: typeof import('./src/components/cards/DashLinkCard.vue')['default']
     DashModal: typeof import('./src/components/modal/DashModal.vue')['default']
     DashPanel: typeof import('./src/components/grids/DashPanel.vue')['default']
     DashPopover: typeof import('./src/components/popover/DashPopover.vue')['default']
