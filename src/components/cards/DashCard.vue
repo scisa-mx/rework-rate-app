@@ -1,6 +1,6 @@
 <template>
   <div role="group" class="relative p-6 bg-white rounded-lg border border-gray-200">
-    <component :is="COMPONENT_CARDS[props.type]">
+    <component :is="COMPONENT_CARDS[props.type]" v-bind="props">
       <template #header>
         <slot name="header"></slot>
       </template>
@@ -16,14 +16,14 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
+import type { DashBaseCardProps } from '@/types/cards/card'
+// import { ref } from 'vue'
 
-type ComponentCardType = 'icon-card' | 'link-card' | 'img-card' | 'simple-card'
-
-type DashBaseCardProps = {
-  type: ComponentCardType
-}
-
-const props = defineProps<DashBaseCardProps>()
+const props = withDefaults(defineProps<DashBaseCardProps>(), {
+  type: 'icon-card',
+  loading: true,
+  disabled: false,
+})
 
 import IconCard from '@/components/cards/DashIconCard.vue'
 import LinkCard from '@/components/cards/DashLinkCard.vue'
@@ -36,4 +36,5 @@ const COMPONENT_CARDS: Record<string, Component> = {
   'img-card': ImgCard,
   'simple-card': SimpleCard,
 }
+// const loading = ref(props.loading)
 </script>

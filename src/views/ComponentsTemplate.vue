@@ -396,22 +396,39 @@
         </DashSlider>
       </DashPanel>
     </DashGrid>
-    <DashGrid name="cards" :rows="2" :cols="4" :gap="4">
-      <DashPanel :padding="2" :row-span="2" :col-span="2">
+    <DashGrid name="cards" :rows="1" :cols="2" :gap="4">
+      <DashPanel :padding="4" :row-span="2" :col-span="1">
         <DashCard type="simple-card">
           <template #header>
-            <DashLink href="#" text="Simple Card" icon-position="left" />
-            <DashLink href="#" text="Simple Card" icon-position="right" icon-type="arrow-right" />
+            <DashTypography variant="h5" class="font-bold text-gray-800 dark:text-gray-200">
+              Simple Card With Slots
+            </DashTypography>
+          </template>
+          <template #footer>
+            <section class="flex flex-col gap-4">
+              <DashTypography variant="caption" class="text-gray-500 dark:text-gray-400">
+                Simple Card
+              </DashTypography>
+              <DashLink text="See more" icon icon-position="right" />
+            </section>
+          </template>
+          <template #body>
+            <DashTypography variant="body" class="text-gray-600 dark:text-gray-400 mb-2">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi architecto aspernatur
+              cum et ipsum
+            </DashTypography>
           </template>
         </DashCard>
       </DashPanel>
-      <DashPanel :padding="2" :row-span="2" :col-span="2">
-        <DashCard type="simple-card">
-          <template #header>
-            <DashLink href="#" text="Simple Card" icon-position="left" />
-            <DashLink href="#" text="Simple Card" icon-position="right" icon-type="arrow-right" />
-          </template>
-        </DashCard>
+      <DashPanel :padding="4" :row-span="2" :col-span="1">
+        <DashCard
+          type="simple-card"
+          body="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi architecto aspernatur cum et ipsum"
+          header="Simple Card With Props"
+          footer="Simple Card"
+          label="See more"
+          :action="() => notify()"
+        ></DashCard>
       </DashPanel>
     </DashGrid>
   </main>
