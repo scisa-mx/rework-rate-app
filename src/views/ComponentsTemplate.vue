@@ -431,6 +431,28 @@
         ></DashCard>
       </DashPanel>
     </DashGrid>
+    <DashContainerGrid fluid>
+      <DashRow :padding="0" :gap="2">
+        <DashCol :col="6">
+          <DashContainerGrid :padding="4" fluid solid shadow>
+            <DashRow>
+              <DashCol :col="12">
+                <div class="bg-red-20">1</div>
+              </DashCol>
+            </DashRow>
+          </DashContainerGrid>
+        </DashCol>
+        <DashCol :col="6">
+          <DashContainerGrid :padding="4" fluid solid shadow>
+            <DashRow>
+              <DashCol :col="12">
+                <div class="bg-red-20">1</div>
+              </DashCol>
+            </DashRow>
+          </DashContainerGrid>
+        </DashCol>
+      </DashRow>
+    </DashContainerGrid>
   </main>
 </template>
 
@@ -452,6 +474,10 @@ import DashImage from '@/components/image/DashImage.vue'
 import DashSlider from '@/components/image/DashSlider.vue'
 import DashCard from '@/components/cards/DashCard.vue'
 import DashLink from '@/components/link/DashLink.vue'
+
+import DashContainerGrid from '@/components/grids/DashContainerGrid.vue'
+import DashRow from '@/components/grids/DashRow.vue'
+import DashCol from '@/components/grids/DashCol.vue'
 
 import imgUrl from '@/assets/img/img-1.jpg'
 import imgUrl2 from '@/assets/img/img-2.jpg'
