@@ -11,7 +11,7 @@
       <PopoverContent
         :side="props.side"
         :side-offset="props.sideOffset"
-        class="rounded-xs shadow-lg z-50 p-5 w-[260px] bg-white will-change-[transform ,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+        class="rounded-sm shadow-lg z-50 p-5 w-[260px] bg-white will-change-[transform ,opacity] data-[state=open]:data-[side=top]:animate-slide-up-and-fade data-[state=open]:data-[side=right]:animate-slide-left-and-fade data-[state=open]:data-[side=bottom]:animate-slide-down-and-fade data-[state=open]:data-[side=left]:animate-slide-left-and-fade"
       >
         <slot name="content" />
         <PopoverClose

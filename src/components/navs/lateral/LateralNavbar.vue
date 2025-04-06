@@ -6,7 +6,7 @@
       @click="closeMobileSidebar"
     ></div>
     <div class="h-[calc(100vh-30px)]">
-      <nav :class="navClasses" class="bg-white relative m-4 rounded-xs shadow-2xs">
+      <nav :class="navClasses" class="bg-white relative m-4 rounded-sm shadow">
         <div class="p-4 text-2xl font-bold">Mi App</div>
         <section class="flex-1">
           <ul class="mx-2">
@@ -18,7 +18,7 @@
           </ul>
         </section>
         <section v-if="!isMobile" class="mt-2" name="sidenav-footer">
-          <button @click="toggleNavbar" class="absolute bottom-4 w-full p-2">
+          <button @click="toggleNavbar" class="absolute bottom-4 w-full p-2 cursor-pointer">
             <span class="w-max flex justify-end items-end">
               <vue-feather class="text-slate-600" type="sidebar"></vue-feather>
             </span>

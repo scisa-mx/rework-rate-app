@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full overflow-hidden group">
+  <div class="relative w-full overflow-hidden group border-2 border-gray-200 rounded-lg">
     <slot />
 
     <div :class="[wrapperClasses, revealOnHover ? partialClasses : '']">

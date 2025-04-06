@@ -45,7 +45,7 @@ watch(
       <DateRangePickerRoot v-model="internalValue as DateRange">
         <DateRangePickerField
           v-slot="{ segments }"
-          class="flex justify-between data-[valid=false]:border-red-500 data-[valid=false]:border data-[valid=false]:ring-red select-none max-h-[35px] bg-white items-center rounded-xs border shadow-2xs data-invalid:border-red-500"
+          class="flex justify-between data-[valid=false]:border-red-500 data-[valid=false]:border data-[valid=false]:ring-red select-none max-h-[35px] bg-white items-center rounded-sm border border-gray-400 shadow-2xs data-invalid:border-red-500"
           :data-valid="props.isValid"
         >
           <div class="flex items-center px-3">
