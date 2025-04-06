@@ -82,7 +82,7 @@ const partialClasses = computed(() => {
 
 const ribbonClasses = computed(() => {
   return [
-    'flex items-center justify-center w-full text-sm font-semibold uppercase shadow px-5 py-2',
+    'flex items-center justify-center w-full text-sm font-semibold uppercase shadow-xs px-5 py-2',
     radiusMapper[props.position] || radiusMapper['top-left'],
     variantClasses[props.variant] || variantClasses['primary'],
   ].join(' ')

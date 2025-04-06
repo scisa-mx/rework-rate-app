@@ -3,7 +3,7 @@
     class="p-2 mb-2 rounded-md transition-all hover:bg-slate-100 relative group cursor-pointer"
     :class="[
       isActive
-        ? 'text-royal-purple-800 font-semibold bg-gradient-to-br from-royal-purple-300 to-royal-purple-100'
+        ? 'text-royal-purple-800 font-semibold bg-linear-to-br from-royal-purple-300 to-royal-purple-100'
         : '',
       !isOpen ? 'flex items-center justify-center' : '',
     ]"
@@ -31,7 +31,7 @@
     <!-- Tooltip -->
     <div
       v-if="!isOpen"
-      class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 bg-slate-800 text-white text-sm rounded px-2 py-1 shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 bg-slate-800 text-white text-sm rounded-xs px-2 py-1 shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     >
       {{ $t(props.item.name as string) }}
     </div>

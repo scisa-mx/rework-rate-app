@@ -52,7 +52,7 @@ watch(
     <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField
         v-slot="{ segments }"
-        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-sm shadow-royal-purple-800/10 items-center justify-between rounded text-center border"
+        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-2xs shadow-royal-purple-800/10 items-center justify-between rounded-xs text-center border"
         :data-valid="props.isValid"
       >
         <div class="flex items-center px-3">
@@ -71,7 +71,7 @@ watch(
             <DatePickerInput
               v-else
               :part="item.part"
-              class="rounded-sm text-sm p-0.5 focus:ring-2 focus:ring-royal-purple-500"
+              class="rounded-xs text-sm p-0.5 focus:ring-2 focus:ring-royal-purple-500"
             >
               <span
                 :class="[selectedDate ? 'text-slate-700' : 'text-slate-400']"
@@ -82,7 +82,7 @@ watch(
           </template>
         </div>
 
-        <DatePickerTrigger class="rounded p-1 focus:ring-2 focus:ring-royal-purple-500">
+        <DatePickerTrigger class="rounded-xs p-1 focus:ring-2 focus:ring-royal-purple-500">
           <vue-feather
             size="20"
             class="focus:ring-2 focus:ring-royal-purple-500"
@@ -143,7 +143,7 @@ watch(
                     <DatePickerCellTrigger
                       :day="weekDate"
                       :month="month.value"
-                      class="relative hover:bg-royal-purple-200 flex items-center justify-center whitespace-nowrap rounded-[9px] border border-transparent bg-transparent text-sm font-normal text-slate-700 w-8 h-8 outline-none focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 hover:border-royal-purple-800 data-[selected]:bg-royal-purple-700 data-[selected]:font-medium data-[disabled]:text-slate-700/30 data-[selected]:text-royal-purple-100 data-[unavailable]:pointer-events-none data-[unavailable]:text-slate-700/30 data-[unavailable]:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-[today]:before:block data-[selected]:before:bg-white"
+                      class="relative hover:bg-royal-purple-200 flex items-center justify-center whitespace-nowrap rounded-[9px] border border-transparent bg-transparent text-sm font-normal text-slate-700 w-8 h-8 outline-hidden focus:shadow-[0_0_0_2px] focus:shadow-royal-purple-800 hover:border-royal-purple-800 data-selected:bg-royal-purple-700 data-selected:font-medium data-disabled:text-slate-700/30 data-selected:text-royal-purple-100 data-unavailable:pointer-events-none data-unavailable:text-slate-700/30 data-unavailable:line-through before:absolute before:top-[5px] before:hidden before:rounded-full before:w-1 before:h-1 before:bg-white data-today:before:block data-selected:before:bg-white"
                     />
                   </DatePickerCell>
                 </DatePickerGridRow>

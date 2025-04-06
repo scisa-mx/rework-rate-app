@@ -7,22 +7,22 @@
 
       <div class="mt-6 w-full max-w-sm">
         <button
-          class="w-full flex items-center justify-center bg-white border border-gray-300 py-2 rounded-lg shadow-sm mb-3"
+          class="w-full flex items-center justify-center bg-white border border-gray-300 py-2 rounded-lg shadow-2xs mb-3"
         >
           <!-- <img src="/google-icon.svg" alt="Google" class="w-5 h-5 mr-2" /> -->
           Sign In with Google
         </button>
         <button
-          class="w-full flex items-center justify-center bg-white border border-gray-300 py-2 rounded-lg shadow-sm"
+          class="w-full flex items-center justify-center bg-white border border-gray-300 py-2 rounded-lg shadow-2xs"
         >
           <!-- <img src="/apple-icon.svg" alt="Apple" class="w-5 h-5 mr-2" /> -->
           Sign In with Apple
         </button>
 
         <div class="my-4 flex items-center">
-          <hr class="flex-grow border-gray-300" />
+          <hr class="grow border-gray-300" />
           <span class="mx-2 text-gray-400">Or continue with</span>
-          <hr class="flex-grow border-gray-300" />
+          <hr class="grow border-gray-300" />
         </div>
 
         <input

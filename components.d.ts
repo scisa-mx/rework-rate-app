@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DashAlert: typeof import('./src/components/alerts/DashAlert.vue')['default']
-    DashBaseCard: typeof import('./src/components/cards/DashBaseCard.vue')['default']
     DashButton: typeof import('./src/components/buttons/DashButton.vue')['default']
     DashCard: typeof import('./src/components/cards/DashCard.vue')['default']
     DashCheckbox: typeof import('./src/components/checkboxes/DashCheckbox.vue')['default']
@@ -19,7 +18,6 @@ declare module 'vue' {
     DashDateRangePicker: typeof import('./src/components/selects/DashDateRangePicker.vue')['default']
     DashDotDrowpdown: typeof import('./src/components/dropdowns/DashDotDrowpdown.vue')['default']
     DashDropwdown: typeof import('./src/components/dropdowns/DashDropwdown.vue')['default']
-    DashDropwDown: typeof import('./src/components/dropdowns/DashDropwDown.vue')['default']
     DashFormGenerator: typeof import('./src/components/forms/DashFormGenerator.vue')['default']
     DashGrid: typeof import('./src/components/grids/DashGrid.vue')['default']
     DashIconCard: typeof import('./src/components/cards/DashIconCard.vue')['default']
@@ -56,14 +54,11 @@ declare module 'vue' {
     LateralItemToggle: typeof import('./src/components/navs/lateral/LateralItemToggle.vue')['default']
     LateralNavbar: typeof import('./src/components/navs/lateral/LateralNavbar.vue')['default']
     LoadingOverlay: typeof import('./src/components/overlay/LoadingOverlay.vue')['default']
-    Overlay: typeof import('./src/components/overlay/Overlay.vue')['default']
     RippleButton: typeof import('./src/components/buttons/RippleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SimpleCard: typeof import('./src/components/cards/SimpleCard.vue')['default']
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
-    TabsContent: typeof import('radix-vue')['TabsContent']
-    TabsTrigger: typeof import('radix-vue')['TabsTrigger']
     ToastContainer: typeof import('./src/components/toast/ToastContainer.vue')['default']
   }
 }

@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 const buttonStyles = computed(() => ({
-  base: 'font-medium rounded-md focus:outline-none transition',
+  base: 'font-medium rounded-md focus:outline-hidden transition',
   primary:
     'text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 ease-out active:scale-95 focus:ring-4 focus:ring-purple-500',
   secondary:

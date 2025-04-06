@@ -1,7 +1,7 @@
 <template>
   <button
     name="ripple-button"
-    :class="`relative m-0 overflow-hidden py-2 px-4 flex justify-items-center justify-center rounded ${bgColor}`"
+    :class="`relative m-0 overflow-hidden py-2 px-4 flex justify-items-center justify-center rounded-xs ${bgColor}`"
     @click="createRipple"
   >
     <slot />

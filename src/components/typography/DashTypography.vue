@@ -45,7 +45,7 @@ const variantMapping: Record<string, { tag: string; class: string }> = {
   caption: { tag: 'span', class: 'text-xs' },
   overline: { tag: 'span', class: 'text-xs uppercase tracking-widest' },
   button: { tag: 'span', class: 'text-base font-semibold text-white' },
-  tag: { tag: 'span', class: 'px-2 py-1 text-xs bg-gray-200 rounded text-white' },
+  tag: { tag: 'span', class: 'px-2 py-1 text-xs bg-gray-200 rounded-xs text-white' },
 }
 
 // Computa la etiqueta a renderizar. Si se pasa el prop "tag", se utiliza este en lugar del mapeo.
