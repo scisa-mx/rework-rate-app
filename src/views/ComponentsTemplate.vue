@@ -200,28 +200,28 @@
         <section class="grid grid-cols-2 gap-4">
           <DashRibbon variant="primary" position="top-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded-xs shadow-2xs w-100">
+            <div class="p-4 rounded-sm shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon variant="primary" position="top-left">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded-xs shadow-2xs w-100 text-end">
+            <div class="p-4 rounded-sm shadow-2xs w-100 text-end">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon variant="primary" position="bottom-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded-xs shadow-2xs w-100">
+            <div class="p-4 rounded-sm shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon :reveal-on-hover="true" icon="star" variant="primary" position="top-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded-xs shadow-2xs w-100">
+            <div class="p-4 rounded-sm shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Ribbon in Hover</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
@@ -233,7 +233,7 @@
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <DashTypography variant="h3">Progress Bar</DashTypography>
         <section class="flex flex-col gap-3">
-          <section class="flex flex-col w-100 gap-3">
+          <section class="flex flex-col gap-3">
             <DashTypography variant="h4">Tamaños md</DashTypography>
             <DashProgressBar :value="75" variant="primary" />
             <DashProgressBar :value="20" variant="info" />
@@ -241,7 +241,7 @@
             <DashProgressBar :value="40" variant="warning" />
             <DashProgressBar :value="60" variant="error" />
           </section>
-          <section class="flex flex-col w-100 gap-3">
+          <section class="flex flex-col gap-3">
             <DashTypography variant="h4">Tamaños lg</DashTypography>
             <DashProgressBar size="lg" :value="75" variant="primary" />
             <DashProgressBar size="lg" :value="20" variant="info" />
@@ -249,7 +249,7 @@
             <DashProgressBar size="lg" :value="40" variant="warning" />
             <DashProgressBar size="lg" :value="60" variant="error" />
           </section>
-          <section class="flex flex-col w-100 gap-3">
+          <section class="flex flex-col gap-3">
             <DashTypography variant="h4">Tamaños sm</DashTypography>
             <DashProgressBar size="sm" :value="75" variant="primary" />
             <DashProgressBar size="sm" :value="20" variant="info" />

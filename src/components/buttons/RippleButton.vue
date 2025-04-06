@@ -1,7 +1,7 @@
 <template>
   <button
     name="ripple-button"
-    :class="`relative m-0 overflow-hidden py-2 px-4 flex justify-items-center justify-center rounded-xs ${bgColor}`"
+    :class="`relative m-0 cursor-pointer overflow-hidden py-2 px-4 flex justify-items-center justify-center rounded-md ${bgColor}`"
     @click="createRipple"
   >
     <slot />
@@ -31,8 +31,7 @@ const createRipple = (event: MouseEvent) => {
   ripple.style.width = ripple.style.height = `${size}px`
   ripple.style.left = `${x}px`
   ripple.style.top = `${y}px`
-  ripple.className =
-    'absolute bg-slate-400 opacity-50 rounded-full transform scale-0 animate-ripple'
+  ripple.className = 'absolute bg-gray-500/50 rounded-full transform animate-ripple'
 
   button.appendChild(ripple)
 

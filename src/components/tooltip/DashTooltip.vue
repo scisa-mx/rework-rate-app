@@ -8,7 +8,7 @@
         <TooltipContent
           :side="props.side"
           :side-offset="props.offset"
-          class="select-none rounded-md px-3 py-2 text-sm shadow-md will-change-[transform,opacity] data-[state=delayed-open]:data-[side=top]:animate-fadeIn data-[state=delayed-close]:data-[side=top]:animate-fadeOut"
+          class="select-none rounded-md px-3 py-2 text-sm shadow-md will-change-[transform,opacity] data-[state=delayed-open]:data-[side=top]:animate-fade-in data-[state=delayed-close]:data-[side=top]:animate-fade-out"
           :class="[variantStyles, animationClasses]"
         >
           <slot name="content">{{ props.content }}</slot>
@@ -34,7 +34,7 @@ type Side = 'top' | 'right' | 'bottom' | 'left'
 type TooltipVariant = 'default' | 'dark'
 
 const animationClasses =
-  'data-[state=delayed-open]:data-[side=top]:animate-fadeIn data-[state=delayed-open]:data-[side=bottom]:animate-fadeIn data-[state=delayed-open]:data-[side=rigth]:animate-fadeIn data-[state=delayed-open]:data-[side=left]:animate-fadeIn data-[state=delayed-close]:data-[side=top]:animate-fadeOut'
+  'data-[state=delayed-open]:data-[side=top]:animate-fade-in data-[state=delayed-open]:data-[side=bottom]:animate-fade-in data-[state=delayed-open]:data-[side=right]:animate-fade-in data-[state=delayed-open]:data-[side=left]:animate-fade-in data-[state=delayed-close]:data-[side=top]:animate-fade-out'
 
 type TooltipProps = {
   content: string

@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClasses" type="button">
+  <button class="cursor-pointer" :class="buttonClasses" type="button">
     <slot></slot>
   </button>
 </template>
@@ -17,11 +17,11 @@ const props = defineProps<{
 }>()
 
 const buttonStyles = computed(() => ({
-  base: 'font-medium rounded-md focus:outline-hidden transition',
+  base: 'font-medium rounded-md focus:outline-hidden transition cursor-pointer',
   primary:
     'text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 ease-out active:scale-95 focus:ring-4 focus:ring-purple-500',
   secondary:
-    'text-gray-800 bg-slate-200 hover:bg-slate-300 transition-all duration-300 ease-out active:scale-95',
+    'text-gray-800 bg-slate-200 hover:bg-slate-300 transition-all duration-300 ease-out active:scale-95 focus:ring-4 focus:ring-slate-100',
   success:
     'text-white bg-green-600 hover:bg-green-700 transition-all duration-300 ease-out active:scale-95 focus:ring-4 focus:ring-green-500',
   danger:

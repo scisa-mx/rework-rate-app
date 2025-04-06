@@ -12,7 +12,7 @@
         :key="trigger.title"
         :value="trigger.title"
         :disabled="trigger.disabled"
-        class="relative px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:text-gray-800 data-[state=active]:border-b-2 data-[state=active]:border-royal-purple-500 hover:bg-gray-50 focus:outline-hidden focus-visible:ring-3 data-disabled:text-gray-500 data-disabled:bg-gray-50 focus-visible:ring-blue-100"
+        class="relative cursor-pointer px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:text-gray-800 data-[state=active]:border-b-2 data-[state=active]:border-royal-purple-500 hover:bg-gray-50 focus:outline-hidden focus-visible:ring-3 data-disabled:text-gray-500 data-disabled:bg-gray-50 focus-visible:ring-blue-100"
       >
         {{ trigger.title }}
         <span

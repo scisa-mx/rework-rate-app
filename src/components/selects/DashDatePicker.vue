@@ -47,12 +47,12 @@ watch(
 </script>
 
 <template>
-  <fieldset :name="props.name" class="w-100">
+  <fieldset :name="props.name" class="">
     <label v-if="props.label" class="text-slate-700"> {{ props.label }}</label>
-    <DatePickerRoot class="w-100" id="date-field" v-model="selectedDate as CalendarDate">
+    <DatePickerRoot id="date-field" v-model="selectedDate as CalendarDate">
       <DatePickerField
         v-slot="{ segments }"
-        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-2xs shadow-royal-purple-800/10 items-center justify-between rounded-xs text-center border"
+        class="flex max-h-[35px] data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red focus:ring-2 focus:ring-royal-purple-500 bg-white shadow-2xs shadow-royal-purple-800/10 items-center justify-between rounded-sm text-center border border-gray-400"
         :data-valid="props.isValid"
       >
         <div class="flex items-center px-3">
@@ -71,18 +71,18 @@ watch(
             <DatePickerInput
               v-else
               :part="item.part"
-              class="rounded-xs text-sm p-0.5 focus:ring-2 focus:ring-royal-purple-500"
+              class="rounded-sm text-sm p-0.5 focus:ring-royal-purple-500"
             >
               <span
                 :class="[selectedDate ? 'text-slate-700' : 'text-slate-400']"
-                class="focus:ring-2 focus:ring-royal-purple-500"
+                class="focus:ring-royal-purple-500 focus:outline-none"
                 >{{ item.value }}</span
               >
             </DatePickerInput>
           </template>
         </div>
 
-        <DatePickerTrigger class="rounded-xs p-1 focus:ring-2 focus:ring-royal-purple-500">
+        <DatePickerTrigger class="rounded-sm p-1 focus:ring-2 focus:ring-royal-purple-500">
           <vue-feather
             size="20"
             class="focus:ring-2 focus:ring-royal-purple-500"

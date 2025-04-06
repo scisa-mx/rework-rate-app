@@ -30,7 +30,7 @@ watch(
     <TagsInputRoot
       :id="props.id"
       v-model="modelValue"
-      class="flex gap-2 items-center border shadow-2xs p-2 rounded-lg w-full max-w-[480px] flex-wrap bg-white hover:bg-royal-purple-50"
+      class="flex gap-2 items-center border border-gray-400 shadow-2xs p-2 rounded-sm w-full max-w-[480px] flex-wrap bg-white hover:bg-royal-purple-50"
       :class="{
         'ring-2 ring-royal-purple-500': isInputFocused,
         'data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red':
@@ -42,10 +42,10 @@ watch(
         v-for="item in modelValue"
         :key="item"
         :value="item"
-        class="text-white max-h-[35px] flex shadow-md items-center justify-center gap-2 bg-green8 bg-royal-purple-800 rounded-xs p-1"
+        class="text-white max-h-[35px] flex shadow-md items-center justify-center gap-2 bg-green8 bg-royal-purple-800 rounded-sm p-1"
       >
         <TagsInputItemText class="text-sm pl-1" />
-        <TagsInputItemDelete class="p-0.5 rounded-xs bg-transparent">
+        <TagsInputItemDelete class="p-0.5 cursor-pointer rounded-xs bg-transparent">
           <vue-feather type="x" />
         </TagsInputItemDelete>
       </TagsInputItem>
