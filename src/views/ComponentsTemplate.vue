@@ -200,28 +200,28 @@
         <section class="grid grid-cols-2 gap-4">
           <DashRibbon variant="primary" position="top-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded shadow-sm w-100">
+            <div class="p-4 border rounded-xs shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon variant="primary" position="top-left">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded shadow-sm w-100 text-end">
+            <div class="p-4 border rounded-xs shadow-2xs w-100 text-end">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon variant="primary" position="bottom-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded shadow-sm w-100">
+            <div class="p-4 border rounded-xs shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Mi Producto</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>
           </DashRibbon>
           <DashRibbon :reveal-on-hover="true" icon="star" variant="primary" position="top-right">
             <template #ribbon> New </template>
-            <div class="p-4 border rounded shadow-sm w-100">
+            <div class="p-4 border rounded-xs shadow-2xs w-100">
               <h2 class="text-lg font-semibold">Ribbon in Hover</h2>
               <p class="text-gray-700">Descripción del producto...</p>
             </div>

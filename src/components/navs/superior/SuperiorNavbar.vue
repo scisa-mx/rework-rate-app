@@ -1,5 +1,5 @@
 <template>
-  <nav class="mb-2 p-2 bg-white rounded shadow-sm">
+  <nav class="mb-2 p-2 bg-white rounded-xs shadow-2xs">
     <div class="flex justify-between items-center">
       <div>
         <button @click="toggleSidebar" class="">
@@ -21,7 +21,7 @@
           <button
             @click="toggleDropdown"
             type="button"
-            class="inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-royal-purple-500"
+            class="inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-royal-purple-500"
             id="menu-button"
             aria-expanded="true"
             aria-haspopup="true"
@@ -45,7 +45,7 @@
           <!-- Menú del dropdown -->
           <div
             v-if="isOpen"
-            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-hidden"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"

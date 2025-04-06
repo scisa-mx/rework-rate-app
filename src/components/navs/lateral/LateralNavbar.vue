@@ -6,7 +6,7 @@
       @click="closeMobileSidebar"
     ></div>
     <div class="h-[calc(100vh-30px)]">
-      <nav :class="navClasses" class="bg-white relative m-4 rounded shadow-sm">
+      <nav :class="navClasses" class="bg-white relative m-4 rounded-xs shadow-2xs">
         <div class="p-4 text-2xl font-bold">Mi App</div>
         <section class="flex-1">
           <ul class="mx-2">
