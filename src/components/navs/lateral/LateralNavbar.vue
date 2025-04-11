@@ -2,7 +2,7 @@
   <div class="bg-victoria-50 h-full transition-all" :class="isMobile ? 'w-0' : ''">
     <div
       v-if="isMobileOpen && isMobile"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40"
+      class="fixed inset-0 bg-black/50  z-40"
       @click="closeMobileSidebar"
     ></div>
     <div class="h-[calc(100vh-30px)]">

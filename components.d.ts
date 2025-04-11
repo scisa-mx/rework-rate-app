@@ -53,6 +53,7 @@ declare module 'vue' {
     LateraItem: typeof import('./src/components/navs/lateral/LateraItem.vue')['default']
     LateralItemToggle: typeof import('./src/components/navs/lateral/LateralItemToggle.vue')['default']
     LateralNavbar: typeof import('./src/components/navs/lateral/LateralNavbar.vue')['default']
+    LineChart: typeof import('./src/components/charts/lineCharts/LineChart.vue')['default']
     LoadingOverlay: typeof import('./src/components/overlay/LoadingOverlay.vue')['default']
     RippleButton: typeof import('./src/components/buttons/RippleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

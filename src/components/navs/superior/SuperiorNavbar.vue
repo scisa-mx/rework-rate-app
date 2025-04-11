@@ -2,7 +2,7 @@
   <nav class="mb-2 p-2 bg-white rounded-xs shadow-2xs">
     <div class="flex justify-between items-center">
       <div>
-        <button @click="toggleSidebar" class="">
+        <button @click="toggleSidebar" class="cursor-pointer">
           <vue-feather v-if="isMobile" type="menu"></vue-feather>
         </button>
       </div>
