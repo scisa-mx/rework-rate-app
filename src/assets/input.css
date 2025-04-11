@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-royal-purple-50: #faf6fe;
+  --color-royal-purple-100: #f2ebfc;
+  --color-royal-purple-200: #e7dafa;
+  --color-royal-purple-300: #d5bdf5;
+  --color-royal-purple-400: #bc93ed;
+  --color-royal-purple-500: #a16ae2;
+  --color-royal-purple-600: #8b4ad3;
+  --color-royal-purple-700: #7638b8;
+  --color-royal-purple-800: #663399;
+  --color-royal-purple-900: #522a79;
+  --color-royal-purple-950: #371358;
+
+  --color-gun-powder-50: #f7f7f8;
+  --color-gun-powder-100: #eeedf1;
+  --color-gun-powder-200: #d7d7e0;
+  --color-gun-powder-300: #b4b4c5;
+  --color-gun-powder-400: #8c8da4;
+  --color-gun-powder-500: #6e6f89;
+  --color-gun-powder-600: #585871;
+  --color-gun-powder-700: #48485c;
+  --color-gun-powder-800: #3e3e4e;
+  --color-gun-powder-900: #373743;
+  --color-gun-powder-950: #25242d;
+
+  --color-victoria-50: #f2f3fb;
+  --color-victoria-100: #e7e9f8;
+  --color-victoria-200: #d3d4f2;
+  --color-victoria-300: #b9bae8;
+  --color-victoria-400: #9f9cdd;
+  --color-victoria-500: #8c83d1;
+  --color-victoria-600: #7c6ac1;
+  --color-victoria-700: #6b59a9;
+  --color-victoria-800: #574a89;
+  --color-victoria-900: #49416e;
+  --color-victoria-950: #2b2640;
+
+  --animate-ripple: ripple 0.6s ease-out;
+  --animate-hide: hide 100ms ease-in;
+  --animate-slide-in: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-swipe-out: swipeOut 100ms ease-out;
+  --animate-fade-in: fadeIn 150ms ease-out;
+  --animate-fade-out: fadeOut 150ms ease-in;
+  --animate-slide-down-and-fade: slideDownAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-left-and-fade: slideLeftAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-up-and-fade: slideUpAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-right-and-fade: slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-overlay-show: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-content-show: contentShow 1s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+
+  @keyframes void {
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  @keyframes hide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes swipeOut {
+    from {
+      transform: translateX(var(--radix-toast-swipe-end-x));
+    }
+    to {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes slideDownAndFade {
+    from {
+      opacity: 0;
+      transform: translateY(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slideLeftAndFade {
+    from {
+      opacity: 0;
+      transform: translateX(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes slideUpAndFade {
+    from {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slideRightAndFade {
+    from {
+      opacity: 0;
+      transform: translateX(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
