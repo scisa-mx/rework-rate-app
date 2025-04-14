@@ -1,5 +1,6 @@
 import { type RouteRecordRaw } from 'vue-router'
 import DashBoard from '@/views/Dashboard.vue'
+import ComponentsTemplate from '@/views/ComponentsTemplate.vue'
 
 const ROUTES: RouteRecordRaw[] = [
   {

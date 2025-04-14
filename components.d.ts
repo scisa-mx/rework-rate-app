@@ -7,6 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BarChart: typeof import('./src/components/charts/barCharts/BarChart.vue')['default']
+    BaseWidget: typeof import('./src/components/features/dashboard/widgets/BaseWidget.vue')['default']
+    DasboardTable: typeof import('./src/components/features/dashboard/DasboardTable.vue')['default']
     DashAlert: typeof import('./src/components/alerts/DashAlert.vue')['default']
     DashButton: typeof import('./src/components/buttons/DashButton.vue')['default']
     DashCard: typeof import('./src/components/cards/DashCard.vue')['default']
@@ -36,6 +39,7 @@ declare module 'vue' {
     DashRow: typeof import('./src/components/grids/DashRow.vue')['default']
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSlider: typeof import('./src/components/image/DashSlider.vue')['default']
+    DashSpinner: typeof import('./src/components/spinners/DashSpinner.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTab: typeof import('./src/components/tabs/DashTab.vue')['default']
     DashTabs: typeof import('./src/components/tabs/DashTabs.vue')['default']
@@ -45,6 +49,7 @@ declare module 'vue' {
     DashTypeWritter: typeof import('./src/components/typography/DashTypeWritter.vue')['default']
     DashTypography: typeof import('./src/components/typography/DashTypography.vue')['default']
     FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
+    HistoricalWidget: typeof import('./src/components/features/dashboard/widgets/HistoricalWidget.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
@@ -55,6 +60,7 @@ declare module 'vue' {
     LateralNavbar: typeof import('./src/components/navs/lateral/LateralNavbar.vue')['default']
     LineChart: typeof import('./src/components/charts/lineCharts/LineChart.vue')['default']
     LoadingOverlay: typeof import('./src/components/overlay/LoadingOverlay.vue')['default']
+    OptionsWidget: typeof import('./src/components/features/dashboard/widgets/OptionsWidget.vue')['default']
     RippleButton: typeof import('./src/components/buttons/RippleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
