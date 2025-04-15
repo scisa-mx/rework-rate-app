@@ -5,6 +5,9 @@
         <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
           Historico Rework Rate
         </DashTypography>
+        <span>
+      {{ repos }}
+    </span>
       </section>
     </template>
     <template #options>
@@ -25,6 +28,7 @@
         <LineChart :key="JSON.stringify(datapoints)" :data="data" />
       </section>
     </template>
+
   </BaseWidget>
 </template>
 
@@ -32,7 +36,7 @@
 import BaseWidget from '@/components/features/dashboard/widgets/BaseWidget.vue'
 import { ref, onMounted, watch } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
-import { getReworkRate } from '@/services/reworkRate/fetchReworkRate'
+import { getAllRepos, getHistoryByRepo, getReworkRate } from '@/services/reworkRate/fetchReworkRate'
 
 import LineChart from '@/components/charts/lineCharts/LineChart.vue'
 import DashSelect from '@/components/selects/DashSelect.vue'
@@ -42,11 +46,26 @@ import type { ChartData } from 'chart.js'
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
 
+type Repos = {
+  name: string
+  url: string
+}
+
+type ReposHisoty = {
+  author: string
+  id: number
+  periodEnd: string
+  periodStart: string
+  prNumber: string
+  reworkPercentage: number
+}
+
 const COLORS = getPaletteColor()
 
 const labels = ref<string[]>([])
 const datapoints = ref<number[]>([])
 const isLoading = ref(false)
+const repos = ref<ReposHisoty[]>([])
 
 const emits = defineEmits<{
   (e: 'onload', value: boolean): void
@@ -76,26 +95,41 @@ const data: Ref<ChartData<'line'>> = ref({
 watch(
   () => repository.value,
   () => {
-    isLoading.value = true
-    setTimeout(() => {
-      isLoading.value = false
-    }, 1000)
+    handlerData(repository.value as string)
   },
 )
 
+
+const formatRepos = (reqs: Repos[]) => {
+  return reqs.map((repo) => {
+    return {
+      value: repo.url,
+      label: repo.name,
+    }
+  })
+}
+
+const handlerData = async (value: string) => {
+  isLoading.value = true
+  try {
+    repos.value = await getHistoryByRepo(value)
+  } catch {
+    console.error('Error fetching repository history')
+  } finally {
+    isLoading.value = false
+  }
+  
+}
+
 onMounted(async () => {
   isLoading.value = true
-  await getReworkRate()
-    .then((response) => {
-      data.value.labels = response.labels
-      data.value.datasets[0].data = response.datasets
-      datapoints.value = response.datasets
-    })
-    .catch((error) => {
-      console.error('Error fetching rework rate:', error)
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  try {
+    const data = await getAllRepos()
+    options.value = formatRepos(data)
+  } catch (error) {
+    console.error('Error fetching repositories:', error)
+  } finally {
+    isLoading.value = false
+  }
 })
 </script>

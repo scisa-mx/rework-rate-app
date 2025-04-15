@@ -1,4 +1,5 @@
-const { VITE_API_URL } = import.meta.env
+import { executeQuery } from '../baseGraphQl'
+import { GET_ALL_REPOS, GET_HISTORY_BY_REPO } from './querys'
 
 const datapoints = [12.3, 10.1, 8.5, 9.0, 7.4, 6.2, 5.8, 6.5, 7.1, 8.3, 9.2, 10.0]
 const labels = [
@@ -23,7 +24,7 @@ type ResponseGetReworkRate = {
 
 // => [{rework-rate}]
 
-// TODO: Despues implementar esto con graphql 
+// TODO: Despues implementar esto con graphql
 export const getReworkRate = async (): Promise<ResponseGetReworkRate> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -33,4 +34,29 @@ export const getReworkRate = async (): Promise<ResponseGetReworkRate> => {
       })
     }, 1000)
   })
+}
+
+export const getReworkData = async () => {
+  const query = `
+    query {
+      getReworkData {
+        id
+        repoUrl
+      }
+    }
+  `
+  const res = await executeQuery(query)
+  return res.data.getReworkData
+}
+
+export const getAllRepos = async () => {
+  const res = await executeQuery(GET_ALL_REPOS)
+  return res.data.getAllRepos
+}
+
+export const getHistoryByRepo = async (repoUrl: string) => {
+  const res = await executeQuery(GET_HISTORY_BY_REPO, {
+    repoUrl }
+  )
+  return res.data
 }
