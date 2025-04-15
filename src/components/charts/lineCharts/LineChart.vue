@@ -1,6 +1,6 @@
 <template>
   <section role="contentinfo">
-    <Line :data="props.data"></Line>
+    <Line :data="props.data" :options="chartOptions" />
   </section>
 </template>
 
@@ -16,27 +16,41 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
+import type { ChartData, ChartOptions } from 'chart.js'
 
-import type { ChartData, LineOptions } from 'chart.js'
-
+// Registrar componentes de Chart.js
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
 
+// Props
 interface LineChartProps {
   data: ChartData<'line'>
-  options?: LineOptions
-  callback?: (event: Event) => void
+  options?: ChartOptions<'line'>
 }
-
 const props = defineProps<LineChartProps>()
-const emit = defineEmits<{
-  callback: [event: Event]
-}>()
 
-const handlerCallback = (event: Event) => {
-  if (props.callback) {
-    props.callback && props.callback(event)
-    emit('callback', event)
+// Opciones con tooltip personalizado
+const chartOptions = {
+  ...props.options,
+  plugins: {
+    ...props.options?.plugins,
+    tooltip: {
+      callbacks: {
+        // Título del tooltip (por ejemplo, la categoría del eje X)
+        title: (tooltipItems) => {
+          return `Categoría: ${tooltipItems[0].label}`
+        },
+        // Texto principal del tooltip
+        label: (tooltipItem) => {
+          const value = tooltipItem.formattedValue
+          const label = tooltipItem.dataset.label ?? 'Valor'
+          return `${label}: ${value} 🔍`
+        },
+        // Texto adicional después del label
+        afterLabel: () => {
+          return '← este es el valor actual'
+        }
+      }
+    }
   }
-}
-
+} satisfies ChartOptions<'line'>
 </script>

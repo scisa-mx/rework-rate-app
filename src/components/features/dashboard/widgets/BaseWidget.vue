@@ -1,12 +1,14 @@
 <template>
-  <DashOverlay :isLoading="props.isLoading">
-    <article class="bg-white p-2 rounded" name="widget-board">
-      <slot name="header"></slot>
-      <slot name="options"></slot>
-      <slot name="main"></slot>
-      <slot name="footer"></slot>
-    </article>
-  </DashOverlay>
+  <article name="widget-board">
+    <DashOverlay :isLoading="props.isLoading">
+      <section class="bg-white p-2 rounded">
+        <slot name="header"></slot>
+        <slot name="options"></slot>
+        <slot name="main"></slot>
+        <slot name="footer"></slot>
+      </section>
+    </DashOverlay>
+  </article>
 </template>
 
 <script setup lang="ts">
@@ -14,14 +16,8 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 
 import DashOverlay from '@/components/overlay/DashOverlay.vue'
+import { STATE_WIDGET } from '@/types/widgets/widgets'
 
-enum STATE_WIDGET {
-  LOADING = 'loading',
-  ERROR = 'error',
-  SUCCESS = 'success',
-  DEFAULT = 'default',
-  DISABLED = 'disabled',
-}
 
 const props = defineProps({
   isLoading: {

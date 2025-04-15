@@ -7,7 +7,7 @@
     <Transition name="fade">
       <div
         v-if="isLoading"
-        class="absolute inset-0 bg-gray-800/50 flex items-center justify-center z-50"
+        class="absolute inset-0 bg-gray-800/50 flex items-center justify-center z-50 rounded"
       >
         <DashSpinner />
       </div>
@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-ignore
 import DashSpinner from '@/components/spinners/DashSpinner.vue';
 
 interface Props {
