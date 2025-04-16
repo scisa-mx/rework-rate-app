@@ -1,39 +1,31 @@
 <template>
-  <BaseWidget :isLoading="isLoading">
-    <template #header>
-      <section class="w-full">
-        <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
-          Historico Rework Rate
-        </DashTypography>
-        <span>
-      {{ repos }}
-    </span>
-      </section>
-    </template>
-    <template #options>
-      <section class="flex justify-between" name="historical-widget-options">
-        <div>
-          <DashSelect
-            id="repository-hisorical"
-            :is-valid="true"
-            v-model="repository"
-            :options="options"
-            :placeholder="'Selecciona un repositorio'"
-          />
-        </div>
-      </section>
-    </template>
-    <template #main>
-      <section class="col-span-1">
-        <LineChart :key="JSON.stringify(datapoints)" :data="data" />
-      </section>
-    </template>
-
-  </BaseWidget>
+  <div>
+    <section class="w-full">
+      <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
+        Historico Rework Rate
+      </DashTypography>
+      <span>
+        {{ repos }}
+      </span>
+    </section>
+    <section class="flex justify-between" name="historical-widget-options">
+      <div>
+        <DashSelect
+          id="repository-hisorical"
+          :is-valid="true"
+          v-model="repository"
+          :options="options"
+          :placeholder="'Selecciona un repositorio'"
+        />
+      </div>
+    </section>
+    <section class="w-full">
+      <LineChart :key="JSON.stringify(datapoints)" :data="data" />
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import BaseWidget from '@/components/features/dashboard/widgets/BaseWidget.vue'
 import { ref, onMounted, watch } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import { getAllRepos, getHistoryByRepo, getReworkRate } from '@/services/reworkRate/fetchReworkRate'
@@ -63,7 +55,7 @@ type ReposHisoty = {
 const COLORS = getPaletteColor()
 
 const labels = ref<string[]>([])
-const datapoints = ref<number[]>([])
+const datapoints = ref<number[]>([3.45, 2.1, 5, 4.89, 1.0, 6.0, 3.33, 2.78, 5.15, 4.0, 1.22, 3.5])
 const isLoading = ref(false)
 const repos = ref<ReposHisoty[]>([])
 
@@ -77,6 +69,7 @@ const options = ref<DashOptionSelect[]>([
 ])
 
 const repository = ref<string>('')
+
 
 const data: Ref<ChartData<'line'>> = ref({
   labels: labels.value,
@@ -99,7 +92,6 @@ watch(
   },
 )
 
-
 const formatRepos = (reqs: Repos[]) => {
   return reqs.map((repo) => {
     return {
@@ -118,7 +110,6 @@ const handlerData = async (value: string) => {
   } finally {
     isLoading.value = false
   }
-  
 }
 
 onMounted(async () => {

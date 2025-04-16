@@ -1,29 +1,32 @@
 <template>
-  <div class="flex flex-row-reverse bg-white p-2 mb-4 shadow rounded">
+  <div class="flex flex-row-reverse bg-white p-2 gap-2 mb-4 shadow rounded">
+    <DashButton @click="handlerModifyDashboard" size="md" variant="secondary">
+      <span class="flex items-center gap-1">
+        <vue-feather size="18" type="refresh-cw" />
+        Editar dashboard
+      </span>
+    </DashButton>
     <DropdownMenuRoot v-model:open="toggleState">
       <DropdownMenuTrigger>
         <DashButton variant="primary" size="md">
           <span class="flex items-center gap-1">
-            Opciones
+            Acciones
             <vue-feather size="18" type="chevron-down" />
           </span>
         </DashButton>
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
         <DropdownMenuContent
-          :side="'left'"
+          :side="'bottom'"
           class="min-w-[220px] shadow outline-none bg-white rounded-md p-[5px] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
           :side-offset="5"
         >
           <DropdownMenuSub>
             <DropdownMenuSubTrigger
               value="more toolsz"
-              class="group w-full text-[13px] cursor-pointer leading-none text-royal-purple-500 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-green4 data-[state=open]:text-grass11 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-green9 data-[highlighted]:text-green1 data-[highlighted]:data-[state=open]:bg-green9 data-[highlighted]:data-[state=open]:text-green1"
+              class="group w-full text-[13px] cursor-pointer leading-none text-royal-gray-800 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-royal-purple-50 data-[state=open]:text-royal-purple-500 data-[disabled]:text-gray-500 data-[disabled]:pointer-events-none data-[highlighted]:bg-royal-purple-50 data-[highlighted]:text-royal-purple-500 data-[highlighted]:data-[state=open]:bg-green9 data-[highlighted]:data-[state=open]:text-green1"
             >
-              <span class="flex">
-                Agregar widget
-                <vue-feather size="13" type="plus" class="ml-auto" />
-              </span>
+              <span class="flex gap-1 items-center"> Agregar widget </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent
@@ -44,6 +47,7 @@
         </DropdownMenuContent>
       </DropdownMenuPortal>
     </DropdownMenuRoot>
+    <div></div>
   </div>
 </template>
 
@@ -73,7 +77,6 @@ import DashButton from '@/components/buttons/DashButton.vue'
 
 import { TYPE_WIDGET } from '@/types/widgets/widgets'
 
-
 const WIDGETS = [
   {
     id: 'historical',
@@ -92,4 +95,7 @@ const addWidget = (widgetType: TYPE_WIDGET) => {
   alert('Agregando widget: ' + widgetType)
 }
 
+const handlerModifyDashboard = () => {
+  alert('Modificar dashboard')
+}
 </script>

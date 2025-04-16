@@ -23,26 +23,28 @@ export interface GridItem {
   y: number
   w: number
   h: number
-  minW: number
-  maxW: number
-  minH: number
-  maxH: number
-  isDraggable: boolean
-  isResizable: boolean
-  isBounded: boolean
-  static: boolean
-  dragIgnoreFrom: string
-  dragAllowFrom: string
-  resizeIgnoreFrom: string
-  preserveAspectRatio: boolean
-  dragOption: object
-  rezizeOption: object
+  minW?: number
+  maxW?: number
+  minH?: number
+  maxH?: number
+  isDraggable?: boolean
+  isResizable?: boolean
+  isBounded?: boolean
+  static?: boolean
+  dragIgnoreFrom?: string
+  dragAllowFrom?: string
+  resizeIgnoreFrom?: string
+  preserveAspectRatio?: boolean
+  dragOption?: object
+  rezizeOption?: object
 }
 
-export interface Widget {
+export interface Widget extends GridItem {
   id: string
   name?: string
   typeChart: TYPE_CHART
   state: STATE_WIDGET
-  index: number
+  typeWidget: TYPE_WIDGET
 }
+
+
