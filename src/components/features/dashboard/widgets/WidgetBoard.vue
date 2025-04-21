@@ -33,7 +33,7 @@ const layout = reactive<Widget[]>([
     x: 0,
     y: 0,
     w: 6,
-    h: 2,
+    h: 10,
     i: '0',
     id: 'historical-widget',
     typeChart: TYPE_CHART.LINE,

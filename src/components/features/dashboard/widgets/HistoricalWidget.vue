@@ -55,7 +55,7 @@ type ReposHisoty = {
 const COLORS = getPaletteColor()
 
 const labels = ref<string[]>([])
-const datapoints = ref<number[]>([3.45, 2.1, 5, 4.89, 1.0, 6.0, 3.33, 2.78, 5.15, 4.0, 1.22, 3.5])
+const datapoints = ref<number[]>([12.3, 10.1, 8.5, 9.0, 7.4, 6.2, 5.8, 6.5, 7.1, 8.3, 9.2, 10.0])
 const isLoading = ref(false)
 const repos = ref<ReposHisoty[]>([])
 
