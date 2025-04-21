@@ -1,0 +1,22 @@
+{
+  "name": "rework-rate-app",
+  "version": "1.0.0",
+  "description": "App para rework-rate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "js",
+    "frontend",
+    "siglo"
+  ],
+  "author": "SCISA Development Team",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.18.1",
+    "path": "^0.12.7",
+    "serve-static": "^1.15.0"
+  }
+}
