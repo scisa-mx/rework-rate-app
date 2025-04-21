@@ -2,7 +2,7 @@
 
 # Stage 1: Base image.
 ## Start with a base image containing NodeJS so we can build Docusaurus.
-FROM node:18.17.0 as base
+FROM node:18.17.0 AS base
 ## Disable colour output from yarn to make logs easier to read.
 ENV FORCE_COLOR=0
 
