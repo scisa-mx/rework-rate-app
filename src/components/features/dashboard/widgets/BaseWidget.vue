@@ -5,15 +5,15 @@
     :w="layoutItem.w"
     :h="layoutItem.h"
     :i="layoutItem.i"
-    class="bg-white rounded shadow-sm"
+    class=""
   >
-    <article ref="widgetContent" name="widget-board">
-      <DashOverlay :isLoading="isLoading">
-        <section class="bg-white p-2 rounded">
-          <slot @onLoad="handlerLoad" name="main"></slot>
+  <DashOverlay :isLoading="isLoading">
+    <article class="bg-white rounded shadow-sm py-3" ref="widgetContent" name="widget-board">
+        <section class="bg-white px-2 rounded">
+          <slot name="main"></slot>
         </section>
-      </DashOverlay>
-    </article>
+      </article>
+    </DashOverlay>
   </GridItem>
 </template>
 
@@ -21,6 +21,7 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { useAutoResize } from '@/@core/widgets/autoResize'
+import { provide } from 'vue'
 
 import DashOverlay from '@/components/overlay/DashOverlay.vue'
 import { GridItem } from 'grid-layout-plus'
@@ -33,13 +34,16 @@ const props = defineProps<{
 
 const stateWidget: Ref<STATE_WIDGET> = ref(STATE_WIDGET.DEFAULT)
 
-const isLoading = ref()
+const isLoading = ref(false)
+
+provide('isLoading', isLoading)
 
 const widgetContent = ref<HTMLElement | null>(null)
 
 useAutoResize(widgetContent, props.layoutItem, 30)
 
 const handlerLoad = (value: boolean) => {
+  debugger
   isLoading.value = value
 }
 

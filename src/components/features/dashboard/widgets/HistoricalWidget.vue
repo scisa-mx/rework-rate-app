@@ -5,7 +5,6 @@
         Historico Rework Rate
       </DashTypography>
       <span>
-        {{ repos }}
       </span>
     </section>
     <section class="flex justify-between" name="historical-widget-options">
@@ -19,8 +18,8 @@
         />
       </div>
     </section>
-    <section class="w-full">
-      <LineChart :key="JSON.stringify(datapoints)" :data="data" />
+    <section name="box-chart" class="">
+      <LineChart :options="optionsChart" :key="JSON.stringify(data)" :data="data" />
     </section>
   </div>
 </template>
@@ -29,6 +28,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import { getAllRepos, getHistoryByRepo, getReworkRate } from '@/services/reworkRate/fetchReworkRate'
+import { inject } from 'vue'
 
 import LineChart from '@/components/charts/lineCharts/LineChart.vue'
 import DashSelect from '@/components/selects/DashSelect.vue'
@@ -37,6 +37,7 @@ import DashTypography from '@/components/typography/DashTypography.vue'
 import type { ChartData } from 'chart.js'
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
+import type { ReworkRate } from '@/types/benchmarks/rework-rate'
 
 type Repos = {
   name: string
@@ -54,14 +55,9 @@ type ReposHisoty = {
 
 const COLORS = getPaletteColor()
 
-const labels = ref<string[]>([])
-const datapoints = ref<number[]>([12.3, 10.1, 8.5, 9.0, 7.4, 6.2, 5.8, 6.5, 7.1, 8.3, 9.2, 10.0])
-const isLoading = ref(false)
-const repos = ref<ReposHisoty[]>([])
+const repos = ref<ReworkRate[]>([])
 
-const emits = defineEmits<{
-  (e: 'onload', value: boolean): void
-}>()
+const isLoading = inject('isLoading') as Ref<boolean>
 
 const options = ref<DashOptionSelect[]>([
   { value: 'option1', label: 'Option 1' },
@@ -72,11 +68,11 @@ const repository = ref<string>('')
 
 
 const data: Ref<ChartData<'line'>> = ref({
-  labels: labels.value,
+  labels: [],
   datasets: [
     {
       label: 'Rework rate en los meses por porcentaje',
-      data: datapoints.value,
+      data: [],
       borderColor: COLORS['primary-800'],
       fill: false,
       cubicInterpolationMode: 'monotone' as const,
@@ -84,6 +80,11 @@ const data: Ref<ChartData<'line'>> = ref({
     },
   ],
 })
+
+const optionsChart = {
+  responsive: true,
+  maintainAspectRatio: false,
+}
 
 watch(
   () => repository.value,
@@ -105,11 +106,31 @@ const handlerData = async (value: string) => {
   isLoading.value = true
   try {
     repos.value = await getHistoryByRepo(value)
+    const values = formatDatesForChart(repos.value)
+    data.value.labels = values.labels
+    data.value.datasets[0].data = values.datapoints 
   } catch {
     console.error('Error fetching repository history')
   } finally {
-    isLoading.value = false
+    // Better UX to show loading for a bit even if the data is already loaded
+    setTimeout(() => {
+      isLoading.value = false
+    }, 500)
   }
+}
+
+const formatDatesForChart = (repos: ReworkRate[]) => {
+  const labels: string[] = []
+  const datapoints: number[] = []
+  repos.forEach((repo) => {
+    const date = new Date(repo.periodStart)
+    const month = date.toLocaleString('default', { month: 'long' })
+    const day = date.getDate()
+    const year = date.getFullYear()
+    labels.push(`${day}-${month}-${year}`)
+    datapoints.push(repo.reworkPercentage)
+  })
+  return { labels, datapoints }
 }
 
 onMounted(async () => {

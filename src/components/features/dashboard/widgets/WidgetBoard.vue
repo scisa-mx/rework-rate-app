@@ -10,7 +10,7 @@
       use-css-transforms
     >
       <template v-for="(layoutItem, index) in layout" :key="index">
-        <BaseWidget :layoutItem="layoutItem" :isLoading="false">
+        <BaseWidget :layoutItem="layoutItem">
           <template #main>
             <component :layoutItem="layoutItem" :is="COMPONENT_HASH[layoutItem.typeWidget]"> </component>
           </template>
@@ -49,4 +49,5 @@ const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
 }
 
 const isDraggable = ref(false)
+
 </script>
