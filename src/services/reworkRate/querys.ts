@@ -7,14 +7,22 @@ query{
 }   
 `
 export const GET_HISTORY_BY_REPO = `
-    query GetReworkHistory($repoUrl: String!) {
-      getReworkHistory(repoUrl: $repoUrl) {
-        id
-        prNumber
-        author
-        periodStart
-        periodEnd
-        reworkPercentage
-      }
+  query GetReworkHistory($repoUrl: String!, $startDate: DateTime, $endDate: DateTime) {
+    getReworkHistory(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {
+      id
+      prNumber
+      author
+      periodStart
+      periodEnd
+      reworkPercentage
     }
-  `
+  }`
+
+export const GET_MEAN_AND_MEDIAN = `
+  query GetMeanAndMedian($repoUrl: String!, $startDate: DateTime, $endDate: DateTime) {
+    getMeanAndMedian(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {
+      mean
+      median
+    }
+  }
+`

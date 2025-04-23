@@ -73,7 +73,9 @@ export const dateValueToIso = (date: DateValue): string => {
  * console.log(result) // object DateValue
  * ```
  **/
-export const isoToDateValue = (isoDate: string): DateValue => {
+export const isoToDateValue = (isoDate: string | undefined): DateValue | undefined => {
+  if (!isoDate) return undefined
+
   const date = new Date(isoDate)
 
   const calendar = new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())

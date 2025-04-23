@@ -58,7 +58,7 @@ export type DashDateRangePickerInput = DashInputBase & {
 }
 
 export type DashDatePickerProps = InputBaseProps & {
-  modelValue: string
+  modelValue: string | undefined
 }
 
 export type DateRangeSchema = {
