@@ -50,4 +50,6 @@ const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
 
 const isDraggable = ref(false)
 
+
+
 </script>
