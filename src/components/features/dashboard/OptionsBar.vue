@@ -6,6 +6,7 @@
         Editar dashboard
       </span>
     </DashButton>
+
     <DropdownMenuRoot v-model:open="toggleState">
       <DropdownMenuTrigger>
         <DashButton variant="primary" size="md">
@@ -15,29 +16,32 @@
           </span>
         </DashButton>
       </DropdownMenuTrigger>
+
       <DropdownMenuPortal>
         <DropdownMenuContent
           :side="'bottom'"
-          class="min-w-[220px] shadow outline-none bg-white rounded-md p-[5px] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
+          class="min-w-[220px] shadow outline-none bg-white rounded-md p-[5px]"
           :side-offset="5"
         >
           <DropdownMenuSub>
             <DropdownMenuSubTrigger
-              value="more toolsz"
-              class="group w-full text-[13px] cursor-pointer leading-none text-royal-gray-800 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-royal-purple-50 data-[state=open]:text-royal-purple-500 data-[disabled]:text-gray-500 data-[disabled]:pointer-events-none data-[highlighted]:bg-royal-purple-50 data-[highlighted]:text-royal-purple-500 data-[highlighted]:data-[state=open]:bg-green9 data-[highlighted]:data-[state=open]:text-green1"
+              value="more tools"
+              class="group w-full text-[13px] cursor-pointer leading-none text-royal-gray-800 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
             >
               <span class="flex gap-1 items-center"> Agregar widget </span>
             </DropdownMenuSubTrigger>
+
             <DropdownMenuPortal>
               <DropdownMenuSubContent
-                class="min-w-[220px] outline-none bg-white rounded-md p-[5px] shadow will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
+                class="min-w-[220px] outline-none bg-white rounded-md p-[5px] shadow"
                 :side-offset="2"
                 :align-offset="-5"
               >
                 <DropdownMenuItem
                   v-for="widgettype in WIDGETS"
+                  :key="widgettype.id"
                   @click="addWidget(widgettype.widgetType)"
-                  class="group text-[13px] leading-none rounded flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-gray-500 data-[disabled]:pointer-events-none data-[highlighted]:bg-royal-purple-50 data-[highlighted]:text-royal-purple-500 cursor-pointer"
+                  class="group text-[13px] leading-none rounded flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
                 >
                   {{ widgettype.name }}
                 </DropdownMenuItem>
@@ -47,35 +51,15 @@
         </DropdownMenuContent>
       </DropdownMenuPortal>
     </DropdownMenuRoot>
-    <div></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import {
-  DropdownMenuArrow,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuItemIndicator,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuRoot,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from 'radix-vue'
-
-const toggleState: Ref<boolean> = ref(false)
+import { ref, onMounted } from 'vue'
 import DashButton from '@/components/buttons/DashButton.vue'
-
 import { TYPE_WIDGET } from '@/types/widgets/widgets'
+
+const toggleState = ref(false)
 
 const WIDGETS = [
   {
@@ -90,9 +74,64 @@ const WIDGETS = [
   },
 ]
 
+const widgetsInLocalStorage = ref<any[]>([])
+
+// Función para agregar widget
 const addWidget = (widgetType: TYPE_WIDGET) => {
   toggleState.value = false
+
+  // Guardamos el widget en el array
+  const newWidget = {
+    id: widgetType,
+    type: widgetType,
+    state: 'READY', // Estado inicial del widget
+  }
+
+  widgetsInLocalStorage.value.push(newWidget)
+  saveWidgetsToLocalStorage()
   alert('Agregando widget: ' + widgetType)
+}
+
+// Función para guardar los widgets en el localStorage
+const saveWidgetsToLocalStorage = () => {
+  localStorage.setItem('widgets', JSON.stringify(widgetsInLocalStorage.value))
+}
+
+// Función para cargar los widgets desde localStorage
+const loadWidgetsFromLocalStorage = () => {
+  const storedWidgets = localStorage.getItem('widgets')
+  if (storedWidgets) {
+    widgetsInLocalStorage.value = JSON.parse(storedWidgets)
+  }
+}
+
+// Al montar el componente, cargamos los widgets desde localStorage
+onMounted(() => {
+  loadWidgetsFromLocalStorage()
+  fetchWidgetsData() // Hacemos la petición de los widgets cargados
+})
+
+// Función para hacer las peticiones de los widgets
+const fetchWidgetsData = async () => {
+  for (const widget of widgetsInLocalStorage.value) {
+    if (widget.state === 'READY') {
+      await fetchWidgetData(widget)
+    }
+  }
+}
+
+// Simulación de la función de petición de datos
+const fetchWidgetData = async (widget: any) => {
+  try {
+    console.log(`Fetching data for widget ${widget.id}`)
+    // Simular la actualización de datos y el cambio de estado
+    widget.state = 'DATA_IMPLEMENTED'
+    saveWidgetsToLocalStorage()
+  } catch (error) {
+    widget.state = 'ERROR'
+    saveWidgetsToLocalStorage()
+    console.error('Error fetching data for widget', error)
+  }
 }
 
 const handlerModifyDashboard = () => {
