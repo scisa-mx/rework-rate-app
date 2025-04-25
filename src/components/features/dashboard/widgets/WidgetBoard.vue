@@ -24,9 +24,12 @@
 import { reactive, ref, type Component } from 'vue'
 import { GridLayout } from 'grid-layout-plus'
 import { TYPE_CHART, STATE_WIDGET, TYPE_WIDGET, type Widget } from '@/types/widgets/widgets'
+import { useDashboardStore } from '@/stores/dashboard'
 import BaseWidget from '@/components/features/dashboard/widgets/BaseWidget.vue'
 
 import HistoricalWidget from '@/components/features/dashboard/widgets/HistoricalWidget.vue'
+
+const dashboardStore = useDashboardStore()
 
 const layout = reactive<Widget[]>([
   {
@@ -50,6 +53,11 @@ const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
 
 const isDraggable = ref(false)
 
-
+dashboardStore.$subscribe((mutation, _) => {
+  const event = Array.isArray(mutation.events) ? mutation.events[0] : mutation.events;
+  if (event?.key === "isDraggable") {
+    isDraggable.value = event.newValue;
+  }
+})
 
 </script>

@@ -47,4 +47,16 @@ export interface Widget extends GridItem {
   typeWidget: TYPE_WIDGET
 }
 
+export const WIDGETS_LIST = [
+  {
+    id: 'historical',
+    name: 'Historico',
+    widgetType: TYPE_WIDGET.HISTORICAL,
+  },
+  {
+    id: 'media',
+    name: 'Mediana y Media',
+    widgetType: TYPE_WIDGET.MEDIA,
+  },
+]
 

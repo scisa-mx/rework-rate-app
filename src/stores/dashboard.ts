@@ -17,7 +17,7 @@ export const useDashboardStore = defineStore('dashboard', {
     },
     UPDATE_WIDGETS_TO_LOCAL_STORAGE() {
     },
-    CHANGE_DRAGGABLE() {
+    CHANGE_STATE_BOARD() {
       this.isDraggable = !this.isDraggable
     }
   },

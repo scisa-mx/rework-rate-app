@@ -1,9 +1,13 @@
 <template>
   <div class="flex flex-row-reverse bg-white p-2 gap-2 mb-4 shadow rounded">
     <DashButton @click="handlerModifyDashboard" size="md" variant="secondary">
-      <span class="flex items-center gap-1">
+      <span v-if="!stateBoard" class="flex items-center gap-1">
         <vue-feather size="18" type="edit" />
         Editar dashboard
+      </span>
+      <span v-else class="flex items-center gap-1">
+        <vue-feather size="18" type="edit" />
+        Congelar dashboard
       </span>
     </DashButton>
     <DropdownMenuRoot v-model:open="toggleState">
@@ -35,7 +39,7 @@
                 :align-offset="-5"
               >
                 <DropdownMenuItem
-                  v-for="widgettype in WIDGETS"
+                  v-for="widgettype in WIDGETS_LIST"
                   @click="addWidget(widgettype.widgetType)"
                   class="group text-[13px] leading-none rounded flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-gray-500 data-[disabled]:pointer-events-none data-[highlighted]:bg-royal-purple-50 data-[highlighted]:text-royal-purple-500 cursor-pointer"
                 >
@@ -55,17 +59,10 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import {
-  DropdownMenuArrow,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuItemIndicator,
-  DropdownMenuLabel,
   DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuRoot,
-  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -76,19 +73,12 @@ const toggleState: Ref<boolean> = ref(false)
 import DashButton from '@/components/buttons/DashButton.vue'
 
 import { TYPE_WIDGET } from '@/types/widgets/widgets'
+import { WIDGETS_LIST } from '@/types/widgets/widgets' 
 
-const WIDGETS = [
-  {
-    id: 'historical',
-    name: 'Historico',
-    widgetType: TYPE_WIDGET.HISTORICAL,
-  },
-  {
-    id: 'media',
-    name: 'Mediana y Media',
-    widgetType: TYPE_WIDGET.MEDIA,
-  },
-]
+import { useDashboardStore } from '@/stores/dashboard'
+
+const dashboardStore = useDashboardStore()
+const stateBoard = ref(false)
 
 const addWidget = (widgetType: TYPE_WIDGET) => {
   toggleState.value = false
@@ -96,6 +86,8 @@ const addWidget = (widgetType: TYPE_WIDGET) => {
 }
 
 const handlerModifyDashboard = () => {
-  alert('Modificar dashboard')
+  dashboardStore.CHANGE_STATE_BOARD()
+  stateBoard.value = !stateBoard.value
 }
+
 </script>
