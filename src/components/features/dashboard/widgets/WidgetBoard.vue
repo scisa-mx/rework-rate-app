@@ -8,6 +8,7 @@
       :is-resizable="false"
       vertical-compact
       use-css-transforms
+      @layout-updated="handlerUpdateLayout"
     >
       <template v-for="(layoutItem, index) in layout" :key="index">
         <BaseWidget :layoutItem="layoutItem">
@@ -21,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, type Component } from 'vue'
+import { onMounted, reactive, ref, type Component } from 'vue'
 import { GridLayout } from 'grid-layout-plus'
 import { TYPE_CHART, STATE_WIDGET, TYPE_WIDGET, type Widget } from '@/types/widgets/widgets'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -31,7 +32,7 @@ import HistoricalWidget from '@/components/features/dashboard/widgets/Historical
 
 const dashboardStore = useDashboardStore()
 
-const layout = reactive<Widget[]>([
+const layout = ref<Widget[]>([
   {
     x: 0,
     y: 0,
@@ -46,6 +47,8 @@ const layout = reactive<Widget[]>([
   },
 ])
 
+dashboardStore.widgets = layout.value
+
 const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
   [TYPE_WIDGET.HISTORICAL]: HistoricalWidget,
   [TYPE_WIDGET.MEDIA]: HistoricalWidget,
@@ -57,6 +60,20 @@ dashboardStore.$subscribe((mutation, _) => {
   const event = Array.isArray(mutation.events) ? mutation.events[0] : mutation.events;
   if (event?.key === "isDraggable") {
     isDraggable.value = event.newValue;
+  }
+})
+
+const handlerUpdateLayout = (newLayout: Widget[]) => {
+  dashboardStore.widgets = newLayout
+  dashboardStore.UPDATE_WIDGETS_TO_LOCAL_STORAGE()
+}
+
+onMounted(()=> {
+  const currentLayout = localStorage.getItem('widgets')
+  if (currentLayout) {
+    layout.value = JSON.parse(currentLayout)
+  } else {
+    localStorage.setItem('widgets', JSON.stringify(layout.value))
   }
 })
 

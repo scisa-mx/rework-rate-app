@@ -16,6 +16,7 @@ export const useDashboardStore = defineStore('dashboard', {
     ADD_WIDGET() {
     },
     UPDATE_WIDGETS_TO_LOCAL_STORAGE() {
+      localStorage.setItem('widgets', JSON.stringify(this.widgets))
     },
     CHANGE_STATE_BOARD() {
       this.isDraggable = !this.isDraggable
