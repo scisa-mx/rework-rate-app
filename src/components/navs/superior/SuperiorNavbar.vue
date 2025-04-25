@@ -7,7 +7,7 @@
         </button>
       </div>
       <div class="flex space-x-2">
-        <ripple-button @click="toggleTheme">
+        <!-- <ripple-button @click="toggleTheme"> 
           <vue-feather class="text-slate-600" type="sun"></vue-feather>
         </ripple-button>
         <ripple-button>
@@ -15,9 +15,9 @@
         </ripple-button>
         <ripple-button>
           <vue-feather class="text-slate-600" type="info"></vue-feather>
-        </ripple-button>
+        </ripple-button>--><!-- Aquí terminan los botones de la barra superior -->
         <div class="relative inline-block text-left">
-          <!-- Botón del dropdown -->
+          <!-- Botón del dropdown --> 
           <button
             @click="toggleDropdown"
             type="button"

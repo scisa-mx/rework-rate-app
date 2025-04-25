@@ -7,7 +7,10 @@
     ></div>
     <div class="h-[calc(100vh-30px)]">
       <nav :class="navClasses" class="bg-white relative m-4 rounded-sm shadow">
-        <div class="p-4 text-2xl font-bold">Mi App</div>
+        <div class="p-4 flex justify-center items-center"> 
+        <img v-if="isOpen" src="/SCISA LOGOTIPO.png" alt="Scisa logo" class="h-10 w-auto" />
+        <img v-else src="/Scisa_Logo_Glyph.png" alt="Scisa logo - without text" class="h-10 w-auto" />
+      </div>
         <section class="flex-1">
           <ul class="mx-2">
             <li class="text-slate-600 text-md text-semibold">

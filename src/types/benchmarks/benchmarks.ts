@@ -1,7 +1,7 @@
 export interface IdentifyBenchmark {
   author?: string
-  startDate: string
-  endDate: string
+  periodStart: string
+  periodEnd: string
   timeStamp: string
 }
 

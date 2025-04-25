@@ -28,8 +28,16 @@ import { isoToDateValue, dateValueToIso } from '@/@core/date/dateHelpers'
 
 const props = defineProps<DashDatePickerProps>()
 const emit = defineEmits(['update:modelValue'])
+let date: DateValue | undefined = undefined
 
-const date = isoToDateValue(props.modelValue)
+if(props.modelValue === undefined) {
+  emit('update:modelValue', undefined)
+  date = undefined
+} else {
+  date = isoToDateValue(props.modelValue ?? undefined)
+  debugger
+}
+
 
 const selectedDate = ref<DateValue | undefined>(date)
 
@@ -37,7 +45,7 @@ watch(
   () => selectedDate.value,
   (newValue) => {
     if (!newValue) {
-      emit('update:modelValue', '')
+      emit('update:modelValue', undefined)
       return
     }
     const formattedDate = dateValueToIso(newValue as DateValue)

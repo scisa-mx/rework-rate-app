@@ -10,7 +10,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/') {
-    next({ path: '/home' })
+    next({ path: '/dashboard' })
   } else {
     next()
   }

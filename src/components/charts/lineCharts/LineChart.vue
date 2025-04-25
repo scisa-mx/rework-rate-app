@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { Line } from 'vue-chartjs'
+import { Chart, Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   Title,
@@ -37,18 +37,18 @@ const chartOptions = {
       callbacks: {
         // Título del tooltip (por ejemplo, la categoría del eje X)
         title: (tooltipItems) => {
-          return `Categoría: ${tooltipItems[0].label}`
+          return `${tooltipItems[0].label}`
         },
         // Texto principal del tooltip
         label: (tooltipItem) => {
           const value = tooltipItem.formattedValue
           const label = tooltipItem.dataset.label ?? 'Valor'
-          return `${label}: ${value} 🔍`
+          return `${value}`
         },
         // Texto adicional después del label
-        afterLabel: () => {
-          return '← este es el valor actual'
-        }
+        // afterLabel: () => {
+        //   return '← este es el valor actual'
+        // }
       }
     }
   }

@@ -14,5 +14,6 @@
   "validationMessages": {
     "maximunLength": "El campo debe tener un máximo de {maximun} caracteres",
     "minimunLength": "El campo debe tener un mínimo de {minimun} caracteres"
-  }  
+  },
+  "dashboard": "Tablero"
 }
