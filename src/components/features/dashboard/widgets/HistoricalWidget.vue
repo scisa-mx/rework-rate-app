@@ -24,7 +24,7 @@
         <DashDatePicker
           id="end-date-historical"
           :is-valid="true"
-          v-model="dates.start"
+          v-model="dates.end"
           :label="'Fecha de fin'"
         />
       </div>
@@ -113,6 +113,14 @@ watch(
   },
 )
 
+watch(
+  () => dates.value,
+  () => {
+    handlerData(repository.value as string)
+  },
+  { deep: true },
+)
+
 const formatRepos = (reqs: Repos[]) => {
   return reqs.map((repo) => {
     return {
@@ -143,7 +151,6 @@ const handlerData = async (value: string) => {
 const getMeanAndMedianInfo = async (value: string) => {
   isLoading.value = true
   try {
-    debugger
     const res = await getMeanAndMedian(value, dates.value.start ? dates.value.start : null, dates.value.end ? dates.value.end : null)
     meanAndMedian.value.mean = res.mean
     meanAndMedian.value.median = res.median
@@ -162,7 +169,7 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     const month = date.toLocaleString('default', { month: 'long' })
     const day = date.getDate()
     const year = date.getFullYear()
-    labels.push(`${day}-${month}-${year}`)
+    labels.push(date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }))
     datapoints.push(repo.reworkPercentage)
   })
   return { labels, datapoints }

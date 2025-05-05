@@ -61,7 +61,7 @@ export const stringToIso = (date: string): string => {
 
 export const dateValueToIso = (date: DateValue): string => {
   const { year, month, day } = date
-  return new Date(year, month, day).toISOString()
+  return new Date(year, (month - 1), day).toISOString()
 }
 
 /**

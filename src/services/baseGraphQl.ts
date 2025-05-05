@@ -1,8 +1,8 @@
-// const { VITE_API_URL } = import.meta.env
+const { VITE_API_URL } = import.meta.env
 import axios from 'axios'
 
 const graphqlClient = axios.create({
-  baseURL: 'https://api.rework-rate.scisa.com.mx/graphql',
+  baseURL: VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

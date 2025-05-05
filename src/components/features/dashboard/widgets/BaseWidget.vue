@@ -43,7 +43,6 @@ const widgetContent = ref<HTMLElement | null>(null)
 useAutoResize(widgetContent, props.layoutItem, 30)
 
 const handlerLoad = (value: boolean) => {
-  debugger
   isLoading.value = value
 }
 
