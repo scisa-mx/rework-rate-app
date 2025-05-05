@@ -6,7 +6,7 @@
         Editar dashboard
       </span>
       <span v-else class="flex items-center gap-1">
-        <vue-feather size="18" type="edit" />
+        <vue-feather size="18" type="slash" />
         Congelar dashboard
       </span>
     </DashButton>
@@ -30,7 +30,7 @@
           <DropdownMenuSub>
             <DropdownMenuSubTrigger
               value="more tools"
-              class="group w-full text-[13px] cursor-pointer leading-none text-royal-gray-800 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
+              class="group w-full text-[13px] hover:bg-gray-100 hover:text-royal-purple-800 cursor-pointer leading-none text-royal-gray-800 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
             >
               <span class="flex gap-1 items-center"> Agregar widget </span>
             </DropdownMenuSubTrigger>
@@ -44,7 +44,7 @@
                 <DropdownMenuItem
                   v-for="widgettype in WIDGETS_LIST"
                   @click="addWidget(widgettype.widgetType)"
-                  class="group text-[13px] leading-none rounded flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
+                  class="group text-[13px] hover:bg-gray-100 hover:text-royal-purple-800 cursor-pointer leading-none rounded flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none"
                 >
                   {{ widgettype.name }}
                 </DropdownMenuItem>
@@ -82,7 +82,7 @@ const dashboardStore = useDashboardStore()
 const stateBoard = ref(false)
 
 const addWidget = (widgetType: TYPE_WIDGET) => {
-  return
+  dashboardStore.ADD_WIDGET(widgetType)
 }
 
 const handlerModifyDashboard = () => {

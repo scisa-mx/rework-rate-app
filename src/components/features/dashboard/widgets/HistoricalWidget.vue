@@ -1,10 +1,12 @@
 <template>
   <div>
-    <section class="w-full">
+    <section class="w-full flex justify-between items-center" name="historical-widget-header">
       <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
         Historico Rework Rate
       </DashTypography>
-      <span> </span>
+      <span @click="deleteWidtet" class="cursor-pointer hover:text-gray-500">
+        <vue-feather size="18" type="x" />
+      </span>
     </section>
     <section class="flex px-2 justify-between" name="historical-widget-options">
       <DashSelect
@@ -46,8 +48,13 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
-import { getAllRepos, getHistoryByRepo, getMeanAndMedian } from '@/services/reworkRate/fetchReworkRate'
+import {
+  getAllRepos,
+  getHistoryByRepo,
+  getMeanAndMedian,
+} from '@/services/reworkRate/fetchReworkRate'
 import { inject } from 'vue'
+import { useDashboardStore } from '@/stores/dashboard'
 
 import LineChart from '@/components/charts/lineCharts/LineChart.vue'
 import DashSelect from '@/components/selects/DashSelect.vue'
@@ -59,12 +66,18 @@ import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
 import type { ReworkRate } from '@/types/benchmarks/rework-rate'
 
+
+const props = defineProps<{ 
+  layoutItem: { x: number; y: number; w: number; h: number; i: string }
+}>()
+
 type Repos = {
   name: string
   url: string
 }
 
 const COLORS = getPaletteColor()
+const dashboardStore = useDashboardStore()
 
 const repos = ref<ReworkRate[]>([])
 
@@ -130,10 +143,18 @@ const formatRepos = (reqs: Repos[]) => {
   })
 }
 
+const deleteWidtet = () => {
+  dashboardStore.DELETE_WIDGET(props.layoutItem.i)
+}
+
 const handlerData = async (value: string) => {
   isLoading.value = true
   try {
-    repos.value = await getHistoryByRepo(value, dates.value.start ? dates.value.start : null, dates.value.end ? dates.value.end : null)
+    repos.value = await getHistoryByRepo(
+      value,
+      dates.value.start ? dates.value.start : null,
+      dates.value.end ? dates.value.end : null,
+    )
     const values = formatDatesForChart(repos.value)
     await getMeanAndMedianInfo(value)
     data.value.labels = values.labels
@@ -151,7 +172,11 @@ const handlerData = async (value: string) => {
 const getMeanAndMedianInfo = async (value: string) => {
   isLoading.value = true
   try {
-    const res = await getMeanAndMedian(value, dates.value.start ? dates.value.start : null, dates.value.end ? dates.value.end : null)
+    const res = await getMeanAndMedian(
+      value,
+      dates.value.start ? dates.value.start : null,
+      dates.value.end ? dates.value.end : null,
+    )
     meanAndMedian.value.mean = res.mean
     meanAndMedian.value.median = res.median
   } catch (error) {
@@ -169,7 +194,9 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     const month = date.toLocaleString('default', { month: 'long' })
     const day = date.getDate()
     const year = date.getFullYear()
-    labels.push(date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }))
+    labels.push(
+      date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+    )
     datapoints.push(repo.reworkPercentage)
   })
   return { labels, datapoints }

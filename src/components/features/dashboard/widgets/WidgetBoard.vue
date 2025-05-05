@@ -33,33 +33,24 @@ import HistoricalWidget from '@/components/features/dashboard/widgets/Historical
 const dashboardStore = useDashboardStore()
 
 const layout = ref<Widget[]>([
-  {
-    x: 0,
-    y: 0,
-    w: 6,
-    h: 10,
-    i: '0',
-    id: 'historical-widget',
-    typeChart: TYPE_CHART.LINE,
-    state: STATE_WIDGET.DEFAULT,
-    name: 'historial-1',
-    typeWidget: TYPE_WIDGET.HISTORICAL,
-  },
 ])
 
 dashboardStore.widgets = layout.value
 
 const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
   [TYPE_WIDGET.HISTORICAL]: HistoricalWidget,
-  [TYPE_WIDGET.MEDIA]: HistoricalWidget,
 }
 
 const isDraggable = ref(false)
 
-dashboardStore.$subscribe((mutation, _) => {
+dashboardStore.$subscribe((mutation, state) => {
   const event = Array.isArray(mutation.events) ? mutation.events[0] : mutation.events;
   if (event?.key === "isDraggable") {
     isDraggable.value = event.newValue;
+  }
+  console.log('mutation', mutation)
+  if(event?.key === "widgets") {
+    layout.value = event.newValue
   }
 })
 

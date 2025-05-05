@@ -14,7 +14,6 @@ export enum TYPE_CHART {
 
 export enum TYPE_WIDGET {
   HISTORICAL = 'historical',
-  MEDIA = 'media',
 }
 
 export interface GridItem {
@@ -52,11 +51,6 @@ export const WIDGETS_LIST = [
     id: 'historical',
     name: 'Historico',
     widgetType: TYPE_WIDGET.HISTORICAL,
-  },
-  {
-    id: 'media',
-    name: 'Mediana y Media',
-    widgetType: TYPE_WIDGET.MEDIA,
   },
 ]
 
