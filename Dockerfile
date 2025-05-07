@@ -6,6 +6,10 @@ FROM node:18.17.0 AS base
 ## Disable colour output from yarn to make logs easier to read.
 ENV FORCE_COLOR=0
 
+ARG VITE_API_URL
+ENV VITE_API_URL="https://api.rework-rate.scisa.com.mx/graphql"
+
+
 ## Enable corepack.
 # RUN corepack enable
 RUN apt-get update -y
