@@ -17,6 +17,7 @@ import {
   LinearScale,
 } from 'chart.js'
 import type { ChartData, ChartOptions } from 'chart.js'
+import type { ChartDataRework } from '@/types/benchmarks/rework-rate'
 
 // Registrar componentes de Chart.js
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
@@ -40,15 +41,16 @@ const chartOptions = {
           return `${tooltipItems[0].label}`
         },
         // Texto principal del tooltip
-        label: (tooltipItem) => {
-          const value = tooltipItem.formattedValue
-          const label = tooltipItem.dataset.label ?? 'Valor'
-          return `${value}`
+        label: (ctx) => {
+          const value = ctx.formattedValue
+          const label = ctx.dataset.label ?? 'Valor'
+          return `Rework: ${value}%`
         },
         // Texto adicional después del label
-        // afterLabel: () => {
-        //   return '← este es el valor actual'
-        // }
+        afterLabel: (ctx) => {
+          const commitCount = (ctx.dataset as any).commits[ctx.dataIndex];
+          return `Total Commits: ${commitCount}`
+        }
       }
     }
   }

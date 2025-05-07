@@ -61,11 +61,9 @@ import DashSelect from '@/components/selects/DashSelect.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 
-import type { ChartData } from 'chart.js'
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
-import type { ReworkRate } from '@/types/benchmarks/rework-rate'
-
+import type { ReworkRate, ChartDataRework } from '@/types/benchmarks/rework-rate'
 
 const props = defineProps<{ 
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
@@ -100,12 +98,15 @@ const options = ref<DashOptionSelect[]>([
 
 const repository = ref<string>('')
 
-const data: Ref<ChartData<'line'>> = ref({
+
+const data: Ref<ChartDataRework> = ref({
   labels: [],
+  commits: [],
   datasets: [
     {
       label: 'Rework rate en los meses por porcentaje',
       data: [],
+      commits: [],
       borderColor: COLORS['primary-800'],
       fill: false,
       cubicInterpolationMode: 'monotone' as const,
@@ -158,7 +159,9 @@ const handlerData = async (value: string) => {
     const values = formatDatesForChart(repos.value)
     await getMeanAndMedianInfo(value)
     data.value.labels = values.labels
+    // pass datapoints and commits to the chart
     data.value.datasets[0].data = values.datapoints
+    data.value.datasets[0].commits = values.commits;
   } catch {
     console.error('Error fetching repository history')
   } finally {
@@ -189,6 +192,7 @@ const getMeanAndMedianInfo = async (value: string) => {
 const formatDatesForChart = (repos: ReworkRate[]) => {
   const labels: string[] = []
   const datapoints: number[] = []
+  const commits: number[] = []
   repos.forEach((repo) => {
     const date = new Date(repo.periodStart)
     const month = date.toLocaleString('default', { month: 'long' })
@@ -198,8 +202,9 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
       date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }),
     )
     datapoints.push(repo.reworkPercentage)
+    commits.push(repo.totalCommits)
   })
-  return { labels, datapoints }
+  return { labels, datapoints, commits }
 }
 
 onMounted(async () => {

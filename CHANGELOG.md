@@ -1,6 +1,19 @@
-# vue-dash-template
+# scisa-benchmark-frontend
 
-## 0.1.0
-### 21/12/2024
+## 0.1.1 - 05-07-2025
 
-- CT [ADD] Start project !! 🚀
+### Resumen
+Se agrega el numero de commits dentro de la grafica de "Rework Historico" en el tablero
+
+### Fixed
+
+### Added
+    - [221] Se agrega el numero de commits dentro de la grafica de "Rework Historico" en el tablero
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Security
