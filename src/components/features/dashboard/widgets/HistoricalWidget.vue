@@ -8,21 +8,25 @@
         <vue-feather size="18" type="x" />
       </span>
     </section>
-    <section class="flex px-2 justify-between" name="historical-widget-options">
-      <DashSelect
-        id="repository-hisorical"
-        :is-valid="true"
-        v-model="repository"
-        :options="options"
-        :label="'Selecciona un repositorio'"
-      />
-      <div class="flex gap-2">
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-2" name="historical-widget-options">
+      <div class="col-span-1">
+        <DashSelect
+          id="repository-hisorical"
+          :is-valid="true"
+          v-model="repository"
+          :options="options"
+          :label="'Selecciona un repositorio'"
+        />
+      </div>
+      <div class="col-span-1">
         <DashDatePicker
           id="start-date-historical"
           :is-valid="true"
           v-model="dates.start"
           :label="'Fecha de inicio'"
         />
+      </div>
+      <div class="col-span-1">
         <DashDatePicker
           id="end-date-historical"
           :is-valid="true"
@@ -65,7 +69,7 @@ import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
 import type { ReworkRate, ChartDataRework } from '@/types/benchmarks/rework-rate'
 
-const props = defineProps<{ 
+const props = defineProps<{
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
@@ -97,7 +101,6 @@ const options = ref<DashOptionSelect[]>([
 ])
 
 const repository = ref<string>('')
-
 
 const data: Ref<ChartDataRework> = ref({
   labels: [],
@@ -161,7 +164,7 @@ const handlerData = async (value: string) => {
     data.value.labels = values.labels
     // pass datapoints and commits to the chart
     data.value.datasets[0].data = values.datapoints
-    data.value.datasets[0].commits = values.commits;
+    data.value.datasets[0].commits = values.commits
   } catch {
     console.error('Error fetching repository history')
   } finally {
