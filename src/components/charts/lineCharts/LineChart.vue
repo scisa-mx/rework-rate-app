@@ -29,6 +29,13 @@ interface LineChartProps {
 const props = defineProps<LineChartProps>()
 
 
+const TOOLTIP_STYLES = {
+  base: 'external-tooltip fixed z-[9999] min-w-[300px] bg-black/80 text-white text-xs rounded-lg shadow-lg p-3 pointer-events-none transform transition-all z-50',
+  left: '-translate-x-full',
+  center: '-translate-x-1/2',
+  right: '',
+}
+
 const externalTooltipHandler = (context: any) => {
   const { chart, tooltip } = context;
   const tooltipEl = getOrCreateTooltip(chart);
@@ -78,6 +85,20 @@ const externalTooltipHandler = (context: any) => {
   tooltipEl.style.opacity = '1';
   tooltipEl.style.left = `${posX + tooltip.caretX}px`;
   tooltipEl.style.top = `${posY + tooltip.caretY}px`;
+
+
+  // Ajustar la posición del tooltip dependiendo de su tamaño y la posición del canvas
+  const canvasWidth = chart.canvas.offsetWidth;
+  const caretRatio = tooltip.caretX / canvasWidth;
+
+  let positionClass = TOOLTIP_STYLES.center;
+  if (caretRatio < 0.33) {
+    positionClass = TOOLTIP_STYLES.right;
+  } else if (caretRatio > 0.66) {
+    positionClass = TOOLTIP_STYLES.left;
+  }
+
+  tooltipEl.className = `${TOOLTIP_STYLES.base} ${positionClass}`;
 };
 
 
@@ -86,8 +107,6 @@ function getOrCreateTooltip(chart: any) {
 
   if (!tooltipEl) {
     tooltipEl = document.createElement('div');
-    tooltipEl.className =
-      'external-tooltip z-[9999] absolute min-w-[300px] bg-black/80 text-white text-xs rounded-lg shadow-lg p-3 pointer-events-none transform -translate-x-1/2 transition-all z-50';
     chart.canvas.parentNode.appendChild(tooltipEl);
   }
 

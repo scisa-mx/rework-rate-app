@@ -1,5 +1,5 @@
 <template>
-  <section name="widgets-board" class="z-[9999] w-full max-w-[90%]">
+  <section name="widgets-board" class="z-[9999] w-full ">
     <GridLayout
       v-model:layout="layout"
       :col-num="12"
