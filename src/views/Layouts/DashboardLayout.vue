@@ -1,5 +1,5 @@
 <template>
-  <section class="flex h-screen">
+  <section class="flex h-screen relative">
     <LateralNavbar />
     <div class="p-4 flex-1 overflow-auto bg-victoria-50">
       <SuperiorNavbar />

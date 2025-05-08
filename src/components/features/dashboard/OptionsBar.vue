@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-row-reverse bg-white p-2 gap-2 mb-4 shadow rounded">
+  <div class="flex flex-row-reverse bg-white p-2 gap-2 mb-4 shadow rounded ">
+    
     <DashButton @click="handlerModifyDashboard" size="md" variant="secondary">
       <span v-if="!stateBoard" class="flex items-center gap-1">
         <vue-feather size="18" type="edit" />
