@@ -4,7 +4,7 @@ import type { ChartData, ChartDataset } from 'chart.js'
 export interface ReworkRate extends IdentifyBenchmark, IdentifyBenchmarkRepo {
   reworkPercentage: number
   totalCommits: number
-  modifyLines: number
+  modifiedLines: number
   reworkLines: number
   timestamp: string
   author: string
@@ -20,5 +20,6 @@ export interface ChartDataRework extends ChartData<'line'> {
     totalCommits: number[]
     timestamps: string[]
     reworkLines: number[]
+    modifiedLines: number[]
   })[]
 }

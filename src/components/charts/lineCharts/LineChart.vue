@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { Chart, Line } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   Title,
@@ -17,6 +17,8 @@ import {
   LinearScale,
 } from 'chart.js'
 import type { ChartData, ChartOptions } from 'chart.js'
+
+import { isoStringToMask } from '@/@core/date/dateHelpers'
 
 // Registrar componentes de Chart.js
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
@@ -61,14 +63,15 @@ const externalTooltipHandler = (context: any) => {
   // Lista de información
   const list = document.createElement('ul');
   list.className = 'space-y-1 text-xs text-white';
-
   const items = [
-    [`Commits`, dataset.commits?.[index]],
     [`Autores`, dataset.authors?.[index]],
     [`PRs`, dataset.prNumbers?.[index]],
+    [`Rework Rate`, `${dataset.data?.[index]}%`,],
+    [`Commits`, dataset.commits?.[index]],
     [`Rework Lines`, dataset.reworkLines?.[index]],
-    [`Periodo`, `${dataset.periodsStart?.[index]} - ${dataset.periodsEnd?.[index]}`],
-    [`Fecha`, dataset.timestamps?.[index]],
+    [`Total lines`, dataset.modifiedLines?.[index]],
+    [`Periodo`, `${isoStringToMask(dataset.periodsStart?.[index])} - ${isoStringToMask(dataset.periodsEnd?.[index])}`],
+    [`Fecha`, isoStringToMask(dataset.timestamps?.[index])],
   ];
 
   items.forEach(([label, value]) => {

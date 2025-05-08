@@ -83,9 +83,13 @@ const dashboardStore = useDashboardStore()
 
 const repos = ref<ReworkRate[]>([])
 
+const today = new Date()
+const lastPeriod = new Date()
+lastPeriod.setDate(today.getDate() - 21)
+
 const dates = ref({
-  start: undefined,
-  end: undefined,
+  start: lastPeriod.toISOString(),
+  end: new Date().toISOString(),
 })
 
 const meanAndMedian = ref({
@@ -117,6 +121,7 @@ const data: Ref<ChartDataRework> = ref({
       reworkLines: [],
       timestamps: [],
       totalCommits: [],
+      modifiedLines: [],
       borderColor: COLORS['primary-800'],
       fill: false,
       cubicInterpolationMode: 'monotone' as const,
@@ -172,13 +177,13 @@ const handlerData = async (value: string) => {
     // pass datapoints and commits to the chart
     data.value.datasets[0].data = values.datapoints
     data.value.datasets[0].commits = values.commits
-    data.value.datasets[0].totalCommits = values.totalCommits
     data.value.datasets[0].reworkLines = values.reworkLines
     data.value.datasets[0].periodsStart = values.periodsStart
     data.value.datasets[0].periodsEnd = values.periodsEnd
     data.value.datasets[0].timestamps = values.timestamps
     data.value.datasets[0].prNumbers = values.prNumbers
-
+    data.value.datasets[0].authors = values.authors
+    data.value.datasets[0].modifiedLines = values.modifiedLines
   } catch {
     console.error('Error fetching repository history')
   } finally {
@@ -218,6 +223,7 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
   const authors: string[] = []
   const totalCommits: number[] = []
   const reworkPercentage: number[] = []
+  const modifiedLines: number[] = []
 
   repos.forEach((repo) => {
     const date = new Date(repo.periodStart)
@@ -237,8 +243,9 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     authors.push(repo.author)
     totalCommits.push(repo.totalCommits)
     reworkPercentage.push(repo.reworkPercentage)
+    modifiedLines.push(repo.modifiedLines)
   })
-  return { labels, datapoints, commits, periodsStart, periodsEnd, reworkLines, timestamps, prNumbers, authors, totalCommits, reworkPercentage }
+  return { labels, datapoints, commits, periodsStart, periodsEnd, reworkLines, timestamps, prNumbers, authors, totalCommits, reworkPercentage, modifiedLines }
 }
 
 onMounted(async () => {
