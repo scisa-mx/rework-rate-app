@@ -83,9 +83,13 @@ const dashboardStore = useDashboardStore()
 
 const repos = ref<ReworkRate[]>([])
 
+const today = new Date()
+const lastPeriod = new Date()
+lastPeriod.setDate(today.getDate() - 21)
+
 const dates = ref({
-  start: undefined,
-  end: undefined,
+  start: lastPeriod.toISOString(),
+  end: new Date().toISOString(),
 })
 
 const meanAndMedian = ref({
@@ -110,6 +114,14 @@ const data: Ref<ChartDataRework> = ref({
       label: 'Rework rate en los meses por porcentaje',
       data: [],
       commits: [],
+      authors: [],
+      periodsEnd: [],
+      periodsStart: [],
+      prNumbers: [],
+      reworkLines: [],
+      timestamps: [],
+      totalCommits: [],
+      modifiedLines: [],
       borderColor: COLORS['primary-800'],
       fill: false,
       cubicInterpolationMode: 'monotone' as const,
@@ -165,6 +177,13 @@ const handlerData = async (value: string) => {
     // pass datapoints and commits to the chart
     data.value.datasets[0].data = values.datapoints
     data.value.datasets[0].commits = values.commits
+    data.value.datasets[0].reworkLines = values.reworkLines
+    data.value.datasets[0].periodsStart = values.periodsStart
+    data.value.datasets[0].periodsEnd = values.periodsEnd
+    data.value.datasets[0].timestamps = values.timestamps
+    data.value.datasets[0].prNumbers = values.prNumbers
+    data.value.datasets[0].authors = values.authors
+    data.value.datasets[0].modifiedLines = values.modifiedLines
   } catch {
     console.error('Error fetching repository history')
   } finally {
@@ -196,6 +215,16 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
   const labels: string[] = []
   const datapoints: number[] = []
   const commits: number[] = []
+  const periodsStart: string[] = []
+  const periodsEnd: string[] = []
+  const reworkLines: number[] = []
+  const timestamps: string[] = []
+  const prNumbers: string[] = []
+  const authors: string[] = []
+  const totalCommits: number[] = []
+  const reworkPercentage: number[] = []
+  const modifiedLines: number[] = []
+
   repos.forEach((repo) => {
     const date = new Date(repo.periodStart)
     const month = date.toLocaleString('default', { month: 'long' })
@@ -206,8 +235,17 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     )
     datapoints.push(repo.reworkPercentage)
     commits.push(repo.totalCommits)
+    periodsStart.push(repo.periodStart)
+    periodsEnd.push(repo.periodEnd)
+    reworkLines.push(repo.reworkLines)
+    timestamps.push(repo.timestamp)
+    prNumbers.push(repo.prNumber)
+    authors.push(repo.author)
+    totalCommits.push(repo.totalCommits)
+    reworkPercentage.push(repo.reworkPercentage)
+    modifiedLines.push(repo.modifiedLines)
   })
-  return { labels, datapoints, commits }
+  return { labels, datapoints, commits, periodsStart, periodsEnd, reworkLines, timestamps, prNumbers, authors, totalCommits, reworkPercentage, modifiedLines }
 }
 
 onMounted(async () => {

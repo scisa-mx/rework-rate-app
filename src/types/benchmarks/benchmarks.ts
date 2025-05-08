@@ -7,6 +7,6 @@ export interface IdentifyBenchmark {
 
 export interface IdentifyBenchmarkRepo {
     repoUrl: string
-    prNumber: number
+    prNumber: string
     prAproved: number
 }

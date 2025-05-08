@@ -1,5 +1,5 @@
 <template>
-  <section name="widgets-board">
+  <section name="widgets-board" class="z-[9999] w-full ">
     <GridLayout
       v-model:layout="layout"
       :col-num="12"
@@ -59,7 +59,12 @@ const handlerUpdateLayout = (newLayout: Widget[]) => {
   dashboardStore.UPDATE_WIDGETS_TO_LOCAL_STORAGE()
 }
 
+const $container = ref<HTMLElement | null>(null)
+
+
 onMounted(()=> {
+  $container.value = document.querySelector('[name="widgets-board"]') as HTMLElement
+
   const currentLayout = localStorage.getItem('widgets')
   if (currentLayout) {
     layout.value = JSON.parse(currentLayout)

@@ -132,3 +132,22 @@ export const dateRangeToRange = ({ start, end }: DateRange): DateRangeSchema => 
     end: end ? dateValueToIso(end) : '',
   }
 }
+
+/**
+ * Convert date.toIsoString() to DD/MM/YYYY
+ * @param isoString String from date.toIsoString()
+ * @returns String in format DD/MM/YYYY
+ * @example ```ts
+ * const date = isoToDateValue(new Date().toISOString())
+ * console.log(result) // String in format DD/MM/YYYY
+ * ```
+ **/
+
+export const isoStringToMask = (isoString: string): string => {
+  // To ISO 8601 format YYYY-MM-DDTHH:mm:ss.sssZ to DD/MM/YYYY
+  const date = new Date(isoString)
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
+  const year = String(date.getFullYear())
+  return `${day}/${month}/${year}`
+}

@@ -16,6 +16,10 @@ export const GET_HISTORY_BY_REPO = `
       periodEnd
       reworkPercentage
       totalCommits
+      timestamp
+      modifiedLines
+      reworkLines
+      prApprover
     }
   }`
 
