@@ -1,16 +1,17 @@
 # scisa-benchmark-frontend
 
 
-## 0.2.0 - 05-08-2025
+## 0.2.1 - 05-08-2025
 
 ### Resumen
-Se agrega información de los reportes del rework-rate dentro la grafica de "Rework Historico" en el tablero, al mismo tiempo se agrega mejor formato para las fechas de los mismos reportes, los tooltips de los reportes se posicionan dependiendo de la pantalla para no cubrir puntos importantes en el tablero. Las fechas del widget del "Rework Historico" tienen por defecto el último periodo de reportes.
+Se agrega información de los reportes del rework-rate dentro la grafica de "Rework Historico" en el tablero, al mismo tiempo se agrega mejor formato para las fechas de los mismos reportes, los tooltips de los reportes se posicionan dependiendo de la pantalla para no cubrir puntos importantes en el tablero. Las fechas del widget del "Rework Historico" tienen por defecto el último periodo de reportes. Se arreglan bugs generales sobre las fechas de consulta (BUG: 220).
 
 ### Fixed
+  - [220] Se arregla el tema de las fechas de consulta, ahora en el widget del "Rework Historico" se filtra mediante la fecha de creación del reporte en vez de la fecha de inicio del periodo. 
 
 ### Added
-    - [221] Se agrega información de los reportes del rework-rate dentro la grafica de "Rework Historico" en el tablero
-    - [219] Las fechas del widget del "Rework Historico" tienen por defecto el último periodo de reportes.
+  - [221] Se agrega información de los reportes del rework-rate dentro la grafica de "Rework Historico" en el tablero
+  - [219] Las fechas del widget del "Rework Historico" tienen por defecto el último periodo de reportes.
 
 ### Changed
     - [221] Los reportes dentro del Chart de "Rework Historico" contiene más información.

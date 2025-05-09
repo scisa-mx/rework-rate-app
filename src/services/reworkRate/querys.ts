@@ -20,6 +20,7 @@ export const GET_HISTORY_BY_REPO = `
       modifiedLines
       reworkLines
       prApprover
+      createdAtDate
     }
   }`
 

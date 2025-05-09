@@ -8,6 +8,7 @@ export interface ReworkRate extends IdentifyBenchmark, IdentifyBenchmarkRepo {
   reworkLines: number
   timestamp: string
   author: string
+  createdAtDate: string
 }
 
 export interface ChartDataRework extends ChartData<'line'> {

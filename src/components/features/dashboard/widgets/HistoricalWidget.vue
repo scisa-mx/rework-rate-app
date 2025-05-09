@@ -226,10 +226,7 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
   const modifiedLines: number[] = []
 
   repos.forEach((repo) => {
-    const date = new Date(repo.periodStart)
-    const month = date.toLocaleString('default', { month: 'long' })
-    const day = date.getDate()
-    const year = date.getFullYear()
+    const date = new Date(repo.createdAtDate)
     labels.push(
       date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }),
     )
@@ -238,7 +235,7 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     periodsStart.push(repo.periodStart)
     periodsEnd.push(repo.periodEnd)
     reworkLines.push(repo.reworkLines)
-    timestamps.push(repo.timestamp)
+    timestamps.push(repo.createdAtDate)
     prNumbers.push(repo.prNumber)
     authors.push(repo.author)
     totalCommits.push(repo.totalCommits)
