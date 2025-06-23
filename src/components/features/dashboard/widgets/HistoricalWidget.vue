@@ -8,8 +8,17 @@
         <vue-feather size="18" type="x" />
       </span>
     </section>
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-2" name="historical-widget-options">
-      <div class="col-span-1">
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-2" name="historical-widget-options">
+      <div class="col-span-2">
+        <DashTagsInput
+          id="repository-historical-tags"
+          :is-valid="true"
+          v-model="tags"
+          :options="options"
+          :label="'Tags'"
+        />
+      </div>
+      <div class="col-span-2">
         <DashSelect
           id="repository-hisorical"
           :is-valid="true"
@@ -18,7 +27,7 @@
           :label="'Selecciona un repositorio'"
         />
       </div>
-      <div class="col-span-1">
+      <div class="col-span-2">
         <DashDatePicker
           id="start-date-historical"
           :is-valid="true"
@@ -26,7 +35,7 @@
           :label="'Fecha de inicio'"
         />
       </div>
-      <div class="col-span-1">
+      <div class="col-span-2">
         <DashDatePicker
           id="end-date-historical"
           :is-valid="true"
@@ -64,6 +73,7 @@ import LineChart from '@/components/charts/lineCharts/LineChart.vue'
 import DashSelect from '@/components/selects/DashSelect.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
+import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
 
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
@@ -82,6 +92,7 @@ const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
 const repos = ref<ReworkRate[]>([])
+const tags = ref<string[]>([])
 
 const today = new Date()
 const lastPeriod = new Date()
@@ -242,7 +253,20 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
     reworkPercentage.push(repo.reworkPercentage)
     modifiedLines.push(repo.modifiedLines)
   })
-  return { labels, datapoints, commits, periodsStart, periodsEnd, reworkLines, timestamps, prNumbers, authors, totalCommits, reworkPercentage, modifiedLines }
+  return {
+    labels,
+    datapoints,
+    commits,
+    periodsStart,
+    periodsEnd,
+    reworkLines,
+    timestamps,
+    prNumbers,
+    authors,
+    totalCommits,
+    reworkPercentage,
+    modifiedLines,
+  }
 }
 
 onMounted(async () => {

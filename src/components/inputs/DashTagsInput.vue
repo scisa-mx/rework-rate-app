@@ -46,7 +46,7 @@ watch(
       >
         <TagsInputItemText class="text-sm pl-1" />
         <TagsInputItemDelete class="p-0.5 cursor-pointer rounded-xs bg-transparent">
-          <vue-feather type="x" />
+          <vue-feather size="12" type="x" />
         </TagsInputItemDelete>
       </TagsInputItem>
 
