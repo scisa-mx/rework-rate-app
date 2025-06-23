@@ -48,7 +48,6 @@ dashboardStore.$subscribe((mutation, state) => {
   if (event?.key === "isDraggable") {
     isDraggable.value = event.newValue;
   }
-  console.log('mutation', mutation)
   if(event?.key === "widgets") {
     layout.value = event.newValue
   }

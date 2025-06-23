@@ -68,3 +68,16 @@ export const getMeanAndMedian = async (repoUrl: string, startDate: string | null
   )
   return res.data.getMeanAndMedian
 }
+
+export const getReposByTags = async (tags: string[]) => {
+  const query = `
+    query($tags: [String!]!) {
+      getReposByTags(tags: $tags) {
+        id
+        repoUrl
+      }
+    }
+  `
+  const res = await executeQuery(query, { tags })
+  return res.data.getReposByTags
+}

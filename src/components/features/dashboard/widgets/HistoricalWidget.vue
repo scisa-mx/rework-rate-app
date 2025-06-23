@@ -65,6 +65,7 @@ import {
   getAllRepos,
   getHistoryByRepo,
   getMeanAndMedian,
+  getReposByTags,
 } from '@/services/reworkRate/fetchReworkRate'
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -141,6 +142,17 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
+const handlerDataByTags = async (tags: string[]) => {
+  isLoading.value = true
+  try {
+    repos.value = await getReposByTags(tags)
+  } catch (error) {
+    console.error('Error fetching repositories by tags:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const optionsChart = {
   responsive: true,
   maintainAspectRatio: false,
@@ -151,6 +163,13 @@ watch(
   () => {
     handlerData(repository.value as string)
   },
+)
+
+watch( tags, (newTags) => {
+    if (newTags.length > 0) {
+      // handlerDataByTags(newTags)
+    }
+  }, { deep: true, immediate: true }
 )
 
 watch(
