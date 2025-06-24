@@ -6,6 +6,17 @@ query{
   }
 }   
 `
+
+export const GET_REWORK_DATA_BY_NAME = `
+query GetReworkDataByName($repoUrl: String!) {
+  getReworkDataByName(repoUrl: $repoUrl) {
+    id
+    name
+    url
+  }
+}
+`
+
 export const GET_HISTORY_BY_REPO = `
   query GetReworkHistory($repoUrl: String!, $startDate: DateTime, $endDate: DateTime) {
     getReworkHistory(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {

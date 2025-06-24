@@ -26,6 +26,17 @@
           :options="options"
           :label="'Selecciona un repositorio'"
         />
+        <DashSearchListInput
+          id="repository-hisorical"
+          :is-valid="true"
+          v-model="repository"
+          :value="repository"
+          :options="options"
+          :label="'Selecciona un repositorio'"
+          name="repository-historical-search"
+          :required="false"
+          :callback="onSearch"
+        />
       </div>
       <div class="col-span-2">
         <DashDatePicker
@@ -66,6 +77,7 @@ import {
   getHistoryByRepo,
   getMeanAndMedian,
   getReposByTags,
+  getReworkDataByName,
 } from '@/services/reworkRate/fetchReworkRate'
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -75,6 +87,7 @@ import DashSelect from '@/components/selects/DashSelect.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
+import DashSearchListInput from '@/components/inputs/DashSearchListInput.vue'
 
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
@@ -142,6 +155,20 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
+const onSearch = (value: string) => {
+  handlerDataByRepoName(value)
+}
+
+const handlerDataByRepoName = async (repoName: string) => {
+  isLoading.value = true
+  try {
+    const res = await getReworkDataByName(repoName)
+    options.value = formatRepos(res)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const handlerDataByTags = async (tags: string[]) => {
   isLoading.value = true
   try {
@@ -165,11 +192,14 @@ watch(
   },
 )
 
-watch( tags, (newTags) => {
+watch(
+  tags,
+  (newTags) => {
     if (newTags.length > 0) {
       // handlerDataByTags(newTags)
     }
-  }, { deep: true, immediate: true }
+  },
+  { deep: true, immediate: true },
 )
 
 watch(

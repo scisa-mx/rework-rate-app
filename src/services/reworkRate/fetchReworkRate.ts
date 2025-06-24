@@ -1,5 +1,5 @@
 import { executeQuery } from '../baseGraphQl'
-import { GET_ALL_REPOS, GET_HISTORY_BY_REPO, GET_MEAN_AND_MEDIAN } from './querys'
+import { GET_ALL_REPOS, GET_HISTORY_BY_REPO, GET_MEAN_AND_MEDIAN, GET_REWORK_DATA_BY_NAME } from './querys'
 import type { ReworkRate } from '@/types/benchmarks/rework-rate'
 
 const datapoints = [12.3, 10.1, 8.5, 9.0, 7.4, 6.2, 5.8, 6.5, 7.1, 8.3, 9.2, 10.0]
@@ -55,17 +55,34 @@ export const getAllRepos = async () => {
   return res.data.getAllRepos
 }
 
-export const getHistoryByRepo = async (repoUrl: string, startDate: string | null, endDate: string | null,): Promise<ReworkRate[]> => {
+export const getReworkDataByName = async (repoUrl: string) => {
+  const res = await executeQuery(GET_REWORK_DATA_BY_NAME, { repoUrl })
+  return res.data.getReworkDataByName
+}
+
+export const getHistoryByRepo = async (
+  repoUrl: string,
+  startDate: string | null,
+  endDate: string | null,
+): Promise<ReworkRate[]> => {
   const res = await executeQuery(GET_HISTORY_BY_REPO, {
-    repoUrl,  startDate, endDate }
-  )
+    repoUrl,
+    startDate,
+    endDate,
+  })
   return res.data.getReworkHistory
 }
 
-export const getMeanAndMedian = async (repoUrl: string, startDate: string | null, endDate: string | null) => {
+export const getMeanAndMedian = async (
+  repoUrl: string,
+  startDate: string | null,
+  endDate: string | null,
+) => {
   const res = await executeQuery(GET_MEAN_AND_MEDIAN, {
-    repoUrl, startDate, endDate }
-  )
+    repoUrl,
+    startDate,
+    endDate,
+  })
   return res.data.getMeanAndMedian
 }
 

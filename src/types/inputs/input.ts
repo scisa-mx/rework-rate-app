@@ -1,7 +1,10 @@
+import type { Input } from 'postcss'
+
 export enum InputTypes {
   Text = 'text',
   DatePicker = 'date-picker',
   Select = 'select',
+  SearchSelect = 'search-select',
   Checkbox = 'checkbox',
   DateRangePicker = 'date-range-picker',
   Switch = 'switch',
@@ -75,6 +78,14 @@ export type DashSelectInput = DashInputBase & {
   options: { value: string | number; label: string }[]
   multiple?: boolean
   value: string
+}
+
+export type DashSearchProps = InputBaseProps & {
+  type?: InputTypes.SearchSelect
+  options: DashOptionSelect[]
+  modelValue: ValueInputSelect
+  currentValue?: string
+  callback?: (value: string) => void
 }
 
 export type DashSelectProps = InputBaseProps & {
