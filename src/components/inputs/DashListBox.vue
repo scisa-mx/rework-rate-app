@@ -1,12 +1,12 @@
 <template>
   <div role="listbox"></div>
-  <ListboxRoot class="flex flex-colrounded-lg bg-white text-green9 mx-auto">
+  <ListboxRoot v-model="currentOptionValue" class="flex flex-colrounded-lg bg-white text-green9 mx-auto">
     <ListboxContent
       class="min-w-[160px] max-w-[300px] bg-white p-[5px] rounded-xs shadow-lg will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-100"
     >
       <ListboxGroup>
         <ListboxItem
-          v-for=" (i, idx) in props.options"
+          v-for="(i, idx) in props.options"
           :key="idx"
           :value="i.value"
           class="w-full hover:bg-royal-purple-100 hover:text-royal-purple-800 cursor-pointer flex items-center px-[25px] h-[25px] leading-none text-[13px] relative text-slate-800 select-none outline-none data-[state=checked]:bg-royal-purple-200 data-[state=checked]:text-royal-purple-800 data-[disabled]:opacity-50 rounded"
@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import {
   ListboxContent,
   ListboxGroup,
@@ -32,13 +33,19 @@ import {
   ListboxRoot,
 } from 'radix-vue'
 
-import {type DashOptionSelect} from '@/types'
-
+import { type DashOptionSelect } from '@/types'
 
 interface ListboxItemProps {
   options: DashOptionSelect[]
 }
 
 const props = defineProps<ListboxItemProps>()
+const emit = defineEmits(['update:modelValue'])
+
+const currentOptionValue = ref<DashOptionSelect['value'] | undefined>(props.options[0]?.value)
+
+watch(currentOptionValue, (newValue) => {
+    emit('update:modelValue', newValue)
+})
 
 </script>

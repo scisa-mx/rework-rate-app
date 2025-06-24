@@ -12,7 +12,7 @@
       autocomplete="off"
       :data-valid="true"
     />
-    <DashListBox :options="props.options"></DashListBox>
+    <DashListBox @update:model-value="onChange" :options="props.options"></DashListBox>
   </fieldset>
 </template>
 
@@ -26,6 +26,10 @@ let debounceTimeout: ReturnType<typeof setTimeout> | undefined
 
 const props = defineProps<DashSearchProps>()
 const currentValue = ref('')
+
+const onChange = (value: string) => {
+  currentValue.value = value.split('/').pop() as string
+}
 
 watch(currentValue, (newValue) => {
   if (debounceTimeout) {
