@@ -16,7 +16,8 @@
           >
             <vue-feather size="15" type="check" />
           </ListboxItemIndicator>
-          <span class="truncate w-full">{{ i.label }}</span>
+          <span v-if="props.options.length > 0" class="truncate w-full">{{ i.label }}</span>
+          <span v-else class="truncate w-full">Sin resultados</span>
         </ListboxItem>
       </ListboxGroup>
     </ListboxContent>

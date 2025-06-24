@@ -19,13 +19,6 @@
         />
       </div>
       <div class="col-span-2">
-        <DashSelect
-          id="repository-hisorical"
-          :is-valid="true"
-          v-model="repository"
-          :options="options"
-          :label="'Selecciona un repositorio'"
-        />
         <DashSearchListInput
           id="repository-hisorical"
           :is-valid="true"
@@ -155,17 +148,24 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
-const onSearch = (value: string) => {
-  handlerDataByRepoName(value)
+const onSearch = async (value: string) => {
+  isLoading.value = true
+  try {
+    if (value === '') {
+      const data = await getAllRepos()
+      options.value = formatRepos(data)
+    }
+    handlerDataByRepoName(value)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 const handlerDataByRepoName = async (repoName: string) => {
-  isLoading.value = true
   try {
     const res = await getReworkDataByName(repoName)
     options.value = formatRepos(res)
   } finally {
-    isLoading.value = false
   }
 }
 
