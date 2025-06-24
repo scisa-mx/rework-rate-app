@@ -9,7 +9,7 @@
           v-for=" (i, idx) in props.options"
           :key="idx"
           :value="i.value"
-          class="w-full flex items-center px-[25px] h-[25px] leading-none text-[13px] relative text-slate-800 select-none outline-none data-[state=checked]:bg-royal-purple-200 data-[state=checked]:text-royal-purple-800 data-[disabled]:opacity-50 rounded"
+          class="w-full hover:bg-royal-purple-100 hover:text-royal-purple-800 cursor-pointer flex items-center px-[25px] h-[25px] leading-none text-[13px] relative text-slate-800 select-none outline-none data-[state=checked]:bg-royal-purple-200 data-[state=checked]:text-royal-purple-800 data-[disabled]:opacity-50 rounded"
         >
           <ListboxItemIndicator
             class="absolute left-0 w-[25px] inline-flex items-center justify-center"
