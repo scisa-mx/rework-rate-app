@@ -68,18 +68,20 @@ watch(
         @blur="isInputFocused = false"
       />
     </TagsInputRoot>
-    <ul
-      v-if="props.options.length > 0 && isInputFocused"
-      class="absolute bg-white border border-gray-300 mt-1 w-full max-w-[480px] shadow-sm z-50 rounded text-sm"
-    >
-      <li
-        v-for="option in props.options"
-        :key="JSON.stringify(option.value)"
-        @mousedown.prevent="addTag(option.label)"
-        class="px-3 py-1 hover:bg-royal-purple-100 cursor-pointer text-slate-800"
+    <div v-if="props.hasOptions" class="relative">
+      <ul
+        v-if="props.options.length > 0 && isInputFocused"
+        class="absolute bg-white border border-gray-300 mt-1 w-full max-w-[480px] shadow-sm z-50 rounded text-sm"
       >
-        {{ option.label }}
-      </li>
-    </ul>
+        <li
+          v-for="option in props.options"
+          :key="JSON.stringify(option.value)"
+          @mousedown.prevent="addTag(option.label)"
+          class="px-3 py-1 hover:bg-royal-purple-100 cursor-pointer text-slate-800"
+        >
+          {{ option.label }}
+        </li>
+      </ul>
+    </div>
   </fieldset>
 </template>

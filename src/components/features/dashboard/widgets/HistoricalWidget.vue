@@ -17,6 +17,7 @@
           :options="tagsList"
           :label="'Tags'"
           :key="JSON.stringify(tags)"
+          :has-options="true"
         />
       </div>
       <div class="col-span-2">
