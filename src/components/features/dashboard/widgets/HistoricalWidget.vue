@@ -16,6 +16,7 @@
           v-model="tags"
           :options="options"
           :label="'Tags'"
+            :key="JSON.stringify(tags)"
         />
       </div>
       <div class="col-span-2">
@@ -73,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, transformVNodeArgs } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import {
   getAllRepos,
@@ -91,11 +92,11 @@ import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
 import DashSearchListInput from '@/components/inputs/DashSearchListInput.vue'
-import DashButton from '@/components/buttons/DashButton.vue'
 
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
-import type { ReworkRate, ChartDataRework } from '@/types/benchmarks/rework-rate'
+import type { ReworkRate, ChartDataRework, RepositoryReworkRate } from '@/types/benchmarks/rework-rate'
+import type { Tag } from '@/types/benchmarks/tags'
 
 const props = defineProps<{
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
@@ -111,6 +112,8 @@ const dashboardStore = useDashboardStore()
 
 const repos = ref<ReworkRate[]>([])
 const tags = ref<string[]>([])
+const repositories = ref<RepositoryReworkRate[]>([])
+const currentRepository = ref<RepositoryReworkRate | null>(null)
 
 const today = new Date()
 const lastPeriod = new Date()
@@ -225,6 +228,22 @@ watch(
   { deep: true },
 )
 
+watch(
+  () => repository.value,
+  (newValue) => {
+    // Seleccionar las tags del repositorio seleccionado
+    if (newValue) {
+      // buscar dentro de las opciones el repositorio seleccionado
+      const selectedRepo = repositories.value.find((option) => option.url === newValue)
+      const repositoryTags = selectedRepo?.tags
+      tags.value = repositoryTags ? formatTags(repositoryTags) : []
+      debugger
+
+    }
+  },
+  { immediate: true },
+)
+
 const formatRepos = (reqs: Repos[]) => {
   return reqs.map((repo) => {
     return {
@@ -232,6 +251,10 @@ const formatRepos = (reqs: Repos[]) => {
       label: repo.name,
     }
   })
+}
+
+const formatTags = (tags: Tag[]): string[] => {
+  return tags.map((tag) => tag.name)
 }
 
 const deleteWidtet = () => {
@@ -337,6 +360,7 @@ onMounted(async () => {
   isLoading.value = true
   try {
     const data = await getAllRepos()
+    repositories.value = data
     options.value = formatRepos(data)
   } catch (error) {
     console.error('Error fetching repositories:', error)

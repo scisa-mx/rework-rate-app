@@ -1,8 +1,13 @@
 export const GET_ALL_REPOS = `
 query{ 
-   getAllRepos{
-    url
+  getAllRepos {
+    id
     name
+    url
+    tags {
+      name
+      id
+    }
   }
 }   
 `
