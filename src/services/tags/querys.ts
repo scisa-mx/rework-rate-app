@@ -3,6 +3,7 @@ query {
   getAllTags {
     id
     name
+    color
   }
 }
 `

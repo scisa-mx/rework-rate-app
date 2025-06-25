@@ -7,6 +7,7 @@ query{
     tags {
       name
       id
+      color
     }
   }
 }   
@@ -18,6 +19,11 @@ query GetReworkDataByName($repoUrl: String!, $tags: [String!]) {
     id
     name
     url
+    tags {
+      id
+      name
+      color
+    }
   }
 }
 `

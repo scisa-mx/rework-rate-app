@@ -19,7 +19,6 @@ const emit = defineEmits(['update:modelValue'])
 const modelValue = ref(props.modelValue)
 const isInputFocused = ref(false)
 
-
 const addTag = (value: string) => {
   const tag = value.trim()
   if (tag && !modelValue.value.includes(tag)) {
@@ -79,7 +78,12 @@ watch(
           @mousedown.prevent="addTag(option.label)"
           class="px-3 py-1 hover:bg-royal-purple-100 cursor-pointer text-slate-800"
         >
-          {{ option.label }}
+          <div v-if="$slots.tag">
+            <slot name="tag" :option="option"> </slot>
+          </div>
+          <span v-else>
+            {{ option.label }}
+          </span>
         </li>
       </ul>
     </div>

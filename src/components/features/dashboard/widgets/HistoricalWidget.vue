@@ -27,7 +27,16 @@
           :label="'Tags'"
           :key="JSON.stringify(tags)"
           :has-options="true"
-        />
+        >
+          <template #tag="{ option }">
+            <span
+              class="ml-1 border-l-4 text-xs py-[2px] px-1.5 rounded-sm text-slate-700 bg-slate-100"
+              :style="{ borderLeftColor: tagMetadataMap[String(option.value)]?.color || '#663399' }"
+            >
+              {{ tagMetadataMap[String(option.value)]?.label }}
+            </span>
+          </template>
+        </DashTagsInput>
       </div>
       <div class="col-span-2">
         <DashSelect
@@ -39,7 +48,23 @@
           :label="'Selecciona un repositorio'"
           name="repository-historical-search"
           :required="false"
-        ></DashSelect>
+        >
+          <template #tag="{ option }">
+            <div class="flex items-center gap-2">
+              <span class="font-medium">{{ option.label }}</span>
+              <div class="flex gap-1">
+                <span
+                  v-for="tag in repoMetadataMap[String(option.value)]?.tags || []"
+                  :key="tag.name"
+                  class="text-[10px] px-1 rounded-sm"
+                  :style="{ backgroundColor: tag.color, color: 'white' }"
+                >
+                  {{ tag.name }}
+                </span>
+              </div>
+            </div>
+          </template>
+        </DashSelect>
         <!-- <DashSearchListInput
           id="repository-hisorical"
           :is-valid="true"
@@ -132,6 +157,8 @@ const tags = ref<string[]>([])
 const repos = ref<ReworkRate[]>([])
 const repositories = ref<RepositoryReworkRate[]>([])
 const currentRepository = ref<RepositoryReworkRate | null>(null)
+const repoMetadataMap = ref<Record<string, { tags: Tag[] }>>({})
+const tagMetadataMap = ref<Record<string, { label: string; color: string }>>({})
 
 const today = new Date()
 const lastPeriod = new Date()
@@ -180,32 +207,12 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
-const onSearch = async (value: string) => {
-  isLoading.value = true
-  try {
-    if (value === '') {
-      const data = await getRepos()
-      options.value = formatRepos(data)
-    }
-    handlerDataByRepoName(value)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const handlerDataByRepoName = async (repoName: string) => {
-  try {
-    const res = await getReworkDataByName(repoName, tags.value)
-    options.value = formatRepos(res)
-  } finally {
-  }
-}
-
 const handlerDataByTags = async (tags: string[]) => {
   isLoading.value = true
   try {
     const res = await getReworkDataByName('', tags)
     options.value = formatRepos(res)
+    formatReposTags(res)
   } catch (error) {
     console.error('Error fetching repositories by tags:', error)
   } finally {
@@ -238,11 +245,11 @@ watch(
     } else {
       const data = await getRepos()
       options.value = formatRepos(data)
+      formatReposTags(data)
     }
   },
   { deep: true, immediate: true },
 )
-
 
 const resetFilters = () => {
   tags.value = []
@@ -291,6 +298,37 @@ const formatTagsToOptionSelect = (tags: Tag[]): DashOptionSelect[] => {
       label: tag.name,
     } as unknown as DashOptionSelect
   })
+}
+
+const formatReposTags = (reqs: Repos[]) => {
+  const formatted = reqs.map((repo) => {
+    repoMetadataMap.value[repo.url] = {
+      tags: (repo as RepositoryReworkRate).tags || [],
+    }
+
+    return {
+      value: repo.url,
+      label: repo.name,
+    }
+  })
+
+  return formatted
+}
+
+const formatTagsToTagInput = (tags: Tag[]): DashOptionSelect[] => {
+  const formatted = tags.map((tag) => {
+    tagMetadataMap.value[tag.id] = {
+      label: tag.name,
+      color: tag.color,
+    }
+
+    return {
+      value: tag.id,
+      label: tag.name,
+      color: tag.color,
+    }
+  })
+  return formatted
 }
 
 const deleteWidtet = () => {
@@ -398,8 +436,10 @@ onMounted(async () => {
     const data = await getRepos()
     const tagsData = await getAllTags()
     tagsList.value = formatTagsToOptionSelect(tagsData)
+    formatTagsToTagInput(tagsData)
     repositories.value = data
     options.value = formatRepos(data)
+    formatReposTags(data)
   } catch (error) {
     console.error('Error fetching repositories:', error)
   } finally {
