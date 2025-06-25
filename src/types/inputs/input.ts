@@ -48,6 +48,8 @@ export type DashTagsInput = DashInputBase & {
 
 export type DashTagsInputProps = InputBaseProps & {
   modelValue: string[]
+  options: DashOptionSelect[]
+  hasOptions?: boolean
 }
 
 export type DashDatePickerInput = DashInputBase & {

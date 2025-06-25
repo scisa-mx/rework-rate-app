@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import {
   TagsInputInput,
   TagsInputItem,
@@ -10,11 +10,22 @@ import {
 
 import { type DashTagsInputProps } from '@/types'
 
-const props = defineProps<DashTagsInputProps>()
+const props = withDefaults(defineProps<DashTagsInputProps>(), {
+  hasOptions: false,
+  options: () => [],
+})
 const emit = defineEmits(['update:modelValue'])
 
 const modelValue = ref(props.modelValue)
-const isInputFocused = ref(false) // Estado para rastrear el enfoque del input
+const isInputFocused = ref(false)
+
+
+const addTag = (value: string) => {
+  const tag = value.trim()
+  if (tag && !modelValue.value.includes(tag)) {
+    modelValue.value.push(tag)
+  }
+}
 
 watch(
   () => modelValue.value,
@@ -57,5 +68,18 @@ watch(
         @blur="isInputFocused = false"
       />
     </TagsInputRoot>
+    <ul
+      v-if="props.options.length > 0 && isInputFocused"
+      class="absolute bg-white border border-gray-300 mt-1 w-full max-w-[480px] shadow-sm z-50 rounded text-sm"
+    >
+      <li
+        v-for="option in props.options"
+        :key="JSON.stringify(option.value)"
+        @mousedown.prevent="addTag(option.label)"
+        class="px-3 py-1 hover:bg-royal-purple-100 cursor-pointer text-slate-800"
+      >
+        {{ option.label }}
+      </li>
+    </ul>
   </fieldset>
 </template>

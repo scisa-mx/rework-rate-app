@@ -14,9 +14,9 @@
           id="repository-historical-tags"
           :is-valid="true"
           v-model="tags"
-          :options="options"
+          :options="tagsList"
           :label="'Tags'"
-            :key="JSON.stringify(tags)"
+          :key="JSON.stringify(tags)"
         />
       </div>
       <div class="col-span-2">
@@ -112,7 +112,7 @@ type Repos = {
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
-const tagsList = ref<Tag[]>([])
+const tagsList = ref<DashOptionSelect[]>([])
 const tags = ref<string[]>([])
 
 const repos = ref<ReworkRate[]>([])
@@ -259,6 +259,15 @@ const formatTags = (tags: Tag[]): string[] => {
   return tags.map((tag) => tag.name)
 }
 
+const formatTagsToOptionSelect = (tags: Tag[]): DashOptionSelect[] => {
+  return tags.map((tag) => {
+    return {
+      value: tag.id,
+      label: tag.name,
+    } as unknown as DashOptionSelect
+  })
+}
+
 const deleteWidtet = () => {
   dashboardStore.DELETE_WIDGET(props.layoutItem.i)
 }
@@ -363,7 +372,7 @@ onMounted(async () => {
   try {
     const data = await getAllRepos()
     const tagsData = await getAllTags()
-    tagsList.value = tagsData
+    tagsList.value = formatTagsToOptionSelect(tagsData)
     repositories.value = data
     options.value = formatRepos(data)
   } catch (error) {
