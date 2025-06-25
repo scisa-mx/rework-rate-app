@@ -83,6 +83,8 @@ import {
   getReposByTags,
   getReworkDataByName,
 } from '@/services/reworkRate/fetchReworkRate'
+import { getAllTags } from '@/services/tags/tags'
+
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
@@ -110,8 +112,10 @@ type Repos = {
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
-const repos = ref<ReworkRate[]>([])
+const tagsList = ref<Tag[]>([])
 const tags = ref<string[]>([])
+
+const repos = ref<ReworkRate[]>([])
 const repositories = ref<RepositoryReworkRate[]>([])
 const currentRepository = ref<RepositoryReworkRate | null>(null)
 
@@ -237,8 +241,6 @@ watch(
       const selectedRepo = repositories.value.find((option) => option.url === newValue)
       const repositoryTags = selectedRepo?.tags
       tags.value = repositoryTags ? formatTags(repositoryTags) : []
-      debugger
-
     }
   },
   { immediate: true },
@@ -360,6 +362,8 @@ onMounted(async () => {
   isLoading.value = true
   try {
     const data = await getAllRepos()
+    const tagsData = await getAllTags()
+    tagsList.value = tagsData
     repositories.value = data
     options.value = formatRepos(data)
   } catch (error) {
