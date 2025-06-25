@@ -4,9 +4,18 @@
       <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
         Historico Rework Rate
       </DashTypography>
-      <span @click="deleteWidtet" class="cursor-pointer hover:text-gray-500">
-        <vue-feather size="18" type="x" />
-      </span>
+      <div class="flex gap-2 items-center">
+        <button
+          @click="resetFilters"
+          class="text-sm flex items-center justify-center cursor-pointer text-royal-purple-800 hover:text-royal-purple-600 border border-royal-purple-300 rounded px-2 py-1"
+        >
+          <vue-feather type="rotate-ccw" size="16" class="inline-block mr-1" />
+          {{ $t('reset') }}
+        </button>
+        <span @click="deleteWidtet" class="cursor-pointer hover:text-gray-500">
+          <vue-feather size="18" type="x" />
+        </span>
+      </div>
     </section>
     <section class="grid grid-cols-1 md:grid-cols-4 gap-2" name="historical-widget-options">
       <div class="col-span-2">
@@ -78,7 +87,7 @@
 import { ref, onMounted, watch, transformVNodeArgs } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import {
-  getAllRepos,
+  getRepos,
   getHistoryByRepo,
   getMeanAndMedian,
   getReposByTags,
@@ -98,7 +107,11 @@ import DashSearchListInput from '@/components/inputs/DashSearchListInput.vue'
 
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
-import type { ReworkRate, ChartDataRework, RepositoryReworkRate } from '@/types/benchmarks/rework-rate'
+import type {
+  ReworkRate,
+  ChartDataRework,
+  RepositoryReworkRate,
+} from '@/types/benchmarks/rework-rate'
 import type { Tag } from '@/types/benchmarks/tags'
 
 const props = defineProps<{
@@ -171,7 +184,7 @@ const onSearch = async (value: string) => {
   isLoading.value = true
   try {
     if (value === '') {
-      const data = await getAllRepos()
+      const data = await getRepos()
       options.value = formatRepos(data)
     }
     handlerDataByRepoName(value)
@@ -208,9 +221,8 @@ const optionsChart = {
 watch(
   () => repository.value,
   () => {
-    currentRepository.value = repositories.value.find(
-      (repo) => repo.url === repository.value,
-    ) || null
+    currentRepository.value =
+      repositories.value.find((repo) => repo.url === repository.value) || null
     handlerData(repository.value as string)
   },
 )
@@ -220,16 +232,22 @@ watch(
   async (newTags: string[]) => {
     if (newTags.length > 0) {
       handlerDataByTags(newTags)
-      if( currentRepository.value && newTags.length > 0) {
+      if (currentRepository.value && newTags.length > 0) {
         assignTagsToReworkData(currentRepository.value?.id, newTags)
       }
     } else {
-      const data = await getAllRepos()
+      const data = await getRepos()
       options.value = formatRepos(data)
     }
   },
   { deep: true, immediate: true },
 )
+
+
+const resetFilters = () => {
+  tags.value = []
+  repository.value = ''
+}
 
 watch(
   () => dates.value,
@@ -377,7 +395,7 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
 onMounted(async () => {
   isLoading.value = true
   try {
-    const data = await getAllRepos()
+    const data = await getRepos()
     const tagsData = await getAllTags()
     tagsList.value = formatTagsToOptionSelect(tagsData)
     repositories.value = data

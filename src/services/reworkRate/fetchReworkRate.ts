@@ -1,5 +1,5 @@
 import { executeQuery } from '../baseGraphQl'
-import { GET_ALL_REPOS, GET_HISTORY_BY_REPO, GET_MEAN_AND_MEDIAN, GET_REWORK_DATA_BY_NAME } from './querys'
+import { GET_REPOS, GET_HISTORY_BY_REPO, GET_MEAN_AND_MEDIAN, GET_REWORK_DATA_BY_NAME } from './querys'
 import type { ReworkRate } from '@/types/benchmarks/rework-rate'
 
 const datapoints = [12.3, 10.1, 8.5, 9.0, 7.4, 6.2, 5.8, 6.5, 7.1, 8.3, 9.2, 10.0]
@@ -50,9 +50,9 @@ export const getReworkData = async () => {
   return res.data.getReworkData
 }
 
-export const getAllRepos = async () => {
-  const res = await executeQuery(GET_ALL_REPOS)
-  return res.data.getAllRepos
+export const getRepos = async () => {
+  const res = await executeQuery(GET_REPOS)
+  return res.data.getRepos
 }
 
 export const getReworkDataByName = async (repoUrl: string, tags: string[]) => {

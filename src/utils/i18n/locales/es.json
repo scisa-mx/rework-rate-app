@@ -16,5 +16,6 @@
     "minimunLength": "El campo debe tener un mínimo de {minimun} caracteres"
   },
   "dashboard": "Tablero",
-  "search": "Buscar"
+  "search": "Buscar",
+  "reset": "Reiniciar"
 }

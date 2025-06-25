@@ -1,6 +1,6 @@
-export const GET_ALL_REPOS = `
+export const GET_REPOS = `
 query{ 
-  getAllRepos {
+  getRepos {
     id
     name
     url
