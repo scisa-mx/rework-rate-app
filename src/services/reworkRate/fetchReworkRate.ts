@@ -55,8 +55,8 @@ export const getAllRepos = async () => {
   return res.data.getAllRepos
 }
 
-export const getReworkDataByName = async (repoUrl: string) => {
-  const res = await executeQuery(GET_REWORK_DATA_BY_NAME, { repoUrl })
+export const getReworkDataByName = async (repoUrl: string, tags: string[]) => {
+  const res = await executeQuery(GET_REWORK_DATA_BY_NAME, { repoUrl, tags })
   return res.data.getReworkDataByName
 }
 
@@ -89,7 +89,7 @@ export const getMeanAndMedian = async (
 export const getReposByTags = async (tags: string[]) => {
   const query = `
     query($tags: [String!]!) {
-      getReposByTags(tags: $tags) {
+      getReworkDataByName(tags: $tags) {
         id
         repoUrl
       }

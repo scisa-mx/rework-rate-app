@@ -8,8 +8,8 @@ query{
 `
 
 export const GET_REWORK_DATA_BY_NAME = `
-query GetReworkDataByName($repoUrl: String!) {
-  getReworkDataByName(repoUrl: $repoUrl) {
+query GetReworkDataByName($repoUrl: String!, $tags: [String!]) {
+  getReworkDataByName(repoUrl: $repoUrl, tags: $tags) {
     id
     name
     url

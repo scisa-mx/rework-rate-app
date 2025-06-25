@@ -19,7 +19,17 @@
         />
       </div>
       <div class="col-span-2">
-        <DashSearchListInput
+        <DashSelect
+          id="repository-hisorical"
+          :is-valid="true"
+          v-model="repository"
+          :value="repository"
+          :options="options"
+          :label="'Selecciona un repositorio'"
+          name="repository-historical-search"
+          :required="false"
+        ></DashSelect>
+        <!-- <DashSearchListInput
           id="repository-hisorical"
           :is-valid="true"
           v-model="repository"
@@ -29,7 +39,7 @@
           name="repository-historical-search"
           :required="false"
           :callback="onSearch"
-        />
+        /> -->
       </div>
       <div class="col-span-2">
         <DashDatePicker
@@ -81,6 +91,7 @@ import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
 import DashSearchListInput from '@/components/inputs/DashSearchListInput.vue'
+import DashButton from '@/components/buttons/DashButton.vue'
 
 import type { DashOptionSelect } from '@/types'
 import type { Ref } from 'vue'
@@ -163,7 +174,7 @@ const onSearch = async (value: string) => {
 
 const handlerDataByRepoName = async (repoName: string) => {
   try {
-    const res = await getReworkDataByName(repoName)
+    const res = await getReworkDataByName(repoName, tags.value)
     options.value = formatRepos(res)
   } finally {
   }
@@ -172,7 +183,8 @@ const handlerDataByRepoName = async (repoName: string) => {
 const handlerDataByTags = async (tags: string[]) => {
   isLoading.value = true
   try {
-    repos.value = await getReposByTags(tags)
+    const res = await getReworkDataByName('', tags)
+    options.value = formatRepos(res)
   } catch (error) {
     console.error('Error fetching repositories by tags:', error)
   } finally {
@@ -194,9 +206,12 @@ watch(
 
 watch(
   tags,
-  (newTags) => {
+  async (newTags) => {
     if (newTags.length > 0) {
-      // handlerDataByTags(newTags)
+      handlerDataByTags(newTags)
+    } else {
+      const data = await getAllRepos()
+      options.value = formatRepos(data)
     }
   },
   { deep: true, immediate: true },
