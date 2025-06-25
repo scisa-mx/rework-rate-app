@@ -84,7 +84,7 @@ import {
   getReposByTags,
   getReworkDataByName,
 } from '@/services/reworkRate/fetchReworkRate'
-import { getAllTags } from '@/services/tags/tags'
+import { getAllTags, assignTagsToReworkData } from '@/services/tags/tags'
 
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -208,15 +208,21 @@ const optionsChart = {
 watch(
   () => repository.value,
   () => {
+    currentRepository.value = repositories.value.find(
+      (repo) => repo.url === repository.value,
+    ) || null
     handlerData(repository.value as string)
   },
 )
 
 watch(
   tags,
-  async (newTags) => {
+  async (newTags: string[]) => {
     if (newTags.length > 0) {
       handlerDataByTags(newTags)
+      if( currentRepository.value && newTags.length > 0) {
+        assignTagsToReworkData(currentRepository.value?.id, newTags)
+      }
     } else {
       const data = await getAllRepos()
       options.value = formatRepos(data)
