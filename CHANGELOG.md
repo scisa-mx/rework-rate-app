@@ -1,5 +1,23 @@
 # scisa-benchmark-frontend
 
+## 0.3.0 - 05-08-2025
+Se agrega la funcionalidad de filtrar los repositorios mediante tags, estos tags tambien se pueden agregar de forma automatica al seleccionar un repositorio y escribiendo el tag nuevo dentro del campo de tags.
+
+### Fixed
+
+
+### Added
+  - [243] Se agrega la funcionalidad de filtrar los repositorios mediante tags
+  - [243] Se pueden agregar tags a un repositorio escribiendo el tag una vez este repo este selecionado en el campo.
+
+
+### Changed
+    
+### Deprecated
+
+### Removed
+
+### Security
 
 ## 0.2.1 - 05-08-2025
 

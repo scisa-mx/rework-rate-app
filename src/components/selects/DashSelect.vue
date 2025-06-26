@@ -73,7 +73,12 @@ selectedValue.value = props.modelValue
                   <vue-feather size="15" type="check" />
                 </SelectItemIndicator>
                 <SelectItemText>
-                  {{ option.label }}
+                  <div v-if="$slots.tag">
+                      <slot name="tag" :option="option" > </slot>
+                  </div>
+                  <div v-else>
+                    {{ option.label }}
+                  </div>
                 </SelectItemText>
               </SelectItem>
             </SelectGroup>
