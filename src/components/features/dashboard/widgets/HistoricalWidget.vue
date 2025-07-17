@@ -22,7 +22,7 @@
         <DashTagsInput
           id="repository-historical-tags"
           :is-valid="true"
-          v-model="tags"
+          v-model="currentTags"
           :options="tagsList"
           :label="'Tags'"
           :key="JSON.stringify(tags)"
@@ -112,13 +112,11 @@
 import { ref, onMounted, watch, transformVNodeArgs } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import {
-  getRepos,
   getHistoryByRepo,
   getMeanAndMedian,
-  getReposByTags,
   getReworkDataByName,
 } from '@/services/reworkRate/fetchReworkRate'
-import { getAllTags, assignTagsToReworkData } from '@/services/tags/tags'
+import { useTags } from '@/services/tags/useTags'
 
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -138,25 +136,23 @@ import type {
   RepositoryReworkRate,
 } from '@/types/benchmarks/rework-rate'
 import type { Tag } from '@/types/benchmarks/tags'
+import { formatTagsToTagInput } from '@/mapper/tag.mapper'
+import { formatReposTags } from '@/mapper/repositories.mapper'
 
 const props = defineProps<{
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
-type Repos = {
-  name: string
-  url: string
-}
+const { tags, tagsNames, error, fetchTags } = useTags()
 
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
 const tagsList = ref<DashOptionSelect[]>([])
-const tags = ref<string[]>([])
+const currentTags = ref<string[]>([])
 
 const repos = ref<ReworkRate[]>([])
-const repositories = ref<RepositoryReworkRate[]>([])
-const currentRepository = ref<RepositoryReworkRate | null>(null)
+
 const repoMetadataMap = ref<Record<string, { tags: Tag[] }>>({})
 const tagMetadataMap = ref<Record<string, { label: string; color: string }>>({})
 
@@ -207,128 +203,10 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
-const handlerDataByTags = async (tags: string[]) => {
-  isLoading.value = true
-  try {
-    const res = await getReworkDataByName('', tags)
-    options.value = formatRepos(res)
-    formatReposTags(res)
-  } catch (error) {
-    console.error('Error fetching repositories by tags:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const optionsChart = {
-  responsive: true,
-  maintainAspectRatio: false,
-}
-
-watch(
-  () => repository.value,
-  () => {
-    currentRepository.value =
-      repositories.value.find((repo) => repo.url === repository.value) || null
-    handlerData(repository.value as string)
-  },
-)
-
-watch(
-  tags,
-  async (newTags: string[]) => {
-    if (newTags.length > 0) {
-      handlerDataByTags(newTags)
-      if (currentRepository.value && newTags.length > 0) {
-        assignTagsToReworkData(currentRepository.value?.id, newTags)
-      }
-    } else {
-      const data = await getRepos()
-      options.value = formatRepos(data)
-      formatReposTags(data)
-    }
-  },
-  { deep: true, immediate: true },
-)
 
 const resetFilters = () => {
   tags.value = []
   repository.value = ''
-}
-
-watch(
-  () => dates.value,
-  () => {
-    handlerData(repository.value as string)
-  },
-  { deep: true },
-)
-
-watch(
-  () => repository.value,
-  (newValue) => {
-    // Seleccionar las tags del repositorio seleccionado
-    if (newValue) {
-      // buscar dentro de las opciones el repositorio seleccionado
-      const selectedRepo = repositories.value.find((option) => option.url === newValue)
-      const repositoryTags = selectedRepo?.tags
-      tags.value = repositoryTags ? formatTags(repositoryTags) : []
-    }
-  },
-  { immediate: true },
-)
-
-const formatRepos = (reqs: Repos[]) => {
-  return reqs.map((repo) => {
-    return {
-      value: repo.url,
-      label: repo.name,
-    }
-  })
-}
-
-const formatTags = (tags: Tag[]): string[] => {
-  return tags.map((tag) => tag.name)
-}
-
-const formatTagsToOptionSelect = (tags: Tag[]): DashOptionSelect[] => {
-  return tags.map((tag) => {
-    return {
-      value: tag.id,
-      label: tag.name,
-    } as unknown as DashOptionSelect
-  })
-}
-
-const formatReposTags = (reqs: Repos[]) => {
-  const formatted = reqs.map((repo) => {
-    repoMetadataMap.value[repo.url] = {
-      tags: (repo as RepositoryReworkRate).tags || [],
-    }
-
-    return {
-      value: repo.url,
-      label: repo.name,
-    }
-  })
-
-  return formatted
-}
-
-const formatTagsToTagInput = (tags: Tag[]): DashOptionSelect[] => {
-  const formatted = tags.map((tag) => {
-    tagMetadataMap.value[tag.id] = {
-      label: tag.name,
-      color: tag.color,
-    }
-
-    return {
-      value: tag.id,
-      label: tag.name,
-      color: tag.color,
-    }
-  })
-  return formatted
 }
 
 const deleteWidtet = () => {
@@ -363,23 +241,6 @@ const handlerData = async (value: string) => {
     setTimeout(() => {
       isLoading.value = false
     }, 500)
-  }
-}
-
-const getMeanAndMedianInfo = async (value: string) => {
-  isLoading.value = true
-  try {
-    const res = await getMeanAndMedian(
-      value,
-      dates.value.start ? dates.value.start : null,
-      dates.value.end ? dates.value.end : null,
-    )
-    meanAndMedian.value.mean = res.mean
-    meanAndMedian.value.median = res.median
-  } catch (error) {
-    console.error('Error fetching mean and median:', error)
-  } finally {
-    isLoading.value = false
   }
 }
 
@@ -433,15 +294,8 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
 onMounted(async () => {
   isLoading.value = true
   try {
-    const data = await getRepos()
-    const tagsData = await getAllTags()
-    tagsList.value = formatTagsToOptionSelect(tagsData)
-    formatTagsToTagInput(tagsData)
-    repositories.value = data
-    options.value = formatRepos(data)
-    formatReposTags(data)
-  } catch (error) {
-    console.error('Error fetching repositories:', error)
+    await fetchTags({ name: '' })
+    tagsList.value = formatTagsToTagInput({tags: tags.value, tagMetadataMap: tagMetadataMap})
   } finally {
     isLoading.value = false
   }
