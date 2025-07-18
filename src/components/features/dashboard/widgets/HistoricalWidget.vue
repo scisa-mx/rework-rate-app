@@ -162,6 +162,12 @@ const { tags, tagsNames, error: tagsError, fetchTags } = useTags()
 const { fetchRepositories, assingTagsToRepositories, repositories } = useRepositories()
 const { getHistory, reworkRateHistory } = useReworkRate()
 
+// CONSTANTS DONT TOUCH
+const optionsChart = {
+  responsive: true,
+  maintainAspectRatio: false,
+}
+
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
@@ -330,11 +336,25 @@ watch(
       const newTags = currentRepo?.tags.map((tag) => tag.name) || []
       currentTags.value = newTags
       isSelectedRepository.value = true
-      await getHistory({ 
+      await getHistory({
         repoUrl: newRepo,
         startDate: dates.value.start,
         endDate: dates.value.end,
-       })
+      })
+
+      const formatDat = formatDatesForChart(reworkRateHistory.value)
+
+      data.value.labels = formatDat.labels
+      // pass datapoints and commits to the chart
+      data.value.datasets[0].data = formatDat.datapoints
+      data.value.datasets[0].commits = formatDat.commits
+      data.value.datasets[0].reworkLines = formatDat.reworkLines
+      data.value.datasets[0].periodsStart = formatDat.periodsStart
+      data.value.datasets[0].periodsEnd = formatDat.periodsEnd
+      data.value.datasets[0].timestamps = formatDat.timestamps
+      data.value.datasets[0].prNumbers = formatDat.prNumbers
+      data.value.datasets[0].authors = formatDat.authors
+      data.value.datasets[0].modifiedLines = formatDat.modifiedLines
     } finally {
       isLoading.value = false
     }
