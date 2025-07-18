@@ -1,4 +1,9 @@
-export type Repos = {
+import type { Tag } from './tags'
+
+export type Repository = {
   name: string
-  url: string
+  repoUrl: string
+  id: string
+  description: string
+  tags: Tag[]
 }

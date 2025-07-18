@@ -1,6 +1,6 @@
 export const GET_REPOSITORIES = `
-query {
-  getAllRepositories(filters: {tags: [], name: ""}) {
+query ($filters: RepositoryFilterInput!) {
+  getAllRepositories(filters: $filters) {
     repoUrl
     name
     id

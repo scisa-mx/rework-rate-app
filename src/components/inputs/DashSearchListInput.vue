@@ -28,7 +28,12 @@
         @mousedown.prevent="selectOption(option)"
         class="px-3 py-1 hover:bg-royal-purple-100 cursor-pointer text-slate-800"
       >
-        {{ option.label }}
+        <div v-if="$slots.tag">
+          <slot name="tag" :option="option"> </slot>
+        </div>
+        <div v-else>
+          {{ option.label }}
+        </div>
       </li>
     </ul>
   </fieldset>

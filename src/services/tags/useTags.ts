@@ -9,9 +9,9 @@ export function useTags() {
   const tagsNames = ref<string[]>([])
   const error = ref<null | unknown>(null)
 
-  const fetchTags = async (p0: { name: string }) => {
+  const fetchTags = async ({ name = '' }: { name?: string }) => {
     try {
-      const response = await executeQuery(GET_TAGS, { filters: { name: '', id: '' } })
+      const response = await executeQuery(GET_TAGS, { filters: { name , id: '' } })
       tags.value = response.data.getAllTags as Tag[]
       tagsNames.value = tags.value.map((tag) => tag.name)
     } catch (err) {

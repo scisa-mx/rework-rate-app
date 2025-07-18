@@ -1,6 +1,6 @@
 export const GET_TAGS = `
-query {
-  getAllTags(filters: {name: "", id: ""}) {
+query ($filters: TagFilter!) {
+  getAllTags(filters: $filters) {
     color
     name
     id

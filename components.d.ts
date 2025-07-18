@@ -68,6 +68,7 @@ declare module 'vue' {
     LineChart: typeof import('./src/components/charts/lineCharts/LineChart.vue')['default']
     LoadingOverlay: typeof import('./src/components/overlay/LoadingOverlay.vue')['default']
     OptionsBar: typeof import('./src/components/features/dashboard/OptionsBar.vue')['default']
+    Prueba: typeof import('./src/components/features/dashboard/widgets/prueba.vue')['default']
     RippleButton: typeof import('./src/components/buttons/RippleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
