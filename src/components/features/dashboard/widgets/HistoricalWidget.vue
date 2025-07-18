@@ -70,7 +70,6 @@
           id="repository-hisorical"
           :is-valid="true"
           v-model="repository"
-          :value="repository"
           :options="repositoriesList"
           :label="'Selecciona un repositorio'"
           name="repository-historical-search"
@@ -223,7 +222,7 @@ const data: Ref<ChartDataRework> = ref({
 })
 
 const resetFilters = () => {
-  tags.value = []
+  currentTags.value = []
   repository.value = ''
 }
 
@@ -284,6 +283,9 @@ const onSearch = async (value: string) => {
     await fetchRepositories({ name: value })
     repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
     formatReposTags({ reqs: repositories.value, repoMetadataMap })
+    if(value == '') {
+      repository.value = ''
+    }
   } finally {
     isLoading.value = false
   }
@@ -303,14 +305,13 @@ onMounted(async () => {
 })
 
 // WATCHERS
-
 watch(
   () => currentTags.value,
   async (newTags) => {
     isLoading.value = true
     try {
       // Si hay un repositorio seleccionado, actualiza los tags
-      if (isSelectedRepository.value) {
+      if (repository.value != '') {
         await assingTagsToRepositories({
           repositoriesList: repositories.value,
           repositoryUrl: repository.value,
@@ -335,7 +336,6 @@ watch(
       const currentRepo = repositories.value.find((item) => item.repoUrl === newRepo)
       const newTags = currentRepo?.tags.map((tag) => tag.name) || []
       currentTags.value = newTags
-      isSelectedRepository.value = true
       await getHistory({
         repoUrl: newRepo,
         startDate: dates.value.start,
@@ -343,7 +343,6 @@ watch(
       })
 
       const formatDat = formatDatesForChart(reworkRateHistory.value)
-
       data.value.labels = formatDat.labels
       // pass datapoints and commits to the chart
       data.value.datasets[0].data = formatDat.datapoints
