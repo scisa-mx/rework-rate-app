@@ -34,11 +34,9 @@ export function useRepositories() {
     tagNames: string[]
   }) => {
     const id = repositoriesList.find(repo => repo.repoUrl === repositoryUrl)?.id
-    debugger
     if (!id) {
       return Promise.reject(new Error('Repository not found'))
     }
-    debugger
     return executeQuery(ASSING_TAG_TO_REPOSITORY, {
       data: {
         repositoryId: id,

@@ -131,12 +131,13 @@ import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 
 import { useTags } from '@/services/tags/useTags'
 import { useRepositories } from '@/services/repositories/useRepositories'
+import { useReworkRate } from '@/services/reworkRate/useReworkRate'
 
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
 import LineChart from '@/components/charts/lineCharts/LineChart.vue'
-import DashSelect from '@/components/selects/DashSelect.vue'
+// import DashSelect from '@/components/selects/DashSelect.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
@@ -159,6 +160,7 @@ const props = defineProps<{
 
 const { tags, tagsNames, error: tagsError, fetchTags } = useTags()
 const { fetchRepositories, assingTagsToRepositories, repositories } = useRepositories()
+const { getHistory, reworkRateHistory } = useReworkRate()
 
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
@@ -328,6 +330,11 @@ watch(
       const newTags = currentRepo?.tags.map((tag) => tag.name) || []
       currentTags.value = newTags
       isSelectedRepository.value = true
+      await getHistory({ 
+        repoUrl: newRepo,
+        startDate: dates.value.start,
+        endDate: dates.value.end,
+       })
     } finally {
       isLoading.value = false
     }

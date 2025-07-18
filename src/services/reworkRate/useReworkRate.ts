@@ -8,22 +8,22 @@ export function useReworkRate() {
   const reworkRateHistory = ref<ReworkRate[]>([])
 
   const getHistory = async ({
-    repositoryUrl,
+    repoUrl,
     startDate = null,
     endDate = null,
   }: {
-    repositoryUrl: string
+    repoUrl: string
     startDate: string | null
     endDate: string | null
   }) => {
     try {
       const response = await executeQuery(GET_HISTORY, {
-        repositoryUrl,
+        repoUrl,
         startDate,
         endDate,
       })
-      reworkRateHistory.value = response.data.getReworkRateHistory
-      return response.data.getReworkRateHistory
+      reworkRateHistory.value = response.data.getReworkHistory
+      return response.data.getReworkHistory
     } catch (error) {
       console.error('Error fetching rework rate history:', error)
       throw error

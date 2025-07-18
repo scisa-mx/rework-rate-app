@@ -1,19 +1,19 @@
 export const GET_HISTORY = `
-query ($repositoryId: String!, $startDate: String, $endDate: String) {
-  getReworkRateHistory(repositoryId: $repositoryId, startDate: $startDate, endDate: $endDate) {
-    author
-    id
-    createdAtDate
-    modifiedLines
-    periodStart
-    prApprover
-    periodEnd
-    prNumber
-    repoUrl
-    reworkLines
-    reworkPercentage
-    timestamp
-    totalCommits
+  query GetReworkHistory($repoUrl: String!, $startDate: DateTime, $endDate: DateTime) {
+    getReworkHistory(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {
+      id
+      author
+      createdAtDate
+      modifiedLines
+      periodStart
+      periodEnd
+      prApprover
+      prNumber
+      repoUrl
+      reworkLines
+      reworkPercentage
+      timestamp
+      totalCommits
+    }
   }
-}
 `
