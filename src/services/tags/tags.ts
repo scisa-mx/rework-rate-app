@@ -1,17 +1,12 @@
 import { executeQuery } from '../baseGraphQl'
-import { GET_TAGS, CREATE_TAG } from './querys'
+import { GET_TAGS } from '@/graphql/tags/getTags'
 
-export const getAllTags = async () => {
-  const res = await executeQuery(GET_TAGS)
-  return res.data.getAllTags
-}
-
-export const assignTagsToReworkData = async (repoId: number, tags: string[]) => {
-  const res = await executeQuery(CREATE_TAG, {
-    data: {
-      names: tags,
-      reworkDataId: repoId,
+export const getTags = async ({ name }: { name: string }) => {
+  const res = await executeQuery(GET_TAGS, {
+    filters: {
+      name,
+      id: '',
     },
   })
-  return res.data.createTag
+  return res.data.getAllTags
 }

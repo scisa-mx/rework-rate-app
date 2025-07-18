@@ -22,10 +22,10 @@
         <DashTagsInput
           id="repository-historical-tags"
           :is-valid="true"
-          v-model="tags"
+          v-model="currentTags"
           :options="tagsList"
           :label="'Tags'"
-          :key="JSON.stringify(tags)"
+          :key="JSON.stringify(currentTags)"
           :has-options="true"
         >
           <template #tag="{ option }">
@@ -39,14 +39,15 @@
         </DashTagsInput>
       </div>
       <div class="col-span-2">
-        <DashSelect
+        <!-- <DashSelect
           id="repository-hisorical"
           :is-valid="true"
           v-model="repository"
           :value="repository"
-          :options="options"
+          :options="repositoriesList"
           :label="'Selecciona un repositorio'"
           name="repository-historical-search"
+          :key="JSON.stringify(repositories)"
           :required="false"
         >
           <template #tag="{ option }">
@@ -64,18 +65,33 @@
               </div>
             </div>
           </template>
-        </DashSelect>
-        <!-- <DashSearchListInput
+        </DashSelect> -->
+        <DashSearchListInput
           id="repository-hisorical"
           :is-valid="true"
           v-model="repository"
-          :value="repository"
-          :options="options"
+          :options="repositoriesList"
           :label="'Selecciona un repositorio'"
           name="repository-historical-search"
           :required="false"
           :callback="onSearch"
-        /> -->
+        >
+          <template #tag="{ option }">
+            <div class="flex items-center gap-2">
+              <span class="font-normal">{{ option.label }}</span>
+              <div class="flex gap-1">
+                <span
+                  v-for="tag in repoMetadataMap[String(option.value)]?.tags || []"
+                  :key="tag.name"
+                  class="text-[10px] px-1 rounded-sm"
+                  :style="{ backgroundColor: tag.color, color: 'white' }"
+                >
+                  {{ tag.name }}
+                </span>
+              </div>
+            </div>
+          </template>
+        </DashSearchListInput>
       </div>
       <div class="col-span-2">
         <DashDatePicker
@@ -111,20 +127,16 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, transformVNodeArgs } from 'vue'
 import { getPaletteColor } from '@/@core/charts/usePaletteColor'
-import {
-  getRepos,
-  getHistoryByRepo,
-  getMeanAndMedian,
-  getReposByTags,
-  getReworkDataByName,
-} from '@/services/reworkRate/fetchReworkRate'
-import { getAllTags, assignTagsToReworkData } from '@/services/tags/tags'
+
+import { useTags } from '@/services/tags/useTags'
+import { useRepositories } from '@/services/repositories/useRepositories'
+import { useReworkRate } from '@/services/reworkRate/useReworkRate'
 
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
 import LineChart from '@/components/charts/lineCharts/LineChart.vue'
-import DashSelect from '@/components/selects/DashSelect.vue'
+// import DashSelect from '@/components/selects/DashSelect.vue'
 import DashDatePicker from '@/components/selects/DashDatePicker.vue'
 import DashTypography from '@/components/typography/DashTypography.vue'
 import DashTagsInput from '@/components/inputs/DashTagsInput.vue'
@@ -138,25 +150,34 @@ import type {
   RepositoryReworkRate,
 } from '@/types/benchmarks/rework-rate'
 import type { Tag } from '@/types/benchmarks/tags'
+import { formatTagsToTagInput } from '@/mapper/tag.mapper'
+import { formatReposTags, formatRepositoriesToDashOptions } from '@/mapper/repositories.mapper'
 
 const props = defineProps<{
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
-type Repos = {
-  name: string
-  url: string
+const { tags, tagsNames, error: tagsError, fetchTags } = useTags()
+const { fetchRepositories, assingTagsToRepositories, repositories } = useRepositories()
+const { getHistory, reworkRateHistory } = useReworkRate()
+
+// CONSTANTS DONT TOUCH
+const optionsChart = {
+  responsive: true,
+  maintainAspectRatio: false,
 }
 
 const COLORS = getPaletteColor()
 const dashboardStore = useDashboardStore()
 
 const tagsList = ref<DashOptionSelect[]>([])
-const tags = ref<string[]>([])
+const currentTags = ref<string[]>([])
 
-const repos = ref<ReworkRate[]>([])
-const repositories = ref<RepositoryReworkRate[]>([])
-const currentRepository = ref<RepositoryReworkRate | null>(null)
+const repositoriesList = ref<DashOptionSelect[]>([])
+const repository = ref<string>('')
+
+const isSelectedRepository = ref<boolean>(false)
+
 const repoMetadataMap = ref<Record<string, { tags: Tag[] }>>({})
 const tagMetadataMap = ref<Record<string, { label: string; color: string }>>({})
 
@@ -175,13 +196,6 @@ const meanAndMedian = ref({
 })
 
 const isLoading = inject('isLoading') as Ref<boolean>
-
-const options = ref<DashOptionSelect[]>([
-  { value: 'option1', label: 'Option 1' },
-  { value: 'option2', label: 'Option 2' },
-])
-
-const repository = ref<string>('')
 
 const data: Ref<ChartDataRework> = ref({
   labels: [],
@@ -207,180 +221,13 @@ const data: Ref<ChartDataRework> = ref({
   ],
 })
 
-const handlerDataByTags = async (tags: string[]) => {
-  isLoading.value = true
-  try {
-    const res = await getReworkDataByName('', tags)
-    options.value = formatRepos(res)
-    formatReposTags(res)
-  } catch (error) {
-    console.error('Error fetching repositories by tags:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const optionsChart = {
-  responsive: true,
-  maintainAspectRatio: false,
-}
-
-watch(
-  () => repository.value,
-  () => {
-    currentRepository.value =
-      repositories.value.find((repo) => repo.url === repository.value) || null
-    handlerData(repository.value as string)
-  },
-)
-
-watch(
-  tags,
-  async (newTags: string[]) => {
-    if (newTags.length > 0) {
-      handlerDataByTags(newTags)
-      if (currentRepository.value && newTags.length > 0) {
-        assignTagsToReworkData(currentRepository.value?.id, newTags)
-      }
-    } else {
-      const data = await getRepos()
-      options.value = formatRepos(data)
-      formatReposTags(data)
-    }
-  },
-  { deep: true, immediate: true },
-)
-
 const resetFilters = () => {
-  tags.value = []
+  currentTags.value = []
   repository.value = ''
-}
-
-watch(
-  () => dates.value,
-  () => {
-    handlerData(repository.value as string)
-  },
-  { deep: true },
-)
-
-watch(
-  () => repository.value,
-  (newValue) => {
-    // Seleccionar las tags del repositorio seleccionado
-    if (newValue) {
-      // buscar dentro de las opciones el repositorio seleccionado
-      const selectedRepo = repositories.value.find((option) => option.url === newValue)
-      const repositoryTags = selectedRepo?.tags
-      tags.value = repositoryTags ? formatTags(repositoryTags) : []
-    }
-  },
-  { immediate: true },
-)
-
-const formatRepos = (reqs: Repos[]) => {
-  return reqs.map((repo) => {
-    return {
-      value: repo.url,
-      label: repo.name,
-    }
-  })
-}
-
-const formatTags = (tags: Tag[]): string[] => {
-  return tags.map((tag) => tag.name)
-}
-
-const formatTagsToOptionSelect = (tags: Tag[]): DashOptionSelect[] => {
-  return tags.map((tag) => {
-    return {
-      value: tag.id,
-      label: tag.name,
-    } as unknown as DashOptionSelect
-  })
-}
-
-const formatReposTags = (reqs: Repos[]) => {
-  const formatted = reqs.map((repo) => {
-    repoMetadataMap.value[repo.url] = {
-      tags: (repo as RepositoryReworkRate).tags || [],
-    }
-
-    return {
-      value: repo.url,
-      label: repo.name,
-    }
-  })
-
-  return formatted
-}
-
-const formatTagsToTagInput = (tags: Tag[]): DashOptionSelect[] => {
-  const formatted = tags.map((tag) => {
-    tagMetadataMap.value[tag.id] = {
-      label: tag.name,
-      color: tag.color,
-    }
-
-    return {
-      value: tag.id,
-      label: tag.name,
-      color: tag.color,
-    }
-  })
-  return formatted
 }
 
 const deleteWidtet = () => {
   dashboardStore.DELETE_WIDGET(props.layoutItem.i)
-}
-
-const handlerData = async (value: string) => {
-  isLoading.value = true
-  try {
-    repos.value = await getHistoryByRepo(
-      value,
-      dates.value.start ? dates.value.start : null,
-      dates.value.end ? dates.value.end : null,
-    )
-    const values = formatDatesForChart(repos.value)
-    await getMeanAndMedianInfo(value)
-    data.value.labels = values.labels
-    // pass datapoints and commits to the chart
-    data.value.datasets[0].data = values.datapoints
-    data.value.datasets[0].commits = values.commits
-    data.value.datasets[0].reworkLines = values.reworkLines
-    data.value.datasets[0].periodsStart = values.periodsStart
-    data.value.datasets[0].periodsEnd = values.periodsEnd
-    data.value.datasets[0].timestamps = values.timestamps
-    data.value.datasets[0].prNumbers = values.prNumbers
-    data.value.datasets[0].authors = values.authors
-    data.value.datasets[0].modifiedLines = values.modifiedLines
-  } catch {
-    console.error('Error fetching repository history')
-  } finally {
-    // Better UX to show loading for a bit even if the data is already loaded
-    setTimeout(() => {
-      isLoading.value = false
-    }, 500)
-  }
-}
-
-const getMeanAndMedianInfo = async (value: string) => {
-  isLoading.value = true
-  try {
-    const res = await getMeanAndMedian(
-      value,
-      dates.value.start ? dates.value.start : null,
-      dates.value.end ? dates.value.end : null,
-    )
-    meanAndMedian.value.mean = res.mean
-    meanAndMedian.value.median = res.median
-  } catch (error) {
-    console.error('Error fetching mean and median:', error)
-  } finally {
-    isLoading.value = false
-  }
 }
 
 const formatDatesForChart = (repos: ReworkRate[]) => {
@@ -430,20 +277,87 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
   }
 }
 
+const onSearch = async (value: string) => {
+  isLoading.value = true
+  try {
+    await fetchRepositories({ name: value })
+    repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
+    formatReposTags({ reqs: repositories.value, repoMetadataMap })
+    if(value == '') {
+      repository.value = ''
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
+
 onMounted(async () => {
   isLoading.value = true
   try {
-    const data = await getRepos()
-    const tagsData = await getAllTags()
-    tagsList.value = formatTagsToOptionSelect(tagsData)
-    formatTagsToTagInput(tagsData)
-    repositories.value = data
-    options.value = formatRepos(data)
-    formatReposTags(data)
-  } catch (error) {
-    console.error('Error fetching repositories:', error)
+    await fetchTags({})
+    await fetchRepositories({})
+    tagsList.value = formatTagsToTagInput({ tags: tags.value, tagMetadataMap: tagMetadataMap })
+    repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
+    formatReposTags({ reqs: repositories.value, repoMetadataMap })
   } finally {
     isLoading.value = false
   }
 })
+
+// WATCHERS
+watch(
+  () => currentTags.value,
+  async (newTags) => {
+    isLoading.value = true
+    try {
+      // Si hay un repositorio seleccionado, actualiza los tags
+      if (repository.value != '') {
+        await assingTagsToRepositories({
+          repositoriesList: repositories.value,
+          repositoryUrl: repository.value,
+          tagNames: newTags,
+        })
+      }
+      await fetchRepositories({ tags: newTags })
+      repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
+      formatReposTags({ reqs: repositories.value, repoMetadataMap })
+    } finally {
+      isLoading.value = false
+    }
+  },
+  { immediate: true, deep: true },
+)
+
+watch(
+  () => repository.value,
+  async (newRepo) => {
+    isLoading.value = true
+    try {
+      const currentRepo = repositories.value.find((item) => item.repoUrl === newRepo)
+      const newTags = currentRepo?.tags.map((tag) => tag.name) || []
+      currentTags.value = newTags
+      await getHistory({
+        repoUrl: newRepo,
+        startDate: dates.value.start,
+        endDate: dates.value.end,
+      })
+
+      const formatDat = formatDatesForChart(reworkRateHistory.value)
+      data.value.labels = formatDat.labels
+      // pass datapoints and commits to the chart
+      data.value.datasets[0].data = formatDat.datapoints
+      data.value.datasets[0].commits = formatDat.commits
+      data.value.datasets[0].reworkLines = formatDat.reworkLines
+      data.value.datasets[0].periodsStart = formatDat.periodsStart
+      data.value.datasets[0].periodsEnd = formatDat.periodsEnd
+      data.value.datasets[0].timestamps = formatDat.timestamps
+      data.value.datasets[0].prNumbers = formatDat.prNumbers
+      data.value.datasets[0].authors = formatDat.authors
+      data.value.datasets[0].modifiedLines = formatDat.modifiedLines
+    } finally {
+      isLoading.value = false
+    }
+  },
+  { immediate: true, deep: true },
+)
 </script>
