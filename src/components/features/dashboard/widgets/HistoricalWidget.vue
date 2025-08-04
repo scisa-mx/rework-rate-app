@@ -27,6 +27,7 @@
           :label="'Tags'"
           :key="JSON.stringify(currentTags)"
           :has-options="true"
+          @tag-added="handleTagAdded"
         >
           <template #tag="{ option }">
             <span
@@ -131,6 +132,9 @@ import { getPaletteColor } from '@/@core/charts/usePaletteColor'
 import { useTags } from '@/services/tags/useTags'
 import { useRepositories } from '@/services/repositories/useRepositories'
 import { useReworkRate } from '@/services/reworkRate/useReworkRate'
+import { getMeanAndMedian } from '@/services/reworkRate/fetchReworkRate'
+
+const DEFAULT_REPO_ID = 'https://scisa.visualstudio.com/SUMMA/_git/SUMMA'
 
 import { inject } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
@@ -153,6 +157,13 @@ import type { Tag } from '@/types/benchmarks/tags'
 import { formatTagsToTagInput } from '@/mapper/tag.mapper'
 import { formatReposTags, formatRepositoriesToDashOptions } from '@/mapper/repositories.mapper'
 
+import { useMutation } from '@vue/apollo-composable'
+import { ASSING_TAG_TO_REPOSITORY } from '@/graphql/repository/assingTags'
+
+const selectedTags = ref<string[]>([])
+
+const { mutate: assingTags } = useMutation(ASSING_TAG_TO_REPOSITORY)
+
 const props = defineProps<{
   layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
@@ -174,7 +185,7 @@ const tagsList = ref<DashOptionSelect[]>([])
 const currentTags = ref<string[]>([])
 
 const repositoriesList = ref<DashOptionSelect[]>([])
-const repository = ref<string>('')
+const repository = ref<string>(DEFAULT_REPO_ID)
 
 const isSelectedRepository = ref<boolean>(false)
 
@@ -223,7 +234,7 @@ const data: Ref<ChartDataRework> = ref({
 
 const resetFilters = () => {
   currentTags.value = []
-  repository.value = ''
+  repository.value = DEFAULT_REPO_ID
 }
 
 const deleteWidtet = () => {
@@ -280,29 +291,64 @@ const formatDatesForChart = (repos: ReworkRate[]) => {
 const onSearch = async (value: string) => {
   isLoading.value = true
   try {
-    await fetchRepositories({ name: value })
-    repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
-    formatReposTags({ reqs: repositories.value, repoMetadataMap })
-    if(value == '') {
-      repository.value = ''
-    }
+    const searchTerm = value.trim()
+    await fetchRepositories({ name: searchTerm || undefined })
+
+    repositoriesList.value = formatRepositoriesToDashOptions({
+      repositories: repositories.value,
+    })
+
+    formatReposTags({
+      reqs: repositories.value,
+      repoMetadataMap,
+    })
   } finally {
     isLoading.value = false
   }
 }
+
 
 onMounted(async () => {
   isLoading.value = true
   try {
     await fetchTags({})
     await fetchRepositories({})
-    tagsList.value = formatTagsToTagInput({ tags: tags.value, tagMetadataMap: tagMetadataMap })
-    repositoriesList.value = formatRepositoriesToDashOptions({ repositories: repositories.value })
-    formatReposTags({ reqs: repositories.value, repoMetadataMap })
+
+    tagsList.value = formatTagsToTagInput({
+      tags: tags.value,
+      tagMetadataMap: tagMetadataMap
+    })
+
+    repositoriesList.value = formatRepositoriesToDashOptions({
+      repositories: repositories.value
+    })
+
+    formatReposTags({
+      reqs: repositories.value,
+      repoMetadataMap
+    })
+
+    // Asignar el repo por default si existe
+    const repoExists = repositories.value.some(r => r.repoUrl === DEFAULT_REPO_ID)
+    if (repoExists && !repository.value) {
+      repository.value = DEFAULT_REPO_ID
+    } else if (!repoExists && repositories.value.length > 0 && !repository.value) {
+      repository.value = repositories.value[0].repoUrl
+    }
+
+    // Aquí es donde agregas el label correspondiente al DEFAULT_REPO_ID
+    const defaultOption = repositoriesList.value.find(
+      (repo) => repo.value === repository.value
+    )
+    if (defaultOption) {
+      repository.value = String(defaultOption.value)
+    }
+
   } finally {
     isLoading.value = false
   }
 })
+
 
 // WATCHERS
 watch(
@@ -336,15 +382,22 @@ watch(
       const currentRepo = repositories.value.find((item) => item.repoUrl === newRepo)
       const newTags = currentRepo?.tags.map((tag) => tag.name) || []
       currentTags.value = newTags
+
+watch(
+  [() => repository.value, () => dates.value.start, () => dates.value.end],
+  async ([newRepo, startDate, endDate]) => {
+    if (!newRepo || !startDate || !endDate) return
+
+    isLoading.value = true
+    try {
       await getHistory({
         repoUrl: newRepo,
-        startDate: dates.value.start,
-        endDate: dates.value.end,
+        startDate,
+        endDate,
       })
 
       const formatDat = formatDatesForChart(reworkRateHistory.value)
       data.value.labels = formatDat.labels
-      // pass datapoints and commits to the chart
       data.value.datasets[0].data = formatDat.datapoints
       data.value.datasets[0].commits = formatDat.commits
       data.value.datasets[0].reworkLines = formatDat.reworkLines
@@ -354,6 +407,27 @@ watch(
       data.value.datasets[0].prNumbers = formatDat.prNumbers
       data.value.datasets[0].authors = formatDat.authors
       data.value.datasets[0].modifiedLines = formatDat.modifiedLines
+
+      const meanMedianResult = await getMeanAndMedian(newRepo, startDate, endDate)
+      meanAndMedian.value.mean = Number((meanMedianResult.mean ?? 0).toFixed(2))
+      meanAndMedian.value.median = meanMedianResult.median ?? 0
+    } catch (error) {
+      console.error('Error fetching rework history:', error)
+    } finally {
+      isLoading.value = false
+    }
+  },
+  { immediate: true }
+)
+
+if (newRepo) {
+        const meanMedianResult = await getMeanAndMedian(newRepo, dates.value.start, dates.value.end)
+        meanAndMedian.value.mean = Number((meanMedianResult.mean ?? 0).toFixed(2))
+        meanAndMedian.value.median = meanMedianResult.median ?? 0
+      } else {
+        meanAndMedian.value.mean = 0
+        meanAndMedian.value.median = 0
+      }
     } finally {
       isLoading.value = false
     }

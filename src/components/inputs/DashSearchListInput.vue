@@ -19,8 +19,8 @@
 
     <!-- Lista fija (no filtrada) -->
     <ul
-      v-if="isFocused && props.options.length > 0"
-      class="absolute bg-white border border-gray-300 mt-1 w-full shadow-sm z-50 rounded text-sm"
+       v-if="isFocused && props.options.length > 0"
+       class="absolute bg-white border border-gray-300 mt-1 w-full shadow-sm z-50 rounded text-sm max-h-60 overflow-y-auto"
     >
       <li
         v-for="option in props.options"
@@ -53,11 +53,24 @@ let debounceTimeout: ReturnType<typeof setTimeout> | undefined
 
 // Solo ejecuta el callback, no filtra
 watch(currentValue, (newValue) => {
+  isFocused.value = true //  Esto mantiene abierto el dropdown mientras escribes
+
   if (debounceTimeout) clearTimeout(debounceTimeout)
   debounceTimeout = setTimeout(() => {
     props.callback?.(newValue)
   }, 300)
 })
+
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    const selected = props.options.find((o) => o.value === val)
+    currentValue.value = selected?.label || ''
+  },
+  { immediate: true }
+)
+
 
 const handleFocus = () => {
   isFocused.value = true
@@ -70,8 +83,9 @@ const handleBlur = () => {
 }
 
 const selectOption = (option: DashOptionSelect) => {
-  currentValue.value = option.label
   emit('update:modelValue', option.value)
-  isFocused.value = false
+  setTimeout(() => {
+    isFocused.value = false
+  }, 200) // o 300ms, ajusta a tu gusto
 }
 </script>

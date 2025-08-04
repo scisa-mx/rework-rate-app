@@ -1,7 +1,6 @@
 import type { Tag } from '@/types/benchmarks/tags'
 import type { Ref } from 'vue'
 import type { Repository } from '@/types/benchmarks/repositories'
-import type { RepositoryReworkRate } from '@/types/benchmarks/rework-rate'
 import type { DashOptionSelect } from '@/types'
 
 export const formatReposTags = ({
