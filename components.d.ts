@@ -57,6 +57,7 @@ declare module 'vue' {
     DashTooltip: typeof import('./src/components/tooltip/DashTooltip.vue')['default']
     DashTypeWritter: typeof import('./src/components/typography/DashTypeWritter.vue')['default']
     DashTypography: typeof import('./src/components/typography/DashTypography.vue')['default']
+    FiltersReworkRate: typeof import('./src/features/reworkRate/components/FiltersReworkRate.vue')['default']
     FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
     HistoricalWidget: typeof import('./src/components/features/dashboard/widgets/HistoricalWidget.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -77,5 +78,6 @@ declare module 'vue' {
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
     ToastContainer: typeof import('./src/components/toast/ToastContainer.vue')['default']
     WidgetBoard: typeof import('./src/components/features/dashboard/widgets/WidgetBoard.vue')['default']
+    WrapperWidget: typeof import('./src/components/features/dashboard/widgets/WrapperWidget.vue')['default']
   }
 }

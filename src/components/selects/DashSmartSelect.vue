@@ -72,6 +72,7 @@ onBeforeUnmount(() => {
         <transition enter-active-class="animate-fade-in" leave-active-class="animate-fade-out">
             <ListboxRoot :multiple="isMultiple" v-model="internalValue" v-if="isFocus" class="absolute top-full left-0 mt-2 w-full z-50
                flex flex-col rounded-lg shadow-lg border
+               border-gray-300
                dark:border-stone-900 overflow-hidden
                bg-white text-slate-800">
                 <ListboxContent class="p-1 max-h-60 overflow-auto">
@@ -95,6 +96,7 @@ onBeforeUnmount(() => {
                 <vue-feather size="14" type="check" />
               </ListboxItemIndicator> -->
                             <span>{{ item.label }}</span>
+                            <slot name="before" :item="item" />
                         </ListboxItem>
                         <template v-if="props.options.length === 0">
                             <ListboxItem disabled :value="''" class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
@@ -103,7 +105,7 @@ onBeforeUnmount(() => {
                      data-[state=checked]:bg-royal-purple-100
                      data-[state=checked]:text-royal-purple-800
                      data-[disabled]:opacity-50">
-                                <span>No data</span>
+                                <span>{{ $t('errorMessages.itemsNotFound') }}</span>
                             </ListboxItem>
                         </template>
                     </ListboxGroup>
