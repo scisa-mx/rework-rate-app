@@ -156,6 +156,7 @@ import type {
 import type { Tag } from '@/types/benchmarks/tags'
 import { formatTagsToTagInput } from '@/mapper/tag.mapper'
 import { formatReposTags, formatRepositoriesToDashOptions } from '@/mapper/repositories.mapper'
+import DashSmartSelect from '@/components/selects/DashSmartSelect.vue'
 
 import { useMutation } from '@vue/apollo-composable'
 import { ASSING_TAG_TO_REPOSITORY } from '@/graphql/repository/assingTags'

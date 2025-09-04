@@ -96,6 +96,13 @@ export type DashSelectProps = InputBaseProps & {
   modelValue: ValueInputSelect
 }
 
+export type DashSmartSelect = DashInputBase & {
+  options: DashOptionSelect[]
+  multiple?: boolean
+  reduce?: () => void
+  modelValue: ValueInputSelect
+}
+
 export type DashCheckboxInput = DashInputBase & {
   type: InputTypes.Checkbox
   value: boolean
