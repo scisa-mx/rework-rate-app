@@ -1,12 +1,13 @@
 <template>
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DashInput id="input-tags" v-model="filters.tags" label="Repository" :is-valid="true"/>
-        <DashSmartSelect id="input-repository" v-model="filters.repository" :options="repositories" label="Repositories" :is-valid="true">
-            <template #before="{item}">
+        <DashInput id="input-tags" v-model="filters.tags" label="Repository" :is-valid="true" />
+        <DashSmartSelect id="input-repository" v-model="filters.repository" :options="repositories" label="Repositories"
+            :is-valid="true">
+            <!-- <template #before="{ item }">
                 <span class="px-2">
-                    {{ item.value }}
+                    {{ item.label }}
                 </span>
-            </template>    
+            </template> -->
         </DashSmartSelect>
         <DashDatePicker id="input-start-date" v-model="filters.startDate" label="Start Date" :is-valid="true" />
         <DashDatePicker id="input-end-date" v-model="filters.endDate" label="End Date" :is-valid="true" />
@@ -24,9 +25,12 @@ import DashDatePicker from '@/components/selects/DashDatePicker.vue';
 
 import type { DashOptionSelect } from '@/types';
 
+const props = defineProps<{
+    repositories: DashOptionSelect[]
+}>()
 
 const emits = defineEmits<{
-    (e: 'on-change', value: { tags: string; repository: string; startDate: string; endDate: string }): void
+    (e: 'on-change', value: { tags: string; repository: DashOptionSelect; startDate: string; endDate: string }): void
 }>()
 
 
@@ -35,7 +39,7 @@ const today = new Date()
 const lastPeriod = new Date()
 lastPeriod.setDate(today.getDate() - 21)
 
-const repositories = ref<DashOptionSelect[]>([])
+const repositories = ref<DashOptionSelect[]>(props.repositories ?? [])
 
 const filters = ref({
     tags: '',
@@ -43,12 +47,6 @@ const filters = ref({
     startDate: lastPeriod.toISOString(),
     endDate: today.toISOString(),
 })
-
-repositories.value = [
-    { label: 'Repo 1', value: 'repo-1' },
-    { label: 'Repo 2', value: 'repo-2' },
-    { label: 'Repo 3', value: 'repo-3' },
-]
 
 watch(
     () => filters.value,
