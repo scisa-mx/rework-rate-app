@@ -2,11 +2,11 @@
     <article class="flex flex-col gap-4 px-1">
         <section name="widget-header" class="flex items-center justify-between">
             <div name="widget-title">
-                <DashTypography variant="h5" class="text-slate-700 font-semibold sm:text-2xl">
+                <DashTypography variant="h6" class="text-slate-700 font-semibold">
                     {{ title }}
                 </DashTypography>
             </div>
-            <div name="widget-actions">
+            <div class="flex items-center justify-center" name="widget-actions">
                 <span @click="onDelete" class="cursor-pointer hover:text-gray-500">
                     <vue-feather size="18" type="x" />
                 </span>
