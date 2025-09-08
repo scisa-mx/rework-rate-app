@@ -1,12 +1,7 @@
 <template>
   <main class="flex flex-col gap-5">
     <div class="grid grid-cols-4 gap-2">
-      <DashSmartSelect id="select-smart" @on-search="handleSearch" label="Selecciona"   v-model="value" :is-valid="true" :options="options"
-        placeholder="Elige una opción" group-by="group">
-        <!-- <template #item="{item}">
-          <span>{{ item }}</span>
-        </template> -->
-      </DashSmartSelect>
+
       <DashInput :is-valid="true" :id="'selected-value'" v-model="value" label="Valor seleccionado:"  />
       {{ value }}
     </div>
@@ -486,25 +481,12 @@ import DashLayoutImage from '@/components/image/DashLayoutImage.vue'
 import DashSmartSelect from '@/components/selects/DashSmartSelect.vue'
 import type { ValueInputSelect, DashOptionSelect } from '@/types'
 
-import { fetchApi } from '@/components/selects/components/fetch'
 
 import { ref } from 'vue'
 import DashInput from '@/components/inputs/DashInput.vue'
 
 const { showToast } = useToast()
 
-const pokemones = ref<DashOptionSelect[]>([])
-
-const handleSearch = (value: string) => {
-  fetchApi({ name: value })
-    .then((data) => {
-      pokemones.value = data
-      options.value = data
-    })
-    .catch((error) => {
-      console.error('Error fetching Pokémon:', error)
-    })
-}
 
 function notify() {
   showToast({

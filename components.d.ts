@@ -48,6 +48,7 @@ declare module 'vue' {
     DashSlider: typeof import('./src/components/image/DashSlider.vue')['default']
     DashSmartSelect: typeof import('./src/components/selects/DashSmartSelect.vue')['default']
     DashSmartSelectGroup: typeof import('./src/components/selects/components/DashSmartSelectGroup.vue')['default']
+    DashSmartTagsSelect: typeof import('./src/components/selects/DashSmartTagsSelect.vue')['default']
     DashSpinner: typeof import('./src/components/spinners/DashSpinner.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTab: typeof import('./src/components/tabs/DashTab.vue')['default']

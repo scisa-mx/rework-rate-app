@@ -7,7 +7,7 @@ import type { Repository } from '@/types/benchmarks/repositories'
 
 interface RepositoryFilterInput {
   name: string | null
-  tags: string | null
+  tags: string[] | null
 }
 
 /**

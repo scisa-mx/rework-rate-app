@@ -18,5 +18,10 @@
   },
   "dashboard": "Tablero",
   "search": "Buscar",
-  "reset": "Reiniciar"
+  "reset": "Reiniciar",
+  "startDate": "Fecha de inicio",
+  "endDate": "Fecha de fin",
+  "repository": "Repositorio",
+  "tags": "Etiquetas",
+  "reworkRate": "Tasa de retrabajo"
 }
