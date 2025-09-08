@@ -23,5 +23,6 @@
   "endDate": "Fecha de fin",
   "repository": "Repositorio",
   "tags": "Etiquetas",
-  "reworkRate": "Tasa de retrabajo"
+  "reworkRate": "Tasa de retrabajo",
+  "searchOrAddTag": "Buscar o agregar etiqueta"
 }

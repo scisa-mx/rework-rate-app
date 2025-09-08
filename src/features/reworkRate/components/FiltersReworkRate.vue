@@ -2,14 +2,23 @@
     {{ filters }}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DashSmartTagsSelect v-model="filters.tags" :options="tags" :is-loading="loadingTags" label="Tags" name="tags"
-            placeholder="Agregar o buscar tag..." :create-if-not-exists="true" @onSearch="handlerTagsSearch"
+            :placeholder="$t('searchOrAddTag')" :create-if-not-exists="true" @onSearch="handlerTagsSearch"
             @onCreateTag="handleCreateTag">
             <template #after="{ item }">
                 <div class="rounded-full w-[20px] h-[20px]" :style="`background-color: ${item.color};`"></div>
             </template>
         </DashSmartTagsSelect>
         <DashSmartSelect id="input-repository" :is-loading="loadingRepos" v-model="filters.repository"
-            :options="optionsRepos" :label="$t('repository')" :is-valid="true" @on-search="handlerSearch" />
+            :options="optionsRepos" :label="$t('repository')" :is-valid="true" @on-search="handlerSearch" >
+            <template #after="{ item }">
+                <div class="flex w-full justify-end ml-1 gap-2">
+                    <!-- @vue-expect-error -->
+                    <div v-for="tag in item.tags" :key="tag.id" class="rounded-full px-2 py-1 text-white text-[0.7rem]" :style="`background-color: ${tag.color};`">
+                        {{ tag.name }}
+                    </div>
+                </div>
+            </template>
+        </DashSmartSelect>
         <DashDatePicker id="input-start-date" v-model="filters.startDate" :label="$t('startDate')" :is-valid="true" />
         <DashDatePicker id="input-end-date" v-model="filters.endDate" :label="$t('endDate')" :is-valid="true" />
     </section>
@@ -44,6 +53,7 @@ const { loading: assignLoader, mutate: assignMutate, data: assignValue } = useAs
 const optionsRepos = computed(() => repositories.value.map(repo => ({
     label: repo.name,
     value: repo.id,
+    tags: repo.tags
 })))
 
 const formattedTags = computed(() => filters.value.tags.map(tag => (tag.name)))

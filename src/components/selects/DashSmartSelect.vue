@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
                                     focus-visible:ring-2 focus-visible:ring-royal-purple-500
                                     data-[disabled]:opacity-50">
                             <span>{{ item.label }}</span>
-                            <slot name="before" :item="item" />
+                            <slot name="after" :item="item" />
                         </ListboxItem>
 
                         <!-- Mensaje si no hay items -->
