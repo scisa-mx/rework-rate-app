@@ -1,14 +1,9 @@
 <template>
+    {{ filters }}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DashInput id="input-tags" v-model="filters.tags" label="Repository" :is-valid="true" />
-        <DashSmartSelect id="input-repository" v-model="filters.repository" :options="repositories" label="Repositories"
-            :is-valid="true">
-            <!-- <template #before="{ item }">
-                <span class="px-2">
-                    {{ item.label }}
-                </span>
-            </template> -->
-        </DashSmartSelect>
+        <DashInput id="input-tags" v-model="filters.tags" label="Tags" :is-valid="true" />
+        <DashSmartSelect id="input-repository" v-model="filters.repository" :options="optionsRepos" label="Repositories"
+            :is-valid="true" @on-search="handlerSearch" />
         <DashDatePicker id="input-start-date" v-model="filters.startDate" label="Start Date" :is-valid="true" />
         <DashDatePicker id="input-end-date" v-model="filters.endDate" label="End Date" :is-valid="true" />
     </section>
@@ -16,7 +11,7 @@
 
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import type { Ref } from 'vue';
 
 import DashInput from '@/components/inputs/DashInput.vue';
@@ -24,34 +19,58 @@ import DashSmartSelect from '@/components/selects/DashSmartSelect.vue';
 import DashDatePicker from '@/components/selects/DashDatePicker.vue';
 
 import type { DashOptionSelect } from '@/types';
+import { useRepositories } from '../services/useReworkRate';
 
-const props = defineProps<{
-    repositories: DashOptionSelect[]
-}>()
+
+interface FilterRepository {
+    tags: string
+    repository: DashOptionSelect | null
+    startDate: string
+    endDate: string
+}
+
+const { data: repositories, loading: loadingRepos, error: errorRepos, fetch: fetchRepos } = useRepositories()
+
+// Variables computed
+const optionsRepos = computed(() => repositories.value.map(repo => ({
+    label: repo.name,
+    value: repo.id,
+})))
+
 
 const emits = defineEmits<{
-    (e: 'on-change', value: { tags: string; repository: DashOptionSelect; startDate: string; endDate: string }): void
+    (e: 'on-change', value: FilterRepository): void
 }>()
 
+const handlerSearch = async (value: string | null) => {
+    await fetchRepos({ name: value, tags: null })
+}
 
 // dates
+const RANGE_DAYS = 21
 const today = new Date()
 const lastPeriod = new Date()
-lastPeriod.setDate(today.getDate() - 21)
+lastPeriod.setDate(today.getDate() - RANGE_DAYS)
 
-const repositories = ref<DashOptionSelect[]>(props.repositories ?? [])
-
-const filters = ref({
+const filters = ref<FilterRepository>({
     tags: '',
-    repository: '',
+    repository: null,
     startDate: lastPeriod.toISOString(),
     endDate: today.toISOString(),
 })
 
 watch(
     () => filters.value,
-    (newValue) => emits('on-change', newValue),
+    (newValue) => {
+        console.log('Filtros cambiados:', newValue)
+        emits('on-change', newValue)
+    },
     { deep: true }
 )
+
+onMounted(async () => {
+    // Fetch initial data or perform setup actions
+    await fetchRepos({ name: null, tags: null })
+})
 
 </script>

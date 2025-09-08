@@ -1,6 +1,6 @@
 <template>
     <WrapperWidget :title="'Historico Rework Rate'" :widget-id="props.layoutItem.i">
-        <FiltersReworkRate :repositories="optionsRepos" @on-change="handleFiltersChange" />
+        <FiltersReworkRate/>
         <section name="box-chart">
             <LineChart :options="optionsChart" :key="JSON.stringify(data)" :data="data" />
         </section>
@@ -17,26 +17,12 @@ import FiltersReworkRate from '@/features/reworkRate/components/FiltersReworkRat
 import LineChart from '@/components/charts/lineCharts/LineChart.vue';
 import type { DashOptionSelect } from '@/types';
 
-import { useRepositories } from '../services/useReworkRate';
 
 const props = defineProps<{
     layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
 const COLORS = getPaletteColor()
-
-const { data: repos, loading: loadingRepos, error: errorRepos, fetch: fetchRepos } = useRepositories()
-
-// Variables computed
-const optionsRepos = ref<DashOptionSelect[]>([])
-
-const handleFiltersChange = async (newFilters: { tags: string | null; repository: DashOptionSelect | null; startDate: string; endDate: string }) => {
-    await fetchRepos({ name: newFilters.repository?.label as string, tags: null })
-    optionsRepos.value = repos.value.map(repo => ({
-        label: repo.name,
-        value: repo.id,
-    }))
-}
 
 // CONSTANTS DONT TOUCH
 const optionsChart = {
@@ -67,5 +53,6 @@ const data: Ref<ChartDataRework> = ref({
         },
     ],
 })
+
 
 </script>

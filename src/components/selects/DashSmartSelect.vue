@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue'
 import {
     ListboxContent,
     ListboxGroup,
@@ -7,21 +7,38 @@ import {
     ListboxRoot,
 } from 'radix-vue'
 
-import { useDebounce } from '@/composables/useDebounce';
-
+import { useDebounce } from '@/composables/useDebounce'
 import { type DashSmartSelect } from '@/types'
 
 const props = defineProps<DashSmartSelect>()
 const emit = defineEmits(['update:modelValue', 'onSearch'])
 
 const isFocus = ref(false)
-const internalValue = ref<any | any[]>(props.multiple ? [] : null)
-const internalInput = ref("")
 const isMultiple = props.multiple ?? false
 
-const { debounce } = useDebounce({ timeDebounce: 300 })
+// Estado interno
+const internalValue = ref<any | any[]>(props.modelValue ?? (isMultiple ? [] : null))
+const internalInput = ref("")
 
-// Mantener input en sync con selección
+// Debounce para búsqueda
+const { debounce } = useDebounce({ timeDebounce: 400 })
+
+// Sincronizar valor inicial con modelValue
+watch(
+    () => props.modelValue,
+    (newValue) => {
+        internalValue.value = newValue
+        if (isMultiple) {
+            // Si es múltiple, unir labels en una cadena para mostrarlo en el input
+            internalInput.value = Array.isArray(newValue) ? (newValue ?? []).map((x: any) => x.label).join(', ') : ""
+        } else {
+            internalInput.value = newValue?.label ?? ""
+        }
+    },
+    { immediate: true }
+)
+
+// Cuando selecciono un item
 watch(
     () => internalValue.value,
     (newValue) => {
@@ -30,18 +47,21 @@ watch(
         } else {
             internalInput.value = newValue?.label ?? ""
         }
-        emit('update:modelValue', newValue)
-    },
-    { immediate: true }
+        emit('update:modelValue', props.reduce ? props.reduce(newValue) : newValue)
+    }
 )
 
-watch(() => internalInput.value, (newValue) => {
-    debounce(() => {
-        emit('onSearch', newValue)
-    })
-})
+// Cuando escribo en el input
+watch(
+    () => internalInput.value,
+    (newValue) => {
+        debounce(() => {
+            emit('onSearch', newValue === "" ? null : newValue)
+        })
+    }
+)
 
-// Cerrar cuando hago click fuera
+// Detectar click fuera para cerrar
 const rootEl = ref<HTMLElement | null>(null)
 const onClickOutside = (e: MouseEvent) => {
     if (rootEl.value && !rootEl.value.contains(e.target as Node)) {
@@ -59,22 +79,30 @@ onBeforeUnmount(() => {
 
 <template>
     <fieldset :name="props.name" ref="rootEl" class="relative w-full">
-        <label class="text-slate-700" v-if="props.label" :for="`${props.name}-input`">{{
-            props.label
-            }}</label>
+        <label class="text-slate-700" v-if="props.label" :for="`${props.name}-input`">
+            {{ props.label }}
+        </label>
 
         <!-- Input -->
-        <input v-model="internalInput" type="text"
+        <input
+            v-model="internalInput"
+            type="text"
             class="inline-flex w-[100%] items-center border border-gray-400 data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red justify-between rounded-sm px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-2sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-placeholder:text-slate-700 outline-hidden"
-            @focus="isFocus = true" />
+            @focus="isFocus = true"
+        />
 
         <!-- Dropdown -->
         <transition enter-active-class="animate-fade-in" leave-active-class="animate-fade-out">
-            <ListboxRoot :multiple="isMultiple" v-model="internalValue" v-if="isFocus" class="absolute top-full left-0 mt-2 w-full z-50
-               flex flex-col rounded-lg shadow-lg border
-               border-gray-300
-               dark:border-stone-900 overflow-hidden
-               bg-white text-slate-800">
+            <ListboxRoot
+                :multiple="isMultiple"
+                v-model="internalValue"
+                v-if="isFocus"
+                class="absolute top-full left-0 mt-2 w-full z-50
+                       flex flex-col rounded-lg shadow-lg border
+                       border-gray-300
+                       dark:border-stone-900 overflow-hidden
+                       bg-white text-slate-800"
+            >
                 <ListboxContent class="p-1 max-h-60 overflow-auto">
                     <ListboxGroup class="w-full">
                         <!-- Custom slot -->
@@ -83,28 +111,34 @@ onBeforeUnmount(() => {
                         </template>
 
                         <!-- Default rendering -->
-                        <ListboxItem v-if="!$slots.item" v-for="(item, index) in props.options" :key="index"
-                            :value="item" class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
-                     rounded hover:bg-royal-purple-100
-                     data-[highlighted]:bg-royal-purple-200
-                     data-[state=checked]:bg-royal-purple-100
-                     data-[state=checked]:text-royal-purple-800
-                     data-[disabled]:opacity-50">
-                            <!-- <ListboxItemIndicator
-                class="left-1.5 w-4 h-4 inline-flex items-center justify-center"
-              >
-                <vue-feather size="14" type="check" />
-              </ListboxItemIndicator> -->
+                        <ListboxItem
+                            v-if="!$slots.item"
+                            v-for="(item, index) in props.options"
+                            :key="index"
+                            :value="item"
+                            class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
+                                   rounded hover:bg-royal-purple-100
+                                   data-[highlighted]:bg-royal-purple-200
+                                   data-[state=checked]:bg-royal-purple-100
+                                   data-[state=checked]:text-royal-purple-800
+                                   data-[disabled]:opacity-50"
+                        >
                             <span>{{ item.label }}</span>
                             <slot name="before" :item="item" />
                         </ListboxItem>
+
+                        <!-- Mensaje si no hay items -->
                         <template v-if="props.options.length === 0">
-                            <ListboxItem disabled :value="''" class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
-                     rounded hover:bg-royal-purple-100
-                     data-[highlighted]:bg-royal-purple-200
-                     data-[state=checked]:bg-royal-purple-100
-                     data-[state=checked]:text-royal-purple-800
-                     data-[disabled]:opacity-50">
+                            <ListboxItem
+                                disabled
+                                :value="''"
+                                class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
+                                       rounded hover:bg-royal-purple-100
+                                       data-[highlighted]:bg-royal-purple-200
+                                       data-[state=checked]:bg-royal-purple-100
+                                       data-[state=checked]:text-royal-purple-800
+                                       data-[disabled]:opacity-50"
+                            >
                                 <span>{{ $t('errorMessages.itemsNotFound') }}</span>
                             </ListboxItem>
                         </template>

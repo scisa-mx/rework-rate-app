@@ -93,14 +93,14 @@ export type DashSearchProps = InputBaseProps & {
 export type DashSelectProps = InputBaseProps & {
   options: DashOptionSelect[]
   multiple?: boolean
-  modelValue: ValueInputSelect
+  modelValue: DashOptionSelect | null
 }
 
 export type DashSmartSelect = DashInputBase & {
+  modelValue: DashOptionSelect | null
   options: DashOptionSelect[]
   multiple?: boolean
-  reduce?: () => void
-  modelValue: ValueInputSelect
+  reduce?: (value: DashOptionSelect | null) => any
 }
 
 export type DashCheckboxInput = DashInputBase & {
