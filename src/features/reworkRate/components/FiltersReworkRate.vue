@@ -2,7 +2,7 @@
     {{ filters }}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DashInput id="input-tags" v-model="filters.tags" label="Tags" :is-valid="true" />
-        <DashSmartSelect id="input-repository" v-model="filters.repository" :options="optionsRepos" label="Repositories"
+        <DashSmartSelect id="input-repository" :is-loading="loadingRepos" v-model="filters.repository" :options="optionsRepos" label="Repositories"
             :is-valid="true" @on-search="handlerSearch" />
         <DashDatePicker id="input-start-date" v-model="filters.startDate" label="Start Date" :is-valid="true" />
         <DashDatePicker id="input-end-date" v-model="filters.endDate" label="End Date" :is-valid="true" />
@@ -43,6 +43,7 @@ const emits = defineEmits<{
 }>()
 
 const handlerSearch = async (value: string | null) => {
+    console.log(value)
     await fetchRepos({ name: value, tags: null })
 }
 
@@ -62,7 +63,6 @@ const filters = ref<FilterRepository>({
 watch(
     () => filters.value,
     (newValue) => {
-        console.log('Filtros cambiados:', newValue)
         emits('on-change', newValue)
     },
     { deep: true }

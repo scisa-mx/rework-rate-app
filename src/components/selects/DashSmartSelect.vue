@@ -23,20 +23,8 @@ const internalInput = ref("")
 // Debounce para búsqueda
 const { debounce } = useDebounce({ timeDebounce: 400 })
 
-// Sincronizar valor inicial con modelValue
-watch(
-    () => props.modelValue,
-    (newValue) => {
-        internalValue.value = newValue
-        if (isMultiple) {
-            // Si es múltiple, unir labels en una cadena para mostrarlo en el input
-            internalInput.value = Array.isArray(newValue) ? (newValue ?? []).map((x: any) => x.label).join(', ') : ""
-        } else {
-            internalInput.value = newValue?.label ?? ""
-        }
-    },
-    { immediate: true }
-)
+// Flag para diferenciar selección vs escritura
+const isSelecting = ref(false)
 
 // Cuando selecciono un item
 watch(
@@ -47,7 +35,12 @@ watch(
         } else {
             internalInput.value = newValue?.label ?? ""
         }
+
         emit('update:modelValue', props.reduce ? props.reduce(newValue) : newValue)
+
+        // 🚀 Señalar que fue una selección
+        isSelecting.value = true
+        emit('onSearch', null) // forzar reset de búsqueda
     }
 )
 
@@ -56,10 +49,17 @@ watch(
     () => internalInput.value,
     (newValue) => {
         debounce(() => {
+            // Si el cambio vino de una selección → no dispares búsqueda con el label
+            if (isSelecting.value) {
+                isSelecting.value = false
+                return
+            }
             emit('onSearch', newValue === "" ? null : newValue)
         })
     }
 )
+
+
 
 // Detectar click fuera para cerrar
 const rootEl = ref<HTMLElement | null>(null)
