@@ -2,8 +2,8 @@
     {{ filters }}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DashInput id="input-tags" v-model="filters.tags" label="Tags" :is-valid="true" />
-        <DashSmartSelect id="input-repository" :is-loading="loadingRepos" v-model="filters.repository" :options="optionsRepos" label="Repositories"
-            :is-valid="true" @on-search="handlerSearch" />
+        <DashSmartSelect id="input-repository" :is-loading="loadingRepos" v-model="filters.repository"
+            :options="optionsRepos" label="Repositories" :is-valid="true" @on-search="handlerSearch" />
         <DashDatePicker id="input-start-date" v-model="filters.startDate" label="Start Date" :is-valid="true" />
         <DashDatePicker id="input-end-date" v-model="filters.endDate" label="End Date" :is-valid="true" />
     </section>
@@ -29,7 +29,7 @@ interface FilterRepository {
     endDate: string
 }
 
-const { data: repositories, loading: loadingRepos, error: errorRepos, fetch: fetchRepos } = useRepositories()
+const { data: repositories, loading: loadingRepos, error: errorRepos, fetch: fetchRepos } = useRepositories({ debounceTime: 1000 })
 
 // Variables computed
 const optionsRepos = computed(() => repositories.value.map(repo => ({

@@ -3,7 +3,6 @@ import { provideApolloClient, useLazyQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
 import { type Ref, ref, watch } from 'vue'
-
 import type { Repository } from '@/types/benchmarks/repositories'
 
 interface RepositoryFilterInput {
@@ -30,21 +29,13 @@ const GET_ALL_REPOSITORIES = gql`
   }
 `
 
-/**
- * Hook para obtener repositorios, usando lazyQuery para poder ejecutar en cualquier momento del lifecycle.
- * @param filters objeto con filtros opcionales (ej. { name: "PLD", tags: "PLD-sass" })
- * @returns objeto con propiedades reactivas: data, loading, error, fetch
- * @example
- * const { data, loading, error, fetch } = useRepositories({ name: "PLD", tags: "PLD-sass" })
- * fetch(({ name: null, tags: null }) // Ejecuta la query con nuevos filtros
- * console.log(data) // Se muestra los datos
- */
-export function useRepositories(filters?: RepositoryFilterInput) {
+export function useRepositories({ debounceTime = 300 }: { debounceTime?: number }) {
   const data = ref<Repository[]>([])
   const loading = ref(true)
   const error = ref<any>(null)
 
-  // Lazy query (no corre hasta que llames .load)
+  let timer: ReturnType<typeof setTimeout> | null = null
+
   const {
     load,
     result,
@@ -58,7 +49,18 @@ export function useRepositories(filters?: RepositoryFilterInput) {
   })
 
   watch(apolloLoading, (val) => {
-    loading.value = val
+    if (val) {
+      // Si empieza a cargar → mostrar de inmediato
+      if (timer) clearTimeout(timer)
+      loading.value = true
+    } else {
+      // Si termina → esperar 300ms antes de ocultar
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        loading.value = false
+        timer = null
+      }, debounceTime)
+    }
   })
 
   watch(apolloError, (val) => {
@@ -67,7 +69,6 @@ export function useRepositories(filters?: RepositoryFilterInput) {
 
   /**
    * Función pública para disparar la query
-   * @param filters objeto opcional { name, tags }
    */
   const fetch = async (filters?: RepositoryFilterInput) => {
     const res = await load(undefined, { filters })

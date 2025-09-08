@@ -100,7 +100,6 @@ export type DashSmartSelect = DashInputBase & {
   modelValue: DashOptionSelect | null
   options: DashOptionSelect[]
   multiple?: boolean
-  isLoading?: boolean
   reduce?: (value: DashOptionSelect | null) => any
 }
 
