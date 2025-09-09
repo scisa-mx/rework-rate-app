@@ -37,7 +37,7 @@ export interface ReworkHistory {
 /**
  * GraphQL query para obtener el histórico de rework
  */
-const GET_REWORK_HISTORY = gql`
+const REWORK_HISTORY_QUERY = gql`
   query History($repoUrl: String!, $startDate: DateTime, $endDate: DateTime) {
     getReworkHistory(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {
       author
@@ -55,6 +55,10 @@ const GET_REWORK_HISTORY = gql`
       timestamp
       totalCommits
     }
+    getMeanAndMedian(repoUrl: $repoUrl, startDate: $startDate, endDate: $endDate) {
+      mean
+      median
+    }
   }
 `
 
@@ -64,6 +68,7 @@ const GET_REWORK_HISTORY = gql`
  */
 export function useReworkHistory(initialFilters: HistoryFilterInput) {
   const data = ref<ReworkRate[]>([])
+  const mean_and_median = ref<{ mean: number; median: number } | null>(null)
   const loading = ref(true)
   const error = ref<any>(null)
 
@@ -73,7 +78,7 @@ export function useReworkHistory(initialFilters: HistoryFilterInput) {
     loading: apolloLoading,
     error: apolloError,
   } = provideApolloClient(apolloClient)(() =>
-    useLazyQuery(GET_REWORK_HISTORY, {
+    useLazyQuery(REWORK_HISTORY_QUERY, {
       repoUrl: initialFilters.repoUrl,
       startDate: initialFilters.startDate ?? null,
       endDate: initialFilters.endDate ?? null,
@@ -84,6 +89,9 @@ export function useReworkHistory(initialFilters: HistoryFilterInput) {
   watch(result, (val) => {
     if (val?.getReworkHistory) {
       data.value = val.getReworkHistory
+    }
+    if (val?.getMeanAndMedian) {
+      mean_and_median.value = val.getMeanAndMedian
     }
   })
 
@@ -109,6 +117,7 @@ export function useReworkHistory(initialFilters: HistoryFilterInput) {
 
   return {
     data,
+    mean_and_median,
     loading,
     error,
     fetch,

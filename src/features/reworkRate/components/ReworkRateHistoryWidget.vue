@@ -4,6 +4,10 @@
         <FiltersReworkRate @on-assing-repository="handlerRepository" @on-change="handlerRepository" />
         <section name="box-chart">
             <LineChart :options="optionsChart" :key="JSON.stringify(data)" :data="data" />
+            <div class="flex gap-2" role="group">
+                <h4 class="text-slate-700 font-semibold">Mediana: {{ mean_and_median?.median }}</h4>
+                <h4 class="text-slate-700 font-semibold">Media: {{ mean_and_median?.mean }}</h4>
+            </div>
         </section>
     </WrapperWidget>
 </template>
@@ -25,7 +29,7 @@ const props = defineProps<{
     layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
-const { data: reworkHistory, loading, fetch: fetchReworkHistory } = useReworkHistory({
+const { data: reworkHistory, mean_and_median,  loading, fetch: fetchReworkHistory } = useReworkHistory({
     repoUrl: "",
     startDate: null,
     endDate: null
@@ -95,6 +99,7 @@ const handlerRepository = async (
     console.log('handlerRepository', value.repository)
     if (!value.repository || value.repository.value === undefined) {
         reworkHistory.value = []
+        mean_and_median.value = { mean: 0, median: 0 }
     } else {
         await fetchReworkHistory({
             repoUrl: value.repository?.url ?? "",
