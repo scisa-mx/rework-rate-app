@@ -1,18 +1,17 @@
 <template>
     <WrapperWidget :title="'Historico Rework Rate'" :widget-id="props.layoutItem.i">
         <!-- @vue-expect-error -->
-        <FiltersReworkRate @on-assing-repository="handlerRepository"/>
+        <FiltersReworkRate @on-assing-repository="handlerRepository" @on-change="handlerRepository" />
         <section name="box-chart">
-        {{ reworkHistory }}
             <LineChart :options="optionsChart" :key="JSON.stringify(data)" :data="data" />
         </section>
     </WrapperWidget>
 </template>
 
 <script setup lang="ts">
-import { onMounted, type Ref, ref, computed } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import type { ChartDataRework } from '@/types/benchmarks/rework-rate';
-import { getPaletteColor } from '@/@core/charts/usePaletteColor'
+import { getPaletteColor } from '@/@core/charts/usePaletteColor';
 import type { FilterRepository } from '@/features/reworkRate/components/FiltersReworkRate.vue';
 
 import WrapperWidget from '@/components/features/dashboard/widgets/WrapperWidget.vue';
@@ -20,14 +19,17 @@ import FiltersReworkRate from '@/features/reworkRate/components/FiltersReworkRat
 import LineChart from '@/components/charts/lineCharts/LineChart.vue';
 import type { DashOptionSelect } from '@/types';
 
-import { useReworkHistory } from '../services/useReworkHistory';
-
+import { useReworkHistory, type ReworkHistory } from '../services/useReworkHistory';
 
 const props = defineProps<{
     layoutItem: { x: number; y: number; w: number; h: number; i: string }
 }>()
 
-const { data: reworkHistory, loading, fetch: fetchReworkHistory } = useReworkHistory({ repoUrl: "", startDate: null, endDate: null })
+const { data: reworkHistory, loading, fetch: fetchReworkHistory } = useReworkHistory({
+    repoUrl: "",
+    startDate: null,
+    endDate: null
+})
 
 const COLORS = getPaletteColor()
 
@@ -37,15 +39,69 @@ const optionsChart = {
     maintainAspectRatio: false,
 }
 
-const handlerRepository = async (value: { repository: DashOptionSelect & { url: string } | null }, filters: FilterRepository) => {
-    console.log('Selected repository:', value.repository, filters.startDate, filters.endDate);
-    // Aquí puedes agregar la lógica para manejar el cambio de repositorio
-    await fetchReworkHistory({
-        repoUrl: value.repository?.url ?? "",
-        startDate: filters.startDate ?? null,
-        endDate: filters.endDate ?? null,
+// Función para transformar la respuesta en datos de chart
+const formatDatesForChart = (repos: ReworkHistory[]) => {
+    const labels: string[] = []
+    const datapoints: number[] = []
+    const commits: number[] = []
+    const periodsStart: string[] = []
+    const periodsEnd: string[] = []
+    const reworkLines: number[] = []
+    const timestamps: string[] = []
+    const prNumbers: number[] = []
+    const authors: string[] = []
+    const totalCommits: number[] = []
+    const reworkPercentage: number[] = []
+    const modifiedLines: number[] = []
+
+    repos.forEach((repo) => {
+        const date = new Date(repo.createdAtDate)
+        labels.push(
+            date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
+        )
+        datapoints.push(repo.reworkPercentage)
+        commits.push(repo.totalCommits)
+        periodsStart.push(repo.periodStart)
+        periodsEnd.push(repo.periodEnd)
+        reworkLines.push(repo.reworkLines)
+        timestamps.push(repo.createdAtDate)
+        prNumbers.push(repo.prNumber)
+        authors.push(repo.author)
+        totalCommits.push(repo.totalCommits)
+        reworkPercentage.push(repo.reworkPercentage)
+        modifiedLines.push(repo.modifiedLines)
     })
-    
+
+    return {
+        labels,
+        datapoints,
+        commits,
+        periodsStart,
+        periodsEnd,
+        reworkLines,
+        timestamps,
+        prNumbers,
+        authors,
+        totalCommits,
+        reworkPercentage,
+        modifiedLines,
+    }
+}
+
+const handlerRepository = async (
+    value: { repository: DashOptionSelect & { url: string } | null },
+    filters: FilterRepository
+) => {
+    console.log('handlerRepository', value.repository)
+    if (!value.repository || value.repository.value === undefined) {
+        reworkHistory.value = []
+    } else {
+        await fetchReworkHistory({
+            repoUrl: value.repository?.url ?? "",
+            startDate: filters.startDate ?? null,
+            endDate: filters.endDate ?? null,
+        })
+    }
 }
 
 const data: Ref<ChartDataRework> = ref({
@@ -72,5 +128,24 @@ const data: Ref<ChartDataRework> = ref({
     ],
 })
 
-
+// Watch para actualizar el gráfico cuando cambien los datos
+watch(reworkHistory, (val) => {
+    if (!val) return
+    // @ts-expect-error
+    const formatted = formatDatesForChart(val)
+    data.value.labels = formatted.labels
+    // @ts-expect-error
+    data.value.commits = formatted.commits
+    data.value.datasets[0].data = formatted.datapoints
+    data.value.datasets[0].commits = formatted.commits
+    data.value.datasets[0].authors = formatted.authors
+    data.value.datasets[0].periodsEnd = formatted.periodsEnd
+    data.value.datasets[0].periodsStart = formatted.periodsStart
+    // @ts-expect-error
+    data.value.datasets[0].prNumbers = formatted.prNumbers
+    data.value.datasets[0].reworkLines = formatted.reworkLines
+    data.value.datasets[0].timestamps = formatted.timestamps
+    data.value.datasets[0].totalCommits = formatted.totalCommits
+    data.value.datasets[0].modifiedLines = formatted.modifiedLines
+})
 </script>

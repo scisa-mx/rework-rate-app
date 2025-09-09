@@ -97,7 +97,7 @@ const isEditingMode = computed(() => {
 const formattedTags = computed(() => filters.value.tags.map((tag) => tag.name))
 
 const emits = defineEmits<{
-    (e: 'on-change', value: FilterRepository): void
+    (e: 'on-change', value: FilterRepository, filters: FilterRepository): void
     (e: 'on-assing-repository', value: FilterRepository, filters: FilterRepository): void
 }>()
 
@@ -157,7 +157,7 @@ const filters = ref<FilterRepository>({
 // Watch para emitir cambios globales
 watch(
     () => filters.value,
-    (newValue) => emits('on-change', newValue),
+    (newValue) => emits('on-change', filters.value, filters.value),
     { deep: true }
 )
 
