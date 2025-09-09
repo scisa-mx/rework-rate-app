@@ -1,7 +1,7 @@
 <template>
     <fieldset :name="props.name" ref="rootEl" class="relative w-full">
         <label v-if="props.label" class="text-slate-700" :for="`${props.name}-input`">{{ props.label }}</label>
-<!-- w-[100%] items-center border border-gray-400 data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red justify-between rounded-sm px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-2sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-placeholder:text-slate-700 outline-hidden -->
+        <!-- w-[100%] items-center border border-gray-400 data-[valid=false]:border-red-500 data-[valid=false]:border-2 data-[valid=false]:ring-red justify-between rounded-sm px-[15px] text-[13px] leading-none h-[35px] gap-[5px] focus:ring-2 focus:ring-royal-purple-500 bg-white text-slate-800 shadow-2sm shadow-black/10 hover:bg-royal-purple-50 focus:shadow-[0_0_0_2px] focus:royal-purple-800 data-placeholder:text-slate-700 outline-hidden -->
         <!-- Selected tags (chips) + input -->
         <div class="relative flex flex-wrap items-center gap-1 border border-gray-400 rounded-sm px-2 bg-white min-h-[35px]"
             @click="focusInput">
@@ -18,64 +18,35 @@
             </template>
 
             <input ref="inputEl" v-model="internalInput" :placeholder="props.placeholder" @focus="openList"
-                @keydown.enter.prevent="onEnter" 
+                @keydown.enter.prevent="onEnter"
                 class="flex-1 min-w-[120px] text-sm outline-none py-1 px-1 bg-transparent" aria-autocomplete="list"
                 aria-expanded="true" />
         </div>
 
         <!-- Dropdown list -->
+        <!-- Dropdown list -->
         <transition enter-active-class="animate-fade-in" leave-active-class="animate-fade-out">
-            <ListboxRoot v-model="currentTags" :multiple="true" v-if="isOpen"
+            <ListboxRoot v-model="internalValue" :multiple="true" v-if="isOpen"
                 class="absolute top-full left-0 mt-2 w-full z-50 flex flex-col rounded-lg shadow-lg border border-gray-300 overflow-hidden bg-white text-slate-800">
                 <ListboxContent class="relative p-1 max-h-60 overflow-auto">
-                    <!-- Loading overlay -->
-                    <div v-if="props.isLoading"
-                        class="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-                        <div
-                            class="h-5 w-5 border-2 border-royal-purple-500 border-t-transparent animate-spin rounded-full">
-                        </div>
-                    </div>
-
+                    <!-- Opciones -->
                     <ListboxGroup class="w-full">
-                        <!-- Option to create new tag -->
-                        <div v-if="canCreate" class="px-3 py-2 border-b">
-                            <button class="w-full text-left text-sm py-1 rounded hover:bg-royal-purple-50"
-                                @click="createTagFromInput" type="button">
-                                Crear tag "<strong>{{ internalInput }}</strong>"
-                            </button>
-                        </div>
-
-                        <!-- Custom slot rendering for items -->
-                        <template v-if="$slots.item">
-                            <slot v-for="(item, idx) in filteredOptions" :key="item.id ?? idx" name="item" :item="item"
-                                :selected="isSelected(item)" />
-                        </template>
-
-                        <!-- Default list rendering -->
-                        <ListboxItem v-if="!$slots.item" v-for="(item, index) in filteredOptions"
-                            :key="item.id ?? index" :value="item" @click="selectTag(item)" class="w-full cursor-pointer flex items-center justify-between px-3 py-2 text-sm rounded hover:bg-royal-purple-100 data-[disabled]:opacity-50                                    data-[highlighted]:bg-royal-purple-200
-                                   data-[state=checked]:bg-royal-purple-100
-                                   data-[state=checked]:text-royal-purple-800
-                                    focus:ring-2 focus:ring-royal-purple-500">
+                        <ListboxItem v-for="(item, index) in filteredOptions" :key="item.id ?? index" :value="item"
+                            class="w-full cursor-pointer flex items-center justify-between px-3 py-2 text-sm rounded hover:bg-royal-purple-100
+                 data-[state=checked]:bg-royal-purple-100
+                 data-[state=checked]:text-royal-purple-800">
                             <div class="flex items-center gap-2">
                                 <span>{{ item.name }}</span>
                             </div>
-                            <!-- slot 'after' to inject extra span/icon after label -->
                             <span class="ml-2" v-if="$slots.after">
                                 <slot name="after" :item="item" />
                             </span>
                         </ListboxItem>
-
-                        <!-- No results message -->
-                        <template v-if="filteredOptions.length === 0 && !props.isLoading">
-                            <div class="px-3 py-2 text-sm text-slate-500">
-                                No hay tags.
-                            </div>
-                        </template>
                     </ListboxGroup>
                 </ListboxContent>
             </ListboxRoot>
         </transition>
+
     </fieldset>
 </template>
 
@@ -135,7 +106,7 @@ const isOpen = ref(false)
 
 const internalInput = ref('')
 const isSelecting = ref(false) // para distinguir selección vs escritura
-const currentTags = ref<Tag[]>([]) // para ListboxRoot (v-model)
+// const currentTags = ref<Tag[]>([]) // para ListboxRoot (v-model)
 
 const internalValue = ref<Tag[]>(props.modelValue ? [...props.modelValue] : [])
 
@@ -159,29 +130,24 @@ const canCreate = computed(() => {
 })
 
 /* ---------- Watchers ---------- */
-// Mantener internalValue sync con v-model
+// Watch para mantener sincronizado con v-model del padre
 watch(
-    () => props.modelValue,
-    (nv) => {
-        internalValue.value = nv ? [...nv] : []
-    },
-    { immediate: true }
+  () => props.modelValue,
+  (nv) => {
+    internalValue.value = nv ? [...nv] : []
+  },
+  { immediate: true }
 )
 
-// Emit search cuando usuario escribe (debounced), pero ignorar si proviene de selección
+// Watch inverso: cuando cambia el ListboxRoot, emitimos hacia el padre
 watch(
-    () => internalInput.value,
-    (nv, ov) => {
-        debounce(() => {
-            if (isSelecting.value) {
-                // cambio causado por selección; limpiar flag y no emitir búsqueda
-                isSelecting.value = false
-                return
-            }
-            emit('onSearch', nv === '' ? null : nv)
-        })
-    }
+  () => internalValue.value,
+  (nv) => {
+    emit('update:modelValue', nv)
+  },
+  { deep: true }
 )
+
 
 /* ---------- Methods ---------- */
 function openList() {
@@ -220,8 +186,7 @@ function selectTag(item: Tag) {
 function removeTag(tag: Tag) {
     // Eliminar tag de internalValue
     internalValue.value = internalValue.value.filter((t) => !(t.id !== undefined ? t.id === tag.id : t.name === tag.name))
-    // Eliminar tag de currentTags para que ListboxRoot lo actualice
-    currentTags.value = currentTags.value.filter((t) => !(t.id !== undefined ? t.id === tag.id : t.name === tag.name))
+
     emit('update:modelValue', internalValue.value)
     emit('onRemove', tag)
 }
