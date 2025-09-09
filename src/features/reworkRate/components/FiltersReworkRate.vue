@@ -8,7 +8,6 @@
                     <div v-if="isEditingMode"
                         class="col-span-2 flex items-center gap-2 p-2 rounded-xl bg-blue-100 text-blue-800">
                         <vue-feather type="edit-2" class="w-5 h-5 text-blue-800" />
-
                     </div>
                 </template>
             </DashTooltip>
@@ -66,7 +65,7 @@ import { useRepositories } from '../services/useReworkRate'
 import { useTags } from '../services/useTags'
 import { useAssignTagsToRepository } from '../services/assingTags'
 
-interface FilterRepository {
+export interface FilterRepository {
     tags: Tag[]
     repository: (DashOptionSelect & { tags: Tag[] }) | null
     startDate: string
@@ -99,6 +98,7 @@ const formattedTags = computed(() => filters.value.tags.map((tag) => tag.name))
 
 const emits = defineEmits<{
     (e: 'on-change', value: FilterRepository): void
+    (e: 'on-assing-repository', value: FilterRepository, filters: FilterRepository): void
 }>()
 
 // Handlers
@@ -168,6 +168,7 @@ watch(
         if (repo) {
             // Cargamos los tags actuales del repo seleccionado
             filters.value.tags = repo.tags ?? []
+            emits('on-assing-repository', filters.value, filters.value)
         } else {
             // Si no hay repo → limpiamos los tags
             filters.value.tags = []
