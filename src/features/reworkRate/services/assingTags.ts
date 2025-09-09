@@ -6,14 +6,14 @@ import type { Repository } from '@/types/benchmarks/repositories'
 
 /* ---------- Types ---------- */
 
-export interface AssignTagsInput {
+export interface AssingTagsInput {
   repositoryId: string
   tagNames: string[]
 }
 
 /* ---------- GraphQL Mutation ---------- */
 const ASSIGN_TAGS_TO_REPOSITORY = gql`
-  mutation AssignTagsToRepository($data: AssignTagsInput!) {
+  mutation AssignTagsToRepository($data: AssingTagsInput!) {
     assignTagsToRepository(data: $data) {
       id
       name
@@ -46,7 +46,7 @@ export function useAssignTagsToRepository() {
     error: apolloError,
     onDone,
   } = provideApolloClient(apolloClient)(() =>
-    useMutation<{ assignTagsToRepository: Repository }, { data: AssignTagsInput }>(
+    useMutation<{ assignTagsToRepository: Repository }, { data: AssingTagsInput }>(
       ASSIGN_TAGS_TO_REPOSITORY
     )
   )
@@ -68,7 +68,7 @@ export function useAssignTagsToRepository() {
   /**
    * Ejecuta la mutación
    */
-  const mutate = async (input: AssignTagsInput) => {
+  const mutate = async (input: AssingTagsInput) => {
     const res = await assignMutation({ data: input })
     return res?.data?.assignTagsToRepository ?? null
   }
