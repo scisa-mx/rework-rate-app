@@ -9,7 +9,8 @@
   "forms": "Formularios",
   "backHome": "Volver a la página de inicio",
   "errorMessages": {
-    "pageNotFound": "Página no encontrada"
+    "pageNotFound": "Página no encontrada",
+    "itemsNotFound": "No se encontraron elementos"
   },
   "validationMessages": {
     "maximunLength": "El campo debe tener un máximo de {maximun} caracteres",
@@ -17,5 +18,13 @@
   },
   "dashboard": "Tablero",
   "search": "Buscar",
-  "reset": "Reiniciar"
+  "reset": "Reiniciar",
+  "startDate": "Fecha de inicio",
+  "endDate": "Fecha de fin",
+  "repository": "Repositorio",
+  "tags": "Etiquetas",
+  "tag": "Etiqueta",
+  "reworkRate": "Tasa de retrabajo",
+  "searchOrAddTag": "Buscar o agregar etiqueta",
+  "createTag": "Crear etiquetaf"
 }

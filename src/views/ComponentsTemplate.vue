@@ -1,5 +1,10 @@
 <template>
   <main class="flex flex-col gap-5">
+    <div class="grid grid-cols-4 gap-2">
+
+      <DashInput :is-valid="true" :id="'selected-value'" v-model="value" label="Valor seleccionado:"  />
+      {{ value }}
+    </div>
     <DashGrid name="grid-system" :rows="3" :cols="4" :gap="4">
       <DashPanel :padding="4" :row-span="3" :col-span="2"> 1 </DashPanel>
       <DashPanel :padding="4" :row-span="2" :col-span="3"> 2 </DashPanel>
@@ -9,9 +14,7 @@
     <DashGrid name="toast" :rows="1" :cols="1" :gap="4">
       <DashPanel :padding="4" :row-span="1" :col-span="1">
         <DashTypography variant="h3">Headings</DashTypography>
-        <DashButton :size="'md'" :variant="'primary'" @click="notify"
-          >Mostrar Notificación</DashButton
-        >
+        <DashButton :size="'md'" :variant="'primary'" @click="notify">Mostrar Notificación</DashButton>
       </DashPanel>
     </DashGrid>
     <DashGrid name="buttons-variants" :rows="1" :cols="1" :gap="4">
@@ -84,14 +87,8 @@
           <DashTypography variant="body">Texto del cuerpo</DashTypography>
           <DashTypography variant="overline">Texto del cuerpo</DashTypography>
           <DashTypography variant="caption">Texto de caption</DashTypography>
-          <DashTypeWritter
-            :speed="100"
-            :pauseAfterTyping="1500"
-            :backspace-count="10"
-            :pause-after-deleting="500"
-            text="Efecto máquina de escribir"
-            class=""
-          />
+          <DashTypeWritter :speed="100" :pauseAfterTyping="1500" :backspace-count="10" :pause-after-deleting="500"
+            text="Efecto máquina de escribir" class="" />
         </section>
       </DashPanel>
     </DashGrid>
@@ -421,14 +418,9 @@
         </DashCard>
       </DashPanel>
       <DashPanel :padding="4" :row-span="2" :col-span="1">
-        <DashCard
-          type="simple-card"
+        <DashCard type="simple-card"
           body="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi architecto aspernatur cum et ipsum"
-          header="Simple Card With Props"
-          footer="Simple Card"
-          label="See more"
-          :action="() => notify()"
-        ></DashCard>
+          header="Simple Card With Props" footer="Simple Card" label="See more" :action="() => notify()"></DashCard>
       </DashPanel>
     </DashGrid>
     <DashContainerGrid fluid>
@@ -486,7 +478,15 @@ import imgUrl3 from '@/assets/img/img-3.jpg'
 import { useToast } from '@/@core/toast/useToast'
 import DashLayoutImage from '@/components/image/DashLayoutImage.vue'
 
+import DashSmartSelect from '@/components/selects/DashSmartSelect.vue'
+import type { ValueInputSelect, DashOptionSelect } from '@/types'
+
+
+import { ref } from 'vue'
+import DashInput from '@/components/inputs/DashInput.vue'
+
 const { showToast } = useToast()
+
 
 function notify() {
   showToast({
@@ -497,6 +497,10 @@ function notify() {
     variant: 'SUCCESS',
   })
 }
+
+const value = ref<string>("")
+const options = ref<DashOptionSelect[]>([
+])
 
 const triggers = [
   { title: 'overview', disabled: false, notifications: '1' },

@@ -46,6 +46,9 @@ declare module 'vue' {
     DashSearchListInput: typeof import('./src/components/inputs/DashSearchListInput.vue')['default']
     DashSelect: typeof import('./src/components/selects/DashSelect.vue')['default']
     DashSlider: typeof import('./src/components/image/DashSlider.vue')['default']
+    DashSmartSelect: typeof import('./src/components/selects/DashSmartSelect.vue')['default']
+    DashSmartSelectGroup: typeof import('./src/components/selects/components/DashSmartSelectGroup.vue')['default']
+    DashSmartTagsSelect: typeof import('./src/components/selects/DashSmartTagsSelect.vue')['default']
     DashSpinner: typeof import('./src/components/spinners/DashSpinner.vue')['default']
     DashSwitch: typeof import('./src/components/checkboxes/DashSwitch.vue')['default']
     DashTab: typeof import('./src/components/tabs/DashTab.vue')['default']
@@ -55,6 +58,7 @@ declare module 'vue' {
     DashTooltip: typeof import('./src/components/tooltip/DashTooltip.vue')['default']
     DashTypeWritter: typeof import('./src/components/typography/DashTypeWritter.vue')['default']
     DashTypography: typeof import('./src/components/typography/DashTypography.vue')['default']
+    FiltersReworkRate: typeof import('./src/features/reworkRate/components/FiltersReworkRate.vue')['default']
     FormButton: typeof import('./src/components/buttons/FormButton.vue')['default']
     HistoricalWidget: typeof import('./src/components/features/dashboard/widgets/HistoricalWidget.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -75,5 +79,6 @@ declare module 'vue' {
     SuperiorNavbar: typeof import('./src/components/navs/superior/SuperiorNavbar.vue')['default']
     ToastContainer: typeof import('./src/components/toast/ToastContainer.vue')['default']
     WidgetBoard: typeof import('./src/components/features/dashboard/widgets/WidgetBoard.vue')['default']
+    WrapperWidget: typeof import('./src/components/features/dashboard/widgets/WrapperWidget.vue')['default']
   }
 }

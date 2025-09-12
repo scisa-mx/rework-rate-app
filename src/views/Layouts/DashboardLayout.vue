@@ -16,6 +16,10 @@
           <component :is="Component"></component>
         </transition>
       </router-view>
+      <!-- Absolute position to bottom left -->
+      <div name="version" class="absolute bottom-2 right-4.5 text-sm text-gray-500">
+        <span>v{{ version }}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -23,4 +27,7 @@
 <script setup lang="ts">
 import LateralNavbar from '@/components/navs/lateral/LateralNavbar.vue'
 import SuperiorNavbar from '@/components/navs/superior/SuperiorNavbar.vue'
+
+// @ts-expect-error
+const version = __APP_VERSION__
 </script>

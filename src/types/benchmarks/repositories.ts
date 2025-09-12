@@ -1,9 +1,10 @@
 import type { Tag } from './tags'
 
 export type Repository = {
+  id: string
   name: string
   repoUrl: string
-  id: string
   description: string
   tags: Tag[]
+  __typename: 'RepositoryType'
 }

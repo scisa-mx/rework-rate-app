@@ -29,6 +29,7 @@ import { useDashboardStore } from '@/stores/dashboard'
 import BaseWidget from '@/components/features/dashboard/widgets/BaseWidget.vue'
 
 import HistoricalWidget from '@/components/features/dashboard/widgets/HistoricalWidget.vue'
+import ReworkRateHistoryWidget from '@/features/reworkRate/components/ReworkRateHistoryWidget.vue'
 
 const dashboardStore = useDashboardStore()
 
@@ -38,7 +39,7 @@ const layout = ref<Widget[]>([
 dashboardStore.widgets = layout.value
 
 const COMPONENT_HASH: Record<TYPE_WIDGET, Component> = {
-  [TYPE_WIDGET.HISTORICAL]: HistoricalWidget,
+  [TYPE_WIDGET.HISTORICAL]: ReworkRateHistoryWidget,
 }
 
 const isDraggable = ref(false)

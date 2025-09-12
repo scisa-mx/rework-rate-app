@@ -12,6 +12,15 @@ const ROUTES: RouteRecordRaw[] = [
       icon: 'home',
     },
   },
+  // {
+  //   path: '/components-template',
+  //   name: 'components-template',
+  //   component: ComponentsTemplate,
+  //   meta: {
+  //     title: 'Components Template',
+  //     icon: '', 
+  //   },
+  // }
 ]
 
 export default ROUTES
