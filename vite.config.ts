@@ -6,6 +6,9 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite'
 import RadixVueResolver from 'radix-vue/resolver'
 import tailwindcss from '@tailwindcss/vite'
+import packageJson from './package.json' assert { type: 'json' }
+
+const appVersion = packageJson.version
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,6 +21,9 @@ export default defineConfig({
     vueDevTools(),
     tailwindcss(),
   ],
+  define: {
+    __APP_VERSION__: JSON.stringify(appVersion),
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
