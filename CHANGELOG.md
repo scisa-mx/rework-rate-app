@@ -1,5 +1,16 @@
 # scisa-benchmark-frontend
 
+## 0.4.1 - 23-09-2025
+Se arregla un bug a la hora de buscar un repositorio mientras se tiene un repositorio actualmetne seleccionado, ahora al escribir en el campo de busqueda se continua con el repositorio actual y se buscan los repositorios que coincidan con la busqueda, con el repositorio seleccionado hasta el tope de la lista.
+
+### Fixed
+  - [86ac0v3ca] Se arregla un bug a la hora de buscar un repositorio mientras se tiene un repositorio actualmetne seleccionado, ahora al escribir en el campo de busqueda se continua con el repositorio actual y se buscan los repositorios que coincidan con la busqueda, con el repositorio seleccionado hasta el tope de la lista.
+
+### Added
+
+### Deprecated
+
+### Removed
 
 ## 0.4.0 - 05-08-2025
 Se reestructura la forma de manejar los repositorios y los tags, ahora se utiliza una API GraphQL para obtener los repositorios y sus tags. Se agrega la funcionalidad de filtrar los repositorios mediante tags, estos tags tambien se pueden agregar de forma automatica al seleccionar un repositorio y escribiendo el tag nuevo dentro del campo de tags.
