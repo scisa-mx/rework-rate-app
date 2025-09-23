@@ -35,7 +35,6 @@
             :options="optionsRepos" :label="$t('repository')" :is-valid="true" @on-search="handlerSearch">
             <template #after="{ item }">
                 <div class="flex w-full justify-end ml-1 gap-2">
-                    <!-- @vue-expect-error -->
                     <div v-for="tag in item.tags.slice(0, 3)" :key="tag.id"
                         class="rounded-full text-nowrap px-2 py-1 text-white text-[0.7rem]"
                         :style="`background-color: ${tag.color};`">
@@ -102,10 +101,15 @@ const emits = defineEmits<{
 }>()
 
 // Handlers
-const handlerSearch = async (value: string | null) => {
-    if (isEditingMode.value) {
+const handlerSearch = async (value: string | null, canSearch: boolean) => {
+    console.log("Handler search", { value, canSearch })
+    if (isEditingMode.value || !canSearch) {
         await fetchRepos({ name: null, tags: null })
     } else {
+        await fetchRepos({ name: value, tags: formattedTags.value })
+    }
+
+    if (canSearch) {
         await fetchRepos({ name: value, tags: formattedTags.value })
     }
 }
@@ -179,7 +183,7 @@ watch(
 
 // Refiltrar cuando cambian los tags
 watch(() => formattedTags.value, async () => {
-    handlerSearch(filters.value.repository?.label ?? null)
+    handlerSearch(filters.value.repository?.label ?? null, true)
 
 })
 

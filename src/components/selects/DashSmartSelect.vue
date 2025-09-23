@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue'
 import {
     ListboxContent,
     ListboxGroup,
@@ -11,7 +11,10 @@ import { useDebounce } from '@/composables/useDebounce'
 import { type DashSmartSelect } from '@/types'
 
 const props = defineProps<DashSmartSelect & { isLoading: boolean }>()
-const emit = defineEmits(['update:modelValue', 'onSearch'])
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: any | any[]): void
+    (e: 'onSearch', value: string | null, canSearch: boolean): void
+}>()
 
 const isFocus = ref(false)
 const isMultiple = props.multiple ?? false
@@ -23,8 +26,29 @@ const internalInput = ref("")
 // Debounce para búsqueda
 const { debounce } = useDebounce({ timeDebounce: 400 })
 
+
+
+const displayedOptions = computed(() => {
+    const selected = isMultiple
+        ? (internalValue.value ?? [])
+        : (internalValue.value ? [internalValue.value] : [])
+
+    const selectedIds = new Set(selected.map((x: any) => x.value))
+
+    // Opción seleccionada primero
+    const top = selected
+
+    // Luego el resto (evitando duplicados)
+    const rest = props.options.filter(
+        (item: any) => !selectedIds.has(item.value)
+    )
+
+    return [...top, ...rest]
+})
+
 // Flag para diferenciar selección vs escritura
 const isSelecting = ref(false)
+const canSearch = ref(false)
 
 // Cuando selecciono un item
 watch(
@@ -40,7 +64,8 @@ watch(
 
         // forzar reset de búsqueda
         isSelecting.value = true
-        emit('onSearch', null)
+        canSearch.value = true
+        emit('onSearch', null, canSearch.value  )
     }
 )
 
@@ -53,8 +78,11 @@ watch(
             if (isSelecting.value) {
                 isSelecting.value = false
                 return
+            } else if( canSearch.value ) {
+                console.log("Buscando", newValue)
+                emit('onSearch', newValue === "" ? null : newValue, canSearch.value)
             }
-            emit('onSearch', newValue === "" ? null : newValue)
+            emit('onSearch', newValue === "" ? null : newValue, canSearch.value)
         })
     }
 )
@@ -105,19 +133,20 @@ onBeforeUnmount(() => {
                     <ListboxGroup class="w-full">
                         <!-- Custom slot -->
                         <template v-if="$slots.item">
-                            <slot v-for="(item, index) in props.options" :key="index" name="item" :item="item" />
+                            <slot v-for="(item, index) in displayedOptions" :key="index" name="item" :item="item" />
                         </template>
 
+
                         <!-- Default rendering -->
-                        <ListboxItem v-if="!$slots.item" v-for="(item, index) in props.options" :key="index"
+                        <ListboxItem v-if="!$slots.item" v-for="(item, index) in displayedOptions" :key="index"
                             :value="item" class="w-full cursor-pointer flex items-center px-3 py-1 text-sm
-                                   rounded hover:bg-royal-purple-100
-                                   data-[highlighted]:bg-royal-purple-200
-                                   data-[state=checked]:bg-royal-purple-100
-                                   data-[state=checked]:text-royal-purple-800
-                                    focus:ring-2 focus:ring-royal-purple-500
-                                    focus-visible:ring-2 focus-visible:ring-royal-purple-500
-                                    data-[disabled]:opacity-50">
+                                rounded hover:bg-royal-purple-100
+                                data-[highlighted]:bg-royal-purple-200
+                                data-[state=checked]:bg-royal-purple-100
+                                data-[state=checked]:text-royal-purple-800
+                                focus:ring-2 focus:ring-royal-purple-500
+                                focus-visible:ring-2 focus-visible:ring-royal-purple-500
+                                data-[disabled]:opacity-50">
                             <span>{{ item.label }}</span>
                             <slot name="after" :item="item" />
                         </ListboxItem>
